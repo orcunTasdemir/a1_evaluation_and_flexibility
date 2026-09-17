@@ -133,3 +133,14 @@ not predicting it.
 | 2024: 10.61%, corporate 0%; 2025: 8.62%, corporate 10.1% | `a1_base_rate_by_year.csv` |
 | 5.3% (2025-04), 14.2% (2025-08), 2024 Jul–Sep 12.4–13.3%, corporate 20.2% in 2025-12 | `a1_base_rate_by_month.csv` |
 | 1,810 / 0 / 61.6% / 0.808; 3,533 / 2,239 / 76.2% / 0.858 | `a1_column_timing.csv` |
+
+### How to use the leakage evidence in the memo (settled end of session 2)
+
+The *reason* to drop `exit_survey_started` and `winback_offer_sent` is the
+dictionary's timing notes: not available at the moment of scoring. That is
+what the rubric grades ("argued from availability at the moment of scoring").
+The cross-tab and single-column AUCs are *corroboration* that the timing note
+holds in this extract, and they size what A2 change 1 should do to the
+number. Order in the memo: timing argument first, evidence second. Never
+"dropped because they predict too well" — a genuinely available column with
+a high AUC should be kept.
