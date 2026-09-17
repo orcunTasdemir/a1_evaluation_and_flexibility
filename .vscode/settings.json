@@ -1,3 +1,11 @@
 {
-    "python-envs.defaultEnvManager": "ms-python.python:system"
+    // Prefer the project-local .venv over any system Python. The venv
+    // manager finds ./.venv on both macOS (.venv/bin) and Windows
+    // (.venv\Scripts), so no interpreter path is hardcoded here.
+    "python-envs.defaultEnvManager": "ms-python.python:venv",
+    "python-envs.terminal.autoActivationType": "command",
+    // Activate the selected environment in every new integrated terminal
+    // and when running or debugging a file.
+    "python.terminal.activateEnvironment": true,
+    "python.terminal.activateEnvInCurrentTerminal": true
 }
