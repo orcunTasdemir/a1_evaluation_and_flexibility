@@ -163,4 +163,6 @@ Transcript: `sessions/claude-code/a1-session-2.jsonl` (raw) and
    (GroupKFold vs StratifiedGroupKFold — my call).
 3. Handout 3 (Part B) and R2 not yet read.
 4. Part B output-folder question from session 1 still open.
-5. `ai_process_note.md` and `memo.md` not started; `drafts/a1_draft.md` exists.
+5. `ai_process_note.md` and `memo.md` not started. Raw material for the
+   process note is kept per session in `drafts/ai_process_note_draft.md`;
+   append a block each session. `drafts/a1_draft.md` exists.
