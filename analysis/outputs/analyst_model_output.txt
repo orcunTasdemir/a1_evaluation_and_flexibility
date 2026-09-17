@@ -1,0 +1,11 @@
+rows                        33,340
+unique members              4,200
+features used               14
+base rate                   0.0912
+
+5-fold cross-validated AUC  0.967
+5-fold cross-validated AP   0.899
+optimal threshold           0.267
+estimated programme value   $19,774 per quarter
+
+Recommendation: strong signal, move to production this quarter.

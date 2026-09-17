@@ -183,3 +183,6 @@ cython_debug/
 # --- Assignment 1 ---
 # Run logs saved as evidence belong in the submission.
 !analysis/outputs/**/*.log
+
+# macOS
+.DS_Store

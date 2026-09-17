@@ -1,0 +1,68 @@
+=== environment ===
+Python 3.11.16
+numpy 2.4.6 | pandas 3.0.5 | sklearn 1.9.1 | matplotlib 3.11.2
+
+=== part1: analyst_model.py (as supplied) ===
+rows                        33,340
+unique members              4,200
+features used               14
+base rate                   0.0912
+
+5-fold cross-validated AUC  0.967
+5-fold cross-validated AP   0.899
+optimal threshold           0.267
+estimated programme value   $19,774 per quarter
+
+Recommendation: strong signal, move to production this quarter.
+
+=== part1: A1 baselines ===
+rows as delivered           33,340
+exact duplicate rows removed 1,695
+rows after dedup             31,645
+duplicates by month: 2025-03=1,695
+(member_id, month) pairs still duplicated after dedup: 0
+unique members               4,200
+months covered               2024-01 -> 2025-12 (24 months)
+churners (members with >=1 flagged row)      2,939
+churners with more than one flagged row      0
+flagged rows that are the member's last row  2,939 of 2,939
+
+A1 exhibit
+                                        quantity  value               n positives                                                                          note
+              base rate of churn_next_60d (rows) 0.0929           31645      2939                       deduped member-months; unit matches the analyst's model
+               base rate (members ever churning) 0.6998            4200      2939                                                  context only; different unit
+  accuracy of predicting 'no churn' for everyone 0.9071           31645      2939                                          = 1 - base rate; no information used
+AUC, single-variable rule: days_since_last_login 0.6464           31645      2939 longer since last login -> more likely to churn; all deduped rows, no fitting
+        AUC, single-variable rule: tenure_months 0.5017           31645      2939          shorter tenure -> more likely to churn; all deduped rows, no fitting
+   AUC, single-variable rule: app_opens_last_30d 0.6476           31645      2939         fewer app opens -> more likely to churn; all deduped rows, no fitting
+  AUC, single-variable rule: avg_session_minutes 0.6810           31645      2939        shorter sessions -> more likely to churn; all deduped rows, no fitting
+ analyst's 5-fold CV AUC (all columns, raw rows) 0.9670 33,340 raw rows                              as printed by starter/analyst_model.py; brief quotes 0.967
+
+base rate by year (diagnostic)
+year  rows  churners  base_rate  corporate_share
+2024 10612      1126     0.1061           0.0000
+2025 21033      1813     0.0862           0.1013
+
+base rate by month, last six (diagnostic)
+  month  rows  churners  base_rate  corporate_share
+2025-07  2119       268     0.1265           0.0991
+2025-08  2103       298     0.1417           0.1198
+2025-09  1836       198     0.1078           0.1498
+2025-10  1669       158     0.0947           0.1774
+2025-11  1511       135     0.0893           0.1893
+2025-12  1376       115     0.0836           0.2020
+
+post-scoring columns against the label (diagnostic)
+column                    exit_survey_started  winback_offer_sent
+rows_with_1                              1810                3533
+share_of_rows_with_1                   0.0572              0.1116
+churners_among_1s                        1810                2239
+non_churners_among_1s                       0                1294
+p_churn_given_1                           1.0              0.6337
+p_churn_given_0                        0.0378              0.0249
+share_of_churners_with_1               0.6159              0.7618
+ones_on_members_last_row                 1810                2288
+auc_alone                              0.8079              0.8584
+
+wrote /Users/orcuntasdemir/Desktop/a1_evaluation_and_flexibility/analysis/outputs/a1_baselines.csv, a1_base_rate_by_year.csv, a1_base_rate_by_month.csv, a1_column_timing.csv, a1_cleaning.txt
+

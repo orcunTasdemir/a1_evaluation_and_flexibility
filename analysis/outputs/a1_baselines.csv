@@ -1,0 +1,9 @@
+quantity,value,n,positives,note
+base rate of churn_next_60d (rows),0.0929,31645,2939,deduped member-months; unit matches the analyst's model
+base rate (members ever churning),0.6998,4200,2939,context only; different unit
+accuracy of predicting 'no churn' for everyone,0.9071,31645,2939,= 1 - base rate; no information used
+"AUC, single-variable rule: days_since_last_login",0.6464,31645,2939,"longer since last login -> more likely to churn; all deduped rows, no fitting"
+"AUC, single-variable rule: tenure_months",0.5017,31645,2939,"shorter tenure -> more likely to churn; all deduped rows, no fitting"
+"AUC, single-variable rule: app_opens_last_30d",0.6476,31645,2939,"fewer app opens -> more likely to churn; all deduped rows, no fitting"
+"AUC, single-variable rule: avg_session_minutes",0.681,31645,2939,"shorter sessions -> more likely to churn; all deduped rows, no fitting"
+"analyst's 5-fold CV AUC (all columns, raw rows)",0.967,"33,340 raw rows",,as printed by starter/analyst_model.py; brief quotes 0.967

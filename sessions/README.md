@@ -1,6 +1,6 @@
 # AI sessions for Assignment 1
 
-Agent used: Claude Code (VS Code extension, on Windows 11)
+Agent used: Claude Code (VS Code extension, on a Windows 11 desktop and a macOS laptop)
 
 - `claude-code/` : one `.jsonl` and one `.txt` per session.
 
@@ -37,8 +37,15 @@ few messages short of the true end. The missing tail is the export and the
 `git commit`/`git push` that followed it, which are visible in the repository
 history. Nothing about the analysis is lost this way.
 
+## Size note
+
+Session 2's transcript is about 10 MB because the agent read the course
+handout PDFs page by page and the page images are embedded in the record.
+That is course material, not private data.
+
 ## Sessions
 
 | # | Date | Machine | Topic |
 |---|---|---|---|
 | 1 | 2026-09-17 | Windows 11 | Setup only. Folder audit, Python environment, `.gitignore` fix, `NOTES.md`. No analysis. |
+| 2 | 2026-09-17 | macOS | Mac environment, handouts added, concept review (Handouts 1, 2, R1), A1 baselines script and draft. |

@@ -1,0 +1,10 @@
+rows as delivered           33,340
+exact duplicate rows removed 1,695
+rows after dedup             31,645
+duplicates by month: 2025-03=1,695
+(member_id, month) pairs still duplicated after dedup: 0
+unique members               4,200
+months covered               2024-01 -> 2025-12 (24 months)
+churners (members with >=1 flagged row)      2,939
+churners with more than one flagged row      0
+flagged rows that are the member's last row  2,939 of 2,939

@@ -1,0 +1,3 @@
+column,rows_with_1,share_of_rows_with_1,churners_among_1s,non_churners_among_1s,p_churn_given_1,p_churn_given_0,share_of_churners_with_1,ones_on_members_last_row,auc_alone
+exit_survey_started,1810,0.0572,1810,0,1.0,0.0378,0.6159,1810,0.8079
+winback_offer_sent,3533,0.1116,2239,1294,0.6337,0.0249,0.7618,2288,0.8584
