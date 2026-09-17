@@ -6,7 +6,14 @@ Append one section per work block. Read this first when switching machines.
 
 ## Session 1 — 2026-09-17 (Windows 11 machine). Setup only, no analysis.
 
-Transcript: `sessions/claude-code/a1-session-1.txt`
+Transcript: `sessions/claude-code/a1-session-1.jsonl` (raw) and
+`a1-session-1.txt` (readable).
+
+**`/export` does not work in the VS Code extension** and the CLI has no export
+subcommand. Used Option A from the course sheet (the raw JSONL) plus
+`sessions/render_transcript.py` to reproduce the readable form. Documented in
+`sessions/README.md`. If a future session runs in the terminal CLI rather than
+the extension, `/export` may work there; either route is fine.
 
 ### What was done
 
