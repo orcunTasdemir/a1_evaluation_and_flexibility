@@ -49,3 +49,9 @@ That is course material, not private data.
 |---|---|---|---|
 | 1 | 2026-09-17 | Windows 11 | Setup only. Folder audit, Python environment, `.gitignore` fix, `NOTES.md`. No analysis. |
 | 2 | 2026-09-17 | macOS | Mac environment, handouts added, concept review (Handouts 1, 2, R1), A1 baselines script and draft. |
+| 3 | 2026-09-20 | Windows 11 | A1 review quiz and finalisation, `prep.py` refactor, A2 evaluation built and drafted. |
+
+Sessions 1 and 3 are the same VS Code conversation, continued on a later
+day. `a1-session-3.jsonl` is therefore the full thread and contains session 1
+as its first part; `a1-session-1.jsonl` is the earlier snapshot of the same
+thread. Neither is sliced or edited.

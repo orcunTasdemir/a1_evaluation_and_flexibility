@@ -166,3 +166,106 @@ Transcript: `sessions/claude-code/a1-session-2.jsonl` (raw) and
 5. `ai_process_note.md` and `memo.md` not started. Raw material for the
    process note is kept per session in `drafts/ai_process_note_draft.md`;
    append a block each session. `drafts/a1_draft.md` exists.
+
+---
+
+## Session 3 — 2026-09-20 (Windows 11 machine). A1 reviewed and finalised, A2 built.
+
+Transcript: `sessions/claude-code/a1-session-3.jsonl` and `.txt`. This is the
+same VS Code conversation as session 1, continued, so the file contains
+session 1 as its first part. Not sliced (course doc: do not curate).
+
+### What was done
+
+- Pulled sessions 2 from the Mac. Recap of A1 from the repo, then a
+  five-question quiz; my answers and the corrections are in
+  `drafts/ai_process_note_draft.md`.
+- A1 finalised: do-nothing AUC 0.50 row added; tenure's 0.50 checked with a
+  bucket table (flat, not a monotonicity artefact); corporate segment
+  diagnostic added; prose rewritten with leaks/contamination kept separate
+  from the book moving. `drafts/a1_draft.md`, 499 words.
+- `analysis/part1/prep.py` with `load_clean()`; `a1_baselines.py` refactored
+  to use it; all eight outputs byte-identical before and after.
+- `analysis/part1/a2_evaluation.py` built and in `run.sh`. Harness check,
+  rows 0–4, column table, fold overlap, odds ratios, test scores saved.
+- `drafts/a2_draft.md`: exhibits A2, A2b, A2c and prose (552 words).
+- `CLAUDE.md`: Drafting section added (policy line 47).
+- `run.sh` sets `PYTHONDONTWRITEBYTECODE=1`. Harmless; not important.
+
+### Design decisions made (mine)
+
+- Dedup before row 0 (brief: "remove the duplicates before modelling"). The
+  "as printed" 0.967 line is the analyst's own output; a harness check on
+  the raw file reproduces it and is not an exhibit row.
+- Rows 0–2 cross-validated on the training window only (≤ 2025-06), so the
+  test window is scored exactly once, at row 3. Row 4 splits row-3 scores.
+- Order 1→2→3→4: 2 must precede 3 (no folds after 3); 3 as late as possible.
+- Columns: 12 kept, `winback_offer_sent` and `exit_survey_started` dropped,
+  from the dictionary's timing notes; `plan_tier`/`monthly_price` flagged as
+  a reading. `acquisition_channel` kept.
+- `StratifiedGroupKFold(5, shuffle=True, random_state=0)` for change 2.
+- Validation month unused in A2 (no choice made from data). No bootstrap CI.
+  No single-column reference on the test window. No alternative-order run.
+
+### Numbers produced, with provenance (all from `bash analysis/run.sh`)
+
+| Quantity | Value | File |
+|---|---|---|
+| Do-nothing AUC | 0.50 | `a1_baselines.csv` |
+| Churn by tenure bucket | 6.7% (month 2) to 10.1% (months 6–8), all buckets | `a1_churn_by_tenure.csv` |
+| Corporate: members / rows / churn | 328 / 2,130 / 3.1% vs other 9.7% | `a1_corporate_segment.csv` |
+| Corporate in training window | 533 rows, tenure ≤ 6 | " |
+| Building window | 21,031 rows, 1,767 churners, 3,648 members | `a2_table.csv`, `run.log` |
+| Test window | 4,556 rows, 408 churners, 1,669 members | " |
+| Harness check on raw file | 0.967 | `run.log` |
+| A2 rows 0 / 1 / 2 / 3 | 0.9679 / 0.7475 / 0.7466 / 0.6435 | `a2_table.csv` |
+| A2 row 4 corporate / other | 0.4044 (860 rows, 34 churners) / 0.6406 (3,696, 374) | " |
+| Test churners by month, corporate / other | Oct 10/148, Nov 8/127, Dec 16/99 | `run.log` |
+| Members in 2+ folds under random split | 2,899 of 3,648 (79.5%); 613 single-row | `a2_fold_overlap.csv` |
+| Odds ratios: non-corporate channels vs corporate | 4.3 / 4.1 / 4.1 | `a2_odds_ratios.csv` |
+| Odds ratios: elite / sessions per SD / minutes / price / login / tenure | 0.38 / 0.57 / 0.61 / 1.38 / 1.33 / 0.85 | " |
+| Sessions per unit | 0.88 per session | " |
+| 2024 vs 2025 monthly swing | 6.4→13.3 (6.9 pts) vs 5.3→14.2 (8.9 pts) | `a1_base_rate_by_month.csv` |
+
+Hand arithmetic, stated as such in the drafts: corporate = 860/4,556 = 19% of
+test rows and 34/408 = 8% of test churners; raw base rate (2,939+101)/33,340
+= 0.0912.
+
+### Findings this session
+
+- Tenure is flat in churn. Not a U-shape; binning would not help.
+- Change 1 costs 0.22, change 2 costs 0.001, change 3 costs 0.10. Change 2 is
+  near zero because the admissible columns cannot identify a member and a
+  linear model cannot build identity from shared attributes, not because
+  overlap was rare (79.5% of members straddle folds).
+- Row 3's drop is the cost of time, not of novelty: rows 0–2 were also on
+  unseen rows; row 3's unseen rows are later.
+- Corporate ranks at 0.404 on 34 churners. The model's largest term is the
+  channel itself (~4× odds for non-corporate). The pooled 0.644 is really the
+  "other" 0.641.
+
+### Open questions / next session (A3)
+
+1. **A3 design, to decide before coding.** The threshold is derived from $18
+   and $66 (t* = 18/84 = 0.214 by the expected-value argument; derive it in
+   the memo, do not quote). Then: what population "offer everyone" is priced
+   over (all test rows? per month? per quarter as the analyst did?); whether
+   value is reported per month, per quarter, or for the three test months as
+   given; by segment with the 34-churner caveat; whether calibration is
+   checked anywhere before applying t* (the validation month is available
+   and unused). A3 reads `a2_test_scores.csv` and must not refit or rescore.
+2. The analyst's threshold 0.267 was a grid search on out-of-fold scores,
+   i.e. chosen by looking at data. Ours will not be. Say so in the memo.
+3. Test window is Oct–Dec (base rate 8.4–9.5%); deployment is Apr–Jun
+   (5.3–7.1% in 2025). The dollar estimate depends on churners available to
+   find. Carry into A3's caveats.
+4. `winback_offer_sent` is 1 on 1,294 non-churners: it is the intervention
+   the programme proposes, so some historical outcomes are post-treatment.
+   Worth one line in A3.
+5. Prose budget: A1 499 + A2 552 words already; §1 is two pages. Trim after
+   A3 exists. Candidates: A1's loss sentence (A3 says it better), corporate
+   and seasonality figures to exhibit footnotes.
+6. Part B untouched. Handout 3 and R2 not yet read. Output-folder question
+   from session 1 still open.
+7. `ai_process_note.md` and `memo.md` not started; raw material per session
+   is in `drafts/ai_process_note_draft.md` (session 3 block added).

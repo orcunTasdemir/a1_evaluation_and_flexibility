@@ -86,4 +86,69 @@ cannot separate them. Memo says "coinciding with," not "caused by."
 
 ---
 
-## Session 3 — (to be added)
+## Session 3 (2026-09-20, Windows) — A1 review and finalisation, A2 built
+
+**Delegated:** recap of A1 from the repo after pulling; a five-question
+oral-check quiz on A1 and grading of my answers; the 0.50 AUC row and its
+prose; the tenure-bucket and corporate-segment diagnostics; the `prep.py`
+refactor; `a2_evaluation.py` with the harness check, the column table, the
+fold-overlap count and the odds-ratio table; the A1 final prose and the A2
+draft; `CLAUDE.md` drafting rule.
+
+**Changed or rejected:**
+- I had been reading 90.71% (accuracy) and 0.967 (AUC) as neighbours. Agent
+  separated the two scales; I asked for the do-nothing rule's AUC (0.50) as a
+  row and a sentence so the VP cannot make the same mistake.
+- Agent explained tenure's 0.50 as a possible monotonicity artefact (U-shape
+  that AUC cannot see). I asked for the bucket table; it showed churn flat at
+  6.7–10.1% in every bucket. Agent's explanation was withdrawn and the draft's
+  hedge replaced with the fact. The general point (AUC and a linear logit see
+  only monotone signal) kept in notes for the midterm.
+- In the quiz I claimed the 2024 summer swing was ~1 point and 2025's ~10.
+  Wrong: 6.9 and 8.9 from `a1_base_rate_by_month.csv`. Seasonality is the
+  dominant pattern; the competitor claim stays at "coinciding with."
+- In the quiz I mixed leaks/fold contamination with the book moving. Agent
+  separated them (one makes 0.967 wrong about 2024–25, the other means an
+  honest number may not transfer). Kept apart in both drafts.
+- Agent offered a "dedup row" in the A2 table. I rejected it: the brief says
+  remove duplicates before modelling, so dedup happens before row 0 and is
+  footnoted. Kept the agent's raw-file harness check (reproduces 0.967) as a
+  wiring test, not an exhibit row.
+- "Building data" for rows 0–2: I chose the training window only, so the
+  test window is scored once.
+- Rejected: bootstrap CI on segment AUCs (not asked for, page budget); a
+  single-column reference AUC on the test window (would score the test set a
+  second time); computing the alternative change order (not required).
+- Agent kept raising `__pycache__` in the supplied folders. I said it has no
+  importance. It stopped.
+- I asked for odds ratios to understand row 4; agent added them as a
+  diagnostic. Agent flagged that `plan_tier` / `monthly_price` are collinear
+  and that `app_opens` flips sign versus its single-column direction; both
+  kept as cautions, not memo claims.
+- The 79.5% fold-overlap figure came from a scratch run. I asked whether it
+  was in the run; it was not; it was added to the script before it went in
+  the draft.
+- In my row-0 reading I called 0.968 "better than 0.967." Wrong: same number,
+  different rows. Sentence replaced with "the leak dominates everything else."
+- In my order-independence answer I said dedup made member overlap rare.
+  Wrong: 79.5% of members straddle folds after dedup. The real reason change
+  2 barely moves is that the admissible columns cannot identify a member.
+- `CLAUDE.md` "never write the judgment" relaxed to match policy line 47:
+  agent drafts on request; judgments stated by me first.
+
+**How numbers were checked:**
+- Harness re-ran the analyst's exact protocol on the raw file and printed
+  0.967 before any change was measured.
+- The `prep.py` refactor was accepted only after all eight A1 outputs were
+  diffed byte-for-byte against a pre-refactor snapshot.
+- Raw base rate 0.0912 reconciled with deduped 0.0929: (2,939 + 101) / 33,340.
+- Corporate share of test rows (19%) and churners (8%) computed by hand from
+  `a2_table.csv` and stated as arithmetic in the provenance table.
+- Rough SE for the corporate AUC (~0.05 with 34 positives) is a hand
+  estimate and is labelled rough; it is in notes, not the memo.
+- Every number in both drafts is listed with its file in a provenance table.
+
+**Would still not bet on:** why corporate ranks at 0.404 (contract-driven
+churn not in the columns is a hypothesis); whether the 12-column model beats
+a single column on the test window (not computed, to honour score-once).
+
