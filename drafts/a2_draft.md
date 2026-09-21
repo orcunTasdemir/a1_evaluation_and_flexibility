@@ -1,9 +1,9 @@
 # A2 draft — an evaluation that matches deployment
 
-Working draft for the A2 part of memo §1 (to the VP of Membership). Every
-number is in `analysis/outputs/` from `bash analysis/run.sh` (session 3,
-2026-09-20). Prose budget for §1 is two pages for A1–A3 together; this
-section is about 500 words and will need trimming against A1 and A3.
+Final draft for the A2 part of memo §1 (to the VP of Membership), approved
+session 3. Every number is in `analysis/outputs/` from `bash analysis/run.sh`
+(session 3, 2026-09-20). Prose budget for §1 is two pages for A1–A3
+together; this section is 552 words and will be trimmed once A3 exists.
 
 ---
 
@@ -66,7 +66,7 @@ one standard deviation of the building data.
 
 ---
 
-## Prose (draft, ~500 words)
+## Prose (final draft for §1 A2, session 3; 552 words, trim after A3)
 
 **Order.** Columns first, folds second, time third, segment last. Two facts
 fix most of it. Once the evaluation is past-to-future there are no folds left
