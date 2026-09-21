@@ -1,0 +1,17 @@
+feature,type,sd_in_building_data,coef,odds_ratio_per_sd,odds_ratio_per_unit,baseline_category
+acquisition_channel_partner_gym,one-hot vs dropped first category,,1.4567,4.292,,acquisition_channel=corporate
+acquisition_channel_paid_search,one-hot vs dropped first category,,1.4015,4.0613,,acquisition_channel=corporate
+acquisition_channel_organic,one-hot vs dropped first category,,1.4002,4.0562,,acquisition_channel=corporate
+plan_tier_elite,one-hot vs dropped first category,,-0.9659,0.3806,,plan_tier=basic
+sessions_last_30d,numeric (per 1 SD),4.5063,-0.5694,0.5659,0.8813,
+avg_session_minutes,numeric (per 1 SD),13.2145,-0.4945,0.6099,0.9633,
+monthly_price,numeric (per 1 SD),14.7977,0.324,1.3827,1.0221,
+plan_tier_plus,one-hot vs dropped first category,,-0.2908,0.7476,,plan_tier=basic
+days_since_last_login,numeric (per 1 SD),5.4471,0.2845,1.3291,1.0536,
+tenure_months,numeric (per 1 SD),9.6355,-0.163,0.8496,0.9832,
+app_opens_last_30d,numeric (per 1 SD),11.2467,0.116,1.123,1.0104,
+support_tickets_last_30d,numeric (per 1 SD),0.3971,0.1045,1.1102,1.301,
+referrals_made,numeric (per 1 SD),0.309,-0.0984,0.9063,0.7272,
+payment_failures_last_90d,numeric (per 1 SD),0.3274,0.0702,1.0727,1.2392,
+city_tier_rural,one-hot vs dropped first category,,-0.0646,0.9375,,city_tier=metro
+city_tier_suburban,one-hot vs dropped first category,,-0.0021,0.9979,,city_tier=metro

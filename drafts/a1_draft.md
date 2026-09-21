@@ -16,6 +16,7 @@ Source: `analysis/outputs/a1_baselines.csv`, `a1_cleaning.txt`.
 | Base rate of `churn_next_60d` | **9.29%** (2,939 of 31,645 member-months) | deduplicated rows, Jan 2024 – Dec 2025 |
 | *Context:* members who churn at some point in the window | 70.0% (2,939 of 4,200) | member level; a different unit, shown for scale |
 | Accuracy of predicting "no churn" for everyone | **90.71%** | = 1 − base rate; uses no information |
+| AUC of the same rule | **0.50** | every member scored the same, so no ranking; a coin flip |
 | AUC, rank members by `avg_session_minutes` (shorter → churn) | **0.681** | one column, no fitting, all deduplicated rows |
 | AUC, rank by `app_opens_last_30d` (fewer → churn) | 0.648 | " |
 | AUC, rank by `days_since_last_login` (longer → churn) | 0.646 | " |
@@ -28,41 +29,50 @@ analyst's, which is reported as their script prints it on the raw file.
 
 ---
 
-## Prose (draft, ~180 words)
+## Prose (final draft for §1 A1, session 3)
 
 **Where the model would have to start from.** About one member-month in
-eleven ends in a cancellation: the base rate is 9.29%, 2,939 flagged rows out of
-31,645 after removing the duplicated March 2025 load. A rule that predicts "no
-churn" for everyone is therefore 90.7% accurate while identifying nobody.
-Accuracy is the wrong yardstick here for two reasons: the outcome is rare, so
-the number is dominated by the 91% of rows where nothing happens; and the two
-mistakes cost different amounts — a wasted offer costs $18, a churner not
-offered forgoes $66 — so counting them equally is the wrong loss. The number
-that fits the decision is the dollar value of the programme at the
-cost-derived threshold (Exhibit A3); AUC is used below only to compare
-evaluation protocols before any threshold exists.
+eleven ends in a cancellation: the base rate is 9.29%, 2,939 flagged rows out
+of 31,645 after removing the duplicated March 2025 load. A rule that predicts
+"no churn" for everyone is therefore 90.7% accurate while identifying nobody.
+On the ranking scale the same rule scores an AUC of 0.50, a coin flip: the
+90.7% and the analyst's 0.967 are on different scales and are not neighbours.
+Accuracy is the wrong yardstick for two reasons: the outcome is rare, so the
+number is dominated by the 91% of rows where nothing happens; and the two
+mistakes cost different amounts, $18 for a wasted offer against $66 forgone
+on a churner not offered, so counting them equally is the wrong loss. The
+number that fits the decision is the dollar value of the programme at the
+cost-derived threshold (Exhibit A3). AUC is used until then only to compare
+evaluation protocols, because it needs no threshold.
 
-Ranking members by a single behavioural column, with no model at all, gives
-an AUC between 0.65 and 0.68 (shorter sessions, fewer app opens, longer since
-last login). Tenure on its own carries no ranking signal (0.50). The analyst's
-model reports 0.967.
+Against that 0.50, ranking members by a single behavioural column, with no
+model at all, gives an AUC between 0.65 and 0.68 (shorter sessions, fewer app
+opens, longer since last login). Tenure alone carries no ranking signal
+(0.50), and that is not a monotonicity artefact: churn sits between 6.7% and
+10.1% in every tenure bucket from month 0 to 24+. The analyst's model reports
+0.967.
 
-**What would have to be true for 0.967 to describe April 2026.** Four
-things. The data dictionary's timing notes would have to be wrong: every
-column the model uses would have to be known at the start of the month rather
-than filled in afterwards — but `winback_offer_sent` is written from an
-at-risk list circulated after month close, and `exit_survey_started` is the
-cancellation flow itself, set on 1,810 rows, every one of them a cancellation
-month and none a non-churner. The April book would have to resemble the pooled 2024–25 file — but corporate
-members were 0% of 2024 rows, 10% of 2025 rows, 20% of December 2025, and are
-forecast at 35%. The churn process would have to be stable across the two
-years — but the monthly rate ranged from 5.3% (April 2025) to 14.2% (August
-2025), with the two highest months coinciding with the competitor's July 2025
-launch. And predicting a member's month from that same member's other months
-would have to count as prediction — which is what random folds permit. Set
-against a best single-column AUC of 0.68, a jump to 0.97 from a linear
-combination of fourteen columns is the pattern the course describes as a leak
-until shown otherwise. Section A2 tests each of these one at a time.
+**What would have to be true for 0.967 to describe April 2026.** Two kinds
+of thing. First, the number would have to be an honest estimate of 2024–25
+itself. That requires the dictionary's timing notes to be wrong, with every
+column known at the start of the month rather than filled in afterwards; but
+`winback_offer_sent` is written from an at-risk list circulated after month
+close, and `exit_survey_started` is the cancellation flow itself, set on 1,810
+rows, every one a cancellation month and none a non-churner. It also requires
+that scoring a member's month from that same member's other months, or from
+later months, counts as prediction. Random folds permit both, and for the
+1,695 duplicated March 2025 rows they permit scoring a row against its own
+copy. Second, even an honest 2024–25 number would have to transfer. The April
+book would have to resemble the pooled file, but corporate members were 0% of
+2024 rows, 20% of December 2025, and are forecast at 35%; in the history they
+churn at 3.1% against 9.7% for everyone else, and the training window holds
+533 corporate rows with at most six months of tenure. And the churn process
+would have to be stable, when the monthly rate ranged from 5.3% to 14.2%,
+peaking each summer, with the July 2025 competitor launch coinciding with the
+second peak. Set against a best single-column AUC of 0.68, a jump to 0.97
+from a linear combination of fourteen columns is, until shown otherwise, the
+signature of a leak. Section A2 tests the first kind one change at a time and
+measures the second by segment.
 
 ---
 
@@ -110,11 +120,29 @@ not predicting it.
 
 - The 0.68 → 0.97 gap is a suspicion, not proof; fourteen columns can beat any
   one. Keep "until shown otherwise"; A2 change 1 is the test.
-- Seasonality vs competitor: 2024 also peaked in Jul–Sep (12.4–13.3%). Two
-  years cannot separate the two; the draft says "coinciding with," not "caused
-  by." Keep it that way.
-- `tenure_months` at 0.50 is not a bug: churn may be non-monotone in tenure,
-  which a single ranking cannot capture — and a linear logit cannot either.
+- Seasonality vs competitor: 2024 also peaked in Jul–Sep (12.4–13.3%), swing
+  6.4→13.3 (6.9 pts) against 2025's 5.3→14.2 (8.9 pts). Seasonality is the
+  dominant pattern. The bigger July 2025 step is mostly an unusually low
+  spring 2025, which is also when corporate members arrived. Two years cannot
+  separate competitor from season; the draft says "coinciding with," not
+  "caused by." Keep it that way. Carry to A3: test window is Oct–Dec (8.4–9.5%),
+  deployment is Apr–Jun (5.3–7.1% in 2025). Different seasons.
+- Corporate (session 3, `a1_corporate_segment.csv`): 328 members, 2,130 rows,
+  churn 3.1% vs 9.7%; tenure 0–12 over the extract, at most 6 in the training
+  window, 533 rows there. Shift does not automatically lower AUC; ranking
+  within corporate could be easier or harder. A priori the estimate is
+  uncertain, not "too high." Change 4 measures it.
+- Two kinds of failure, kept apart in the memo: (i) leaks and fold
+  contamination make 0.967 wrong about 2024–25 itself, fixed by A2 changes
+  1–3; (ii) the book moving means an honest number still may not transfer,
+  measured by change 4, not fixable by protocol.
+- `tenure_months` at 0.50 is not a bug, and (checked session 3) not a
+  monotonicity artefact either: `a1_churn_by_tenure.csv` shows 6.7% to 10.1%
+  in every bucket, no month-12 spike, no early cliff. Tenure is simply
+  near-uninformative here. The general point still holds for the midterm: AUC
+  and a linear logit both see only monotone signal, and a U-shaped column
+  would score 0.50 while carrying information; binning is the fix in that
+  case. Not this case.
 - 70% of members churning over 24 months is consistent with a 9% 60-day rate
   (a hazard of roughly 4.5%/month compounds to ~67% over 24 months).
 - Row counts differ from the analyst's (31,645 vs 33,340) because of dedup;
@@ -128,11 +156,13 @@ not predicting it.
 
 | Number | File |
 |---|---|
-| 9.29%, 2,939 / 31,645; 70.0%, 2,939 / 4,200; 90.71%; AUCs 0.681 / 0.648 / 0.646 / 0.502; 0.967 | `a1_baselines.csv` |
+| 9.29%, 2,939 / 31,645; 70.0%, 2,939 / 4,200; 90.71%; AUC 0.50; AUCs 0.681 / 0.648 / 0.646 / 0.502; 0.967 | `a1_baselines.csv` |
 | 1,695 duplicates, all 2025-03; 31,645 rows; one flag per churner, 2,939 of 2,939 on last row | `a1_cleaning.txt` |
 | 2024: 10.61%, corporate 0%; 2025: 8.62%, corporate 10.1% | `a1_base_rate_by_year.csv` |
 | 5.3% (2025-04), 14.2% (2025-08), 2024 Jul–Sep 12.4–13.3%, corporate 20.2% in 2025-12 | `a1_base_rate_by_month.csv` |
 | 1,810 / 0 / 61.6% / 0.808; 3,533 / 2,239 / 76.2% / 0.858 | `a1_column_timing.csv` |
+| 6.7% (month 2) to 10.1% (months 6–8), all buckets | `a1_churn_by_tenure.csv` |
+| corporate 3.1% vs 9.7%; 328 members; 533 rows to 2025-06, tenure max 6 there | `a1_corporate_segment.csv` |
 
 ### How to use the leakage evidence in the memo (settled end of session 2)
 

@@ -1,0 +1,3 @@
+segment,rows,churners,churn_rate,members,tenure_min,tenure_max,first_month,rows_in_training_window_to_2025-06,tenure_max_in_training_window
+corporate,2130,66,0.031,328,0,12,2025-02,533,6
+other,29515,2873,0.0973,3872,0,51,2024-01,20498,45

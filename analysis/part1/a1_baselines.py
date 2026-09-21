@@ -7,11 +7,17 @@ What this produces, all written to analysis/outputs/:
                                 accuracy, single-variable AUCs, analyst's AUC
     a1_base_rate_by_year.csv    diagnostic: does the base rate move over time?
     a1_base_rate_by_month.csv   same, monthly
+    a1_churn_by_tenure.csv      diagnostic: is tenure's 0.50 AUC a monotonicity
+                                artefact, or is churn flat in tenure?
+    a1_corporate_segment.csv    diagnostic: corporate vs everyone else; rate,
+                                tenure range, and how much of it the training
+                                window contains
     a1_cleaning.txt             what dedup removed, and the uniqueness check
 
-Cleaning done here, and nothing else: normalise snapshot_month with the
-supplied month_key(), then drop exact duplicate rows (ticket NLF-2231).  No
-column is dropped -- that is A2 change 1, and A1 comes before it.
+Cleaning is prep.load_clean(): normalise snapshot_month with the supplied
+month_key(), then drop exact duplicate rows (ticket NLF-2231).  Shared with
+A2 and A3 so every part sees the same rows.  No column is dropped -- that is
+A2 change 1, and A1 comes before it.
 
 Single-variable rules need no fitting, so there is no cross-validation and
 no randomness in this script.  The direction of each rule is fixed below
@@ -30,9 +36,8 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 OUT = ROOT / "analysis" / "outputs"
 
-# Use the supplied loader rather than reimplementing it.
-sys.path.insert(0, str(ROOT / "part1_northline" / "starter"))
-from load import TARGET, load_raw, month_key  # noqa: E402
+sys.path.insert(0, str(HERE))
+from prep import TARGET, TRAIN_END, load_clean  # noqa: E402
 
 ANALYST_OUTPUT = OUT / "analyst_model_output.txt"
 ANALYST_QUOTED_AUC = 0.967   # the figure in the brief, used only as a label
@@ -50,6 +55,12 @@ SINGLE_VARIABLE_RULES = {
 # Two columns the dictionary's timing notes say are recorded during or after
 # the month being scored.  Diagnostic only: how do they sit against the label?
 POST_SCORING_COLUMNS = ["exit_survey_started", "winback_offer_sent"]
+
+# Tenure buckets for the diagnostic behind tenure's 0.50 AUC.  Month 12 gets
+# its own bucket because an annual renewal spike is the obvious thing to look
+# for; the rest are coarser where rows are plentiful.
+TENURE_BINS = [-1, 0, 1, 2, 3, 5, 8, 11, 12, 17, 23, 10_000]
+TENURE_LABELS = ["0", "1", "2", "3", "4-5", "6-8", "9-11", "12", "13-17", "18-23", "24+"]
 
 
 def column_timing(df: pd.DataFrame) -> pd.DataFrame:
@@ -74,45 +85,38 @@ def column_timing(df: pd.DataFrame) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
-def clean(df: pd.DataFrame) -> tuple[pd.DataFrame, list[str]]:
-    """Normalise the month, drop exact duplicates, and record what happened."""
-    notes = []
-    df = df.copy()
-    df["month"] = df["snapshot_month"].map(month_key)
-    df["year"] = df["month"].str[:4]
+def churn_by_tenure(df: pd.DataFrame) -> pd.DataFrame:
+    """Churn rate per tenure bucket.  If tenure mattered non-monotonically,
+    AUC would miss it but this table would show it."""
+    b = pd.cut(df["tenure_months"], bins=TENURE_BINS, labels=TENURE_LABELS)
+    out = (df.groupby(b, observed=True)[TARGET]
+             .agg(rows="size", churners="sum", churn_rate="mean")
+             .reset_index().rename(columns={"tenure_months": "tenure_bucket"}))
+    out["churn_rate"] = out["churn_rate"].round(4)
+    return out
 
-    before = len(df)
-    dup_mask = df.duplicated(keep="first")
-    dup_months = df.loc[dup_mask, "month"].value_counts().sort_index()
-    df = df.loc[~dup_mask].reset_index(drop=True)
-    notes.append(f"rows as delivered           {before:,}")
-    notes.append(f"exact duplicate rows removed {int(dup_mask.sum()):,}")
-    notes.append(f"rows after dedup             {len(df):,}")
-    notes.append("duplicates by month: " +
-                 ", ".join(f"{m}={n:,}" for m, n in dup_months.items()))
 
-    # After removing exact duplicates, one row per member per month is what
-    # the dictionary promises.  Check it rather than assume it.
-    remaining = df.duplicated(subset=["member_id", "month"]).sum()
-    notes.append(f"(member_id, month) pairs still duplicated after dedup: {remaining:,}")
-    if remaining:
-        raise RuntimeError("non-identical duplicate member-months remain; inspect before continuing")
-
-    notes.append(f"unique members               {df['member_id'].nunique():,}")
-    notes.append(f"months covered               {df['month'].min()} -> {df['month'].max()} "
-                 f"({df['month'].nunique()} months)")
-
-    # How the label sits within a member's history.  The dictionary defines it
-    # as a 60-day forward window, which could flag more than one row per
-    # churner; record what the extract actually does.
-    df = df.sort_values(["member_id", "month"]).reset_index(drop=True)
-    flags_per_member = df.groupby("member_id")[TARGET].sum()
-    last_rows = df.groupby("member_id").tail(1)
-    notes.append(f"churners (members with >=1 flagged row)      {int((flags_per_member > 0).sum()):,}")
-    notes.append(f"churners with more than one flagged row      {int((flags_per_member > 1).sum()):,}")
-    notes.append(f"flagged rows that are the member's last row  {int(last_rows[TARGET].sum()):,} "
-                 f"of {int(df[TARGET].sum()):,}")
-    return df, notes
+def corporate_segment(df: pd.DataFrame) -> pd.DataFrame:
+    """Corporate vs everyone else: how many, how they churn, how long they
+    have been on the book, and how much of that the training window sees."""
+    seg = np.where(df["acquisition_channel"].eq("corporate"), "corporate", "other")
+    in_train = df["month"].le(TRAIN_END)
+    rows = []
+    for name in ("corporate", "other"):
+        m = seg == name
+        rows.append({
+            "segment": name,
+            "rows": int(m.sum()),
+            "churners": int(df.loc[m, TARGET].sum()),
+            "churn_rate": round(df.loc[m, TARGET].mean(), 4),
+            "members": int(df.loc[m, "member_id"].nunique()),
+            "tenure_min": int(df.loc[m, "tenure_months"].min()),
+            "tenure_max": int(df.loc[m, "tenure_months"].max()),
+            "first_month": df.loc[m, "month"].min(),
+            f"rows_in_training_window_to_{TRAIN_END}": int((m & in_train).sum()),
+            f"tenure_max_in_training_window": int(df.loc[m & in_train, "tenure_months"].max()),
+        })
+    return pd.DataFrame(rows)
 
 
 def analyst_auc() -> float | None:
@@ -125,7 +129,7 @@ def analyst_auc() -> float | None:
 
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
-    df, notes = clean(load_raw())
+    df, notes = load_clean()
     (OUT / "a1_cleaning.txt").write_text("\n".join(notes) + "\n")
     print("\n".join(notes))
     print()
@@ -138,8 +142,13 @@ def main() -> None:
     base_rate_rows = y.mean()
     base_rate_members = df.groupby("member_id")[TARGET].max().mean()
 
-    # 2. The trivial rule: predict "no churn" for everyone.
+    # 2. The trivial rule: predict "no churn" for everyone.  Its accuracy is
+    #    1 - base rate.  Its AUC is 0.5: every row gets the same score, so a
+    #    churner outranks a non-churner exactly half the time.  Reporting both
+    #    puts the same rule on both scales, so accuracy and AUC are not read
+    #    as neighbours.
     trivial_acc = accuracy_score(y, np.zeros_like(y))
+    trivial_auc = roc_auc_score(y, np.zeros_like(y))
 
     # 3. Single-variable rules, scored on all deduped rows.  No fitting.
     rule_rows = []
@@ -163,6 +172,9 @@ def main() -> None:
         {"quantity": "accuracy of predicting 'no churn' for everyone",
          "value": round(trivial_acc, 4), "n": n_rows, "positives": n_pos,
          "note": "= 1 - base rate; no information used"},
+        {"quantity": "AUC of predicting 'no churn' for everyone",
+         "value": round(trivial_auc, 4), "n": n_rows, "positives": n_pos,
+         "note": "every row tied, no ranking; the do-nothing rung on the AUC scale"},
     ]
     for col, sign, meaning, auc in rule_rows:
         table.append({"quantity": f"AUC, single-variable rule: {col}",
@@ -189,6 +201,14 @@ def main() -> None:
     timing = column_timing(df)
     timing.to_csv(OUT / "a1_column_timing.csv", index=False)
 
+    # Diagnostic: why tenure ranks at 0.50, and what the corporate segment
+    # looks like.  Both feed the A1 paragraph on whether 2024-25 speaks to
+    # April 2026.
+    tenure = churn_by_tenure(df)
+    tenure.to_csv(OUT / "a1_churn_by_tenure.csv", index=False)
+    corp = corporate_segment(df)
+    corp.to_csv(OUT / "a1_corporate_segment.csv", index=False)
+
     print("A1 exhibit")
     print(exhibit.to_string(index=False))
     print()
@@ -201,8 +221,15 @@ def main() -> None:
     print("post-scoring columns against the label (diagnostic)")
     print(timing.T.to_string(header=False))
     print()
+    print("churn rate by tenure bucket (diagnostic)")
+    print(tenure.to_string(index=False))
+    print()
+    print("corporate vs other (diagnostic)")
+    print(corp.T.to_string(header=False))
+    print()
     print(f"wrote {OUT / 'a1_baselines.csv'}, a1_base_rate_by_year.csv, "
-          f"a1_base_rate_by_month.csv, a1_column_timing.csv, a1_cleaning.txt")
+          f"a1_base_rate_by_month.csv, a1_column_timing.csv, a1_churn_by_tenure.csv, "
+          f"a1_corporate_segment.csv, a1_cleaning.txt")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,19 @@
+column,decision,timing_per_dictionary,reason
+member_id,id,identifier,not a feature; used to group rows by member
+snapshot_month,id,the month the row describes,not a feature; April 2026 is a value never seen in training
+signup_month,id,month of first paid subscription,not a feature; redundant with tenure_months
+acquisition_channel,keep,fixed at signup,known before the month; also the segment for change 4
+plan_tier,keep,billing; no timing note,"read as the plan on the billing snapshot at the start of the month; a mid-month change would not be visible, which the dictionary does not rule out"
+monthly_price,keep,list price of the plan; no timing note,"same reading as plan_tier; list price, not discounted"
+city_tier,keep,self-reported at signup,known before the month
+tenure_months,keep,as of the start of snapshot_month,explicitly at the scoring moment
+sessions_last_30d,keep,30 days ending on the last day of the previous month,window closes before the month starts
+app_opens_last_30d,keep,same 30-day window,window closes before the month starts
+avg_session_minutes,keep,same 30-day window,window closes before the month starts
+days_since_last_login,keep,"to the last day of the previous month, capped at 90",window closes before the month starts
+support_tickets_last_30d,keep,same 30-day window,window closes before the month starts
+payment_failures_last_90d,keep,90 days ending on the last day of the previous month,window closes before the month starts
+referrals_made,keep,same 30-day window,window closes before the month starts
+winback_offer_sent,drop,"contact about this month, from a list circulated after month close",recorded after the month; on 1 April 2026 it is 0 for everyone
+exit_survey_started,drop,opened the cancellation exit survey; no window stated,"the cancellation flow itself; recorded during the month, not before it"
+churn_next_60d,target,60 days from the end of snapshot_month,the label

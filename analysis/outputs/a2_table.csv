@@ -1,0 +1,7 @@
+row,change,n_features,protocol,rows_fit,rows_scored,churners_scored,auc,kind
+0,"analyst's protocol, deduplicated",14,"5-fold stratified CV, shuffled",21031,21031,1767,0.9679,cross-validated
+1,+ admissible columns only,12,"5-fold stratified CV, shuffled",21031,21031,1767,0.7475,cross-validated
+2,+ one member never in both folds,12,5-fold stratified CV grouped by member_id,21031,21031,1767,0.7466,cross-validated
+3,+ past to future,12,"fit on months <= 2025-06, scored on months >= 2025-10",21031,4556,408,0.6435,test-window
+4,+ by segment: corporate,12,"row-3 scores, split by acquisition_channel",21031,860,34,0.4044,test-window
+4,+ by segment: other,12,"row-3 scores, split by acquisition_channel",21031,3696,374,0.6406,test-window

@@ -1,5 +1,5 @@
 === environment ===
-Python 3.11.16
+Python 3.11.9
 numpy 2.4.6 | pandas 3.0.5 | sklearn 1.9.1 | matplotlib 3.11.2
 
 === part1: analyst_model.py (as supplied) ===
@@ -32,6 +32,7 @@ A1 exhibit
               base rate of churn_next_60d (rows) 0.0929           31645      2939                       deduped member-months; unit matches the analyst's model
                base rate (members ever churning) 0.6998            4200      2939                                                  context only; different unit
   accuracy of predicting 'no churn' for everyone 0.9071           31645      2939                                          = 1 - base rate; no information used
+       AUC of predicting 'no churn' for everyone 0.5000           31645      2939              every row tied, no ranking; the do-nothing rung on the AUC scale
 AUC, single-variable rule: days_since_last_login 0.6464           31645      2939 longer since last login -> more likely to churn; all deduped rows, no fitting
         AUC, single-variable rule: tenure_months 0.5017           31645      2939          shorter tenure -> more likely to churn; all deduped rows, no fitting
    AUC, single-variable rule: app_opens_last_30d 0.6476           31645      2939         fewer app opens -> more likely to churn; all deduped rows, no fitting
@@ -64,5 +65,85 @@ share_of_churners_with_1               0.6159              0.7618
 ones_on_members_last_row                 1810                2288
 auc_alone                              0.8079              0.8584
 
-wrote /Users/orcuntasdemir/Desktop/a1_evaluation_and_flexibility/analysis/outputs/a1_baselines.csv, a1_base_rate_by_year.csv, a1_base_rate_by_month.csv, a1_column_timing.csv, a1_cleaning.txt
+churn rate by tenure bucket (diagnostic)
+tenure_bucket  rows  churners  churn_rate
+            0   247        24      0.0972
+            1   446        33      0.0740
+            2   642        43      0.0670
+            3   717        57      0.0795
+          4-5  1631       136      0.0834
+          6-8  2547       258      0.1013
+         9-11  2565       248      0.0967
+           12   884        81      0.0916
+        13-17  4798       469      0.0977
+        18-23  5933       574      0.0967
+          24+ 11235      1016      0.0904
+
+corporate vs other (diagnostic)
+segment                             corporate    other
+rows                                     2130    29515
+churners                                   66     2873
+churn_rate                              0.031   0.0973
+members                                   328     3872
+tenure_min                                  0        0
+tenure_max                                 12       51
+first_month                           2025-02  2024-01
+rows_in_training_window_to_2025-06        533    20498
+tenure_max_in_training_window               6       45
+
+wrote C:\Users\owner\Desktop\a1_evaluation_and_flexibility\analysis\outputs\a1_baselines.csv, a1_base_rate_by_year.csv, a1_base_rate_by_month.csv, a1_column_timing.csv, a1_churn_by_tenure.csv, a1_corporate_segment.csv, a1_cleaning.txt
+
+=== part1: A2 evaluation ===
+harness check: analyst's protocol on raw file, all months  AUC 0.967  (analyst_model.py prints 0.967; this is not an exhibit row)
+
+building window (<= 2025-06): 21,031 rows, 1,767 churners, 3,648 members
+test window     (>= 2025-10): 4,556 rows, 408 churners, 1,669 members
+
+row 0  analyst's protocol, deduplicated         AUC 0.9679   [cross-validated]
+row 1  + admissible columns only                AUC 0.7475   [cross-validated]
+member overlap under the analyst's random split: 2,899 of 3,648 members (79.5%) have rows in 2+ folds; change 2 removes all of it
+row 2  + one member never in both folds         AUC 0.7466   [cross-validated]
+row 3  + past to future                         AUC 0.6435   [test-window]
+row 4  + by segment: corporate                  AUC 0.4044   [test-window]
+row 4  + by segment: other                      AUC 0.6406   [test-window]
+
+A2 exhibit
+ row                           change  n_features  rows_fit  rows_scored  churners_scored    auc            kind
+   0 analyst's protocol, deduplicated          14     21031        21031             1767 0.9679 cross-validated
+   1        + admissible columns only          12     21031        21031             1767 0.7475 cross-validated
+   2 + one member never in both folds          12     21031        21031             1767 0.7466 cross-validated
+   3                 + past to future          12     21031         4556              408 0.6435     test-window
+   4          + by segment: corporate          12     21031          860               34 0.4044     test-window
+   4              + by segment: other          12     21031         3696              374 0.6406     test-window
+
+test-window rows and churners by month and segment
+                   rows  churners
+month   segment                  
+2025-10 corporate   296        10
+        other      1373       148
+2025-11 corporate   286         8
+        other      1225       127
+2025-12 corporate   278        16
+        other      1098        99
+
+row-3 model coefficients as odds ratios (diagnostic, building window only)
+                        feature                              type  sd_in_building_data    coef  odds_ratio_per_sd  odds_ratio_per_unit             baseline_category
+acquisition_channel_partner_gym one-hot vs dropped first category                  NaN  1.4567             4.2920                  NaN acquisition_channel=corporate
+acquisition_channel_paid_search one-hot vs dropped first category                  NaN  1.4015             4.0613                  NaN acquisition_channel=corporate
+    acquisition_channel_organic one-hot vs dropped first category                  NaN  1.4002             4.0562                  NaN acquisition_channel=corporate
+                plan_tier_elite one-hot vs dropped first category                  NaN -0.9659             0.3806                  NaN               plan_tier=basic
+              sessions_last_30d                numeric (per 1 SD)               4.5063 -0.5694             0.5659               0.8813                              
+            avg_session_minutes                numeric (per 1 SD)              13.2145 -0.4945             0.6099               0.9633                              
+                  monthly_price                numeric (per 1 SD)              14.7977  0.3240             1.3827               1.0221                              
+                 plan_tier_plus one-hot vs dropped first category                  NaN -0.2908             0.7476                  NaN               plan_tier=basic
+          days_since_last_login                numeric (per 1 SD)               5.4471  0.2845             1.3291               1.0536                              
+                  tenure_months                numeric (per 1 SD)               9.6355 -0.1630             0.8496               0.9832                              
+             app_opens_last_30d                numeric (per 1 SD)              11.2467  0.1160             1.1230               1.0104                              
+       support_tickets_last_30d                numeric (per 1 SD)               0.3971  0.1045             1.1102               1.3010                              
+                 referrals_made                numeric (per 1 SD)               0.3090 -0.0984             0.9063               0.7272                              
+      payment_failures_last_90d                numeric (per 1 SD)               0.3274  0.0702             1.0727               1.2392                              
+                city_tier_rural one-hot vs dropped first category                  NaN -0.0646             0.9375                  NaN               city_tier=metro
+             city_tier_suburban one-hot vs dropped first category                  NaN -0.0021             0.9979                  NaN               city_tier=metro
+
+wrote C:\Users\owner\Desktop\a1_evaluation_and_flexibility\analysis\outputs\a2_table.csv, a2_columns.csv, a2_test_scores.csv, a2_fold_overlap.csv, a2_odds_ratios.csv
 

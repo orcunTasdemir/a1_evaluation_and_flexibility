@@ -29,6 +29,15 @@ submission documents. They apply to this assignment.
 - **Stop if I cannot explain what you produced.** I may be asked to explain
   or modify any line of this submission.
 
+## Drafting
+
+Course policy permits AI help drafting the memo "provided the judgments in
+it are yours and you can defend them" (policy §, line 47). So: draft any
+deliverable on request, prose and exhibits included. For the recommendation
+and any "good enough" verdict, I state the judgment first in my own words;
+you then put it into prose. Nothing goes in a draft that I cannot defend in
+an oral check.
+
 ## Requirements the submission must meet
 
 - `analysis/` runs end to end from one command on a clean clone. No
