@@ -46,4 +46,8 @@ else PY="python3"; fi
   echo "=== part1: A3 targeting decision ==="
   "$PY" "$HERE/part1/a3_decision.py"
   echo
+
+  echo "=== part2: B1 noise floor ==="
+  "$PY" "$HERE/part2/b1_noise_floor.py"
+  echo
 } 2>&1 | tee "$OUT/run.log"

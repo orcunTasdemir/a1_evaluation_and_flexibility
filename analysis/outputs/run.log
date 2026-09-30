@@ -242,3 +242,28 @@ repeat-contact sensitivity: of 242 offers at t*, 47 are repeat contacts of a mem
 
 wrote /Users/orcuntasdemir/Desktop/a1_evaluation_and_flexibility/analysis/outputs/a3_threshold.txt, a3_calibration.csv, a3_value.csv, a3_by_month.csv, a3_offer_quality.csv, a3_value_curve.csv, a3_value_curve.png
 
+=== part2: B1 noise floor ===
+configuration check (the estimator's assumption)
+division  configs  rows group_sizes  all_groups_size_10  fields_checked  fields_varying_within_a_config  units_varies_within_a_config
+       H       45   450          10                True              12                               0                          True
+       A       45   450          10                True              12                               0                          True
+
+B1 -- the noise floor
+division      name  configs  replicates_per_config  rows  dof  sigma2_hat  se_sigma2_hat  sigma_hat  mean_units  contractor_best_cv_mse  contractor_best_minus_floor  share_of_contractor_best_that_is_floor
+       H Hardgoods       45                     10   450  405      148.11          10.41      12.17      111.88                     231                        82.89                                  0.6412
+       A   Apparel       45                     10   450  405      142.04           9.98      11.92      111.04                     414                       271.96                                  0.3431
+
+Hardgoods sigma^2 = 148.1 +/- 10.4 (sigma = 12.2 units)
+Apparel   sigma^2 = 142.0 +/- 10.0 (sigma = 11.9 units)
+difference (A - H) = -6.1 with a standard error of 14.4, i.e. 0.42 standard errors
+
+is the floor the same everywhere?  variance against demand level
+division      name  config_mean_min  config_mean_max  slope_var_on_mean  se_slope  consistent_with_poisson_slope_1  consistent_with_constant_variance_slope_0  overdispersion_vs_poisson  se_of_one_config_variance
+       H Hardgoods             51.2            176.4              0.657     0.410                             True                                       True                       1.32                       69.8
+       A   Apparel             80.2            182.0              0.103     0.401                            False                                       True                       1.28                       67.0
+  (slope 1 = Poisson-like, slope 0 = constant floor; a configuration's
+   variance comes from ten rows, so the slope is poorly determined and
+   an inconclusive answer is the honest one)
+
+wrote /Users/orcuntasdemir/Desktop/a1_evaluation_and_flexibility/analysis/outputs/b1_noise_floor.csv, b1_config_check.csv, b1_variance_shape.csv
+
