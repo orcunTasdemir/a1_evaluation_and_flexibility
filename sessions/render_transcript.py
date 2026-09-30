@@ -17,6 +17,22 @@ from pathlib import Path
 RULE = "=" * 78
 
 
+def describe_image(block):
+    """An embedded image, as a labelled placeholder.
+
+    The base64 payload of a screenshot or a rendered PDF page can be a
+    megabyte on one line, which makes the readable rendering unreadable --
+    in this project's transcripts it was 93% of the file.  Nothing is
+    concealed: the media type and the payload size are stated, and the
+    authoritative .jsonl beside this file still holds every byte.
+    """
+    src = block.get("source") or {}
+    data = src.get("data", "")
+    return "[image omitted from the readable rendering: %s, %s base64 chars; " \
+           "the full payload is in the .jsonl]" % (
+               src.get("media_type", "unknown type"), f"{len(data):,}")
+
+
 def render_block(block):
     """One content block -> list of text lines."""
     kind = block.get("type")
@@ -27,6 +43,8 @@ def render_block(block):
     if kind == "tool_use":
         args = json.dumps(block.get("input", {}), indent=2, ensure_ascii=False)
         return ["[tool_use: %s]" % block.get("name", "?"), args]
+    if kind == "image":
+        return [describe_image(block)]
     if kind == "tool_result":
         content = block.get("content", "")
         if isinstance(content, list):
@@ -34,6 +52,8 @@ def render_block(block):
             for item in content:
                 if isinstance(item, dict) and item.get("type") == "text":
                     parts.append(item.get("text", ""))
+                elif isinstance(item, dict) and item.get("type") == "image":
+                    parts.append(describe_image(item))
                 else:
                     parts.append(json.dumps(item, ensure_ascii=False))
             content = "\n".join(parts)

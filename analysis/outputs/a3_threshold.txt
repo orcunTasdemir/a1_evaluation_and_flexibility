@@ -1,0 +1,31 @@
+Deriving the threshold from the finance table
+
+  offer cost                     $18.00
+  lifetime value of a member     $240.00
+  fraction of churners retained  0.35
+
+An offer to a member who would have churned is worth
+  240 x 0.35 - 18 = $66.00
+An offer to a member who would not have churned costs
+  $18.00
+No offer is worth $0.
+
+At predicted probability p the expected value of offering is
+  E[value | p] = p x 66 + (1 - p) x (-18) = 84p - 18
+
+Offering beats not offering when that expectation exceeds 0:
+  84p - 18 > 0
+  p > 18 / 84 = 18 / (240 x 0.35)
+  p > 0.214286
+
+Threshold t* = 0.2143.  Offer to every member scored above it.
+
+Cross-check, Handout R1 eq. (4): t* = C_FP / (C_FP + C_FN) with a
+wasted offer C_FP = $18 and a missed churner
+C_FN = $66 gives 18/(18+66) = 0.214286.  Same number.
+
+Note this depends only on the finance figures, not on the data, and
+was fixed before any test-window score was read.  The analyst's
+script instead grid-searched 0.267 by maximising realised value
+on its own out-of-fold predictions, which is a choice made by looking
+at outcomes.

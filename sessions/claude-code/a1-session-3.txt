@@ -199,190 +199,190 @@ USER  [2026-09-17T18:53:22.520Z]
 
 [tool_result]
 === .gitignore ===
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
-
-# C extensions
-*.so
-
-# Distribution / packaging
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-share/python-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
-
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
-
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
-
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.nox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.py,cover
-.hypothesis/
-.pytest_cache/
-cover/
-
-# Translations
-*.mo
-*.pot
-
-# Django stuff:
-*.log
-local_settings.py
-db.sqlite3
-db.sqlite3-journal
-
-# Flask stuff:
-instance/
-.webassets-cache
-
-# Scrapy stuff:
-.scrapy
-
-# Sphinx documentation
-docs/_build/
-
-# PyBuilder
-.pybuilder/
-target/
-
-# Jupyter Notebook
-.ipynb_checkpoints
-
-# IPython
-profile_default/
-ipython_config.py
-
-# pyenv
-#   For a library or package, you might want to ignore these files since the code is
-#   intended to run in multiple environments; otherwise, check them in:
-# .python-version
-
-# pipenv
-#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
-#   However, in case of collaboration, if having platform-specific dependencies or dependencies
-#   having no cross-platform support, pipenv may install dependencies that don't work, or not
-#   install all needed dependencies.
-#Pipfile.lock
-
-# UV
-#   Similar to Pipfile.lock, it is generally recommended to include uv.lock in version control.
-#   This is especially recommended for binary packages to ensure reproducibility, and is more
-#   commonly ignored for libraries.
-#uv.lock
-
-# poetry
-#   Similar to Pipfile.lock, it is generally recommended to include poetry.lock in version control.
-#   This is especially recommended for binary packages to ensure reproducibility, and is more
-#   commonly ignored for libraries.
-#   https://python-poetry.org/docs/basic-usage/#commit-your-poetrylock-file-to-version-control
-#poetry.lock
-
-# pdm
-#   Similar to Pipfile.lock, it is generally recommended to include pdm.lock in version control.
-#pdm.lock
-#   pdm stores project-wide configurations in .pdm.toml, but it is recommended to not include it
-#   in version control.
-#   https://pdm.fming.dev/latest/usage/project/#working-with-version-control
-.pdm.toml
-.pdm-python
-.pdm-build/
-
-# PEP 582; used by e.g. github.com/David-OConnor/pyflow and github.com/pdm-project/pdm
-__pypackages__/
-
-# Celery stuff
-celerybeat-schedule
-celerybeat.pid
-
-# SageMath parsed files
-*.sage.py
-
-# Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-
-# Spyder project settings
-.spyderproject
-.spyproject
-
-# Rope project settings
-.ropeproject
-
-# mkdocs documentation
-/site
-
-# mypy
-.mypy_cache/
-.dmypy.json
-dmypy.json
-
-# Pyre type checker
-.pyre/
-
-# pytype static type analyzer
-.pytype/
-
-# Cython debug symbols
-cython_debug/
-
-# PyCharm
-#  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
-#  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
-#  and can be added to the global gitignore or merged into this file.  For a more nuclear
-#  option (not recommended) you can uncomment the following to ignore the entire idea folder.
-#.idea/
-
-# Ruff stuff:
-.ruff_cache/
-
-# PyPI configuration file
-.pypirc
-
-# Cursor  
-#  Cursor is an AI-powered code editor.`.cursorignore` specifies files/directories to 
-#  exclude from AI features like autocomplete and code analysis. Recommended for sensitive data
-#  refer to https://docs.cursor.com/context/ignore-files
-.cursorignore
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Scrapy stuff:
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+.pybuilder/
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+#   For a library or package, you might want to ignore these files since the code is
+#   intended to run in multiple environments; otherwise, check them in:
+# .python-version
+
+# pipenv
+#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
+#   However, in case of collaboration, if having platform-specific dependencies or dependencies
+#   having no cross-platform support, pipenv may install dependencies that don't work, or not
+#   install all needed dependencies.
+#Pipfile.lock
+
+# UV
+#   Similar to Pipfile.lock, it is generally recommended to include uv.lock in version control.
+#   This is especially recommended for binary packages to ensure reproducibility, and is more
+#   commonly ignored for libraries.
+#uv.lock
+
+# poetry
+#   Similar to Pipfile.lock, it is generally recommended to include poetry.lock in version control.
+#   This is especially recommended for binary packages to ensure reproducibility, and is more
+#   commonly ignored for libraries.
+#   https://python-poetry.org/docs/basic-usage/#commit-your-poetrylock-file-to-version-control
+#poetry.lock
+
+# pdm
+#   Similar to Pipfile.lock, it is generally recommended to include pdm.lock in version control.
+#pdm.lock
+#   pdm stores project-wide configurations in .pdm.toml, but it is recommended to not include it
+#   in version control.
+#   https://pdm.fming.dev/latest/usage/project/#working-with-version-control
+.pdm.toml
+.pdm-python
+.pdm-build/
+
+# PEP 582; used by e.g. github.com/David-OConnor/pyflow and github.com/pdm-project/pdm
+__pypackages__/
+
+# Celery stuff
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# pytype static type analyzer
+.pytype/
+
+# Cython debug symbols
+cython_debug/
+
+# PyCharm
+#  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
+#  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
+#  and can be added to the global gitignore or merged into this file.  For a more nuclear
+#  option (not recommended) you can uncomment the following to ignore the entire idea folder.
+#.idea/
+
+# Ruff stuff:
+.ruff_cache/
+
+# PyPI configuration file
+.pypirc
+
+# Cursor  
+#  Cursor is an AI-powered code editor.`.cursorignore` specifies files/directories to 
+#  exclude from AI features like autocomplete and code analysis. Recommended for sensitive data
+#  refer to https://docs.cursor.com/context/ignore-files
+.cursorignore
 .cursorindexingignore
 === .gitattributes ===
-# Auto detect text files and perform LF normalization
-* text=auto
+# Auto detect text files and perform LF normalization
+* text=auto
 
 === .vscode ===
 total 5
@@ -390,8 +390,8 @@ drwxr-xr-x 1 owner 197121  0 Sep 17 13:37 .
 drwxr-xr-x 1 owner 197121  0 Sep 17 13:44 ..
 -rw-r--r-- 1 owner 197121 68 Sep 17 13:37 settings.json
 --- .vscode/settings.json ---
-{
-    "python-envs.defaultEnvManager": "ms-python.python:system"
+{
+    "python-envs.defaultEnvManager": "ms-python.python:system"
 }
 
 ==============================================================================
@@ -725,12 +725,12 @@ USER  [2026-09-17T18:53:34.696Z]
 
 [tool_result]
 === python ===
-Python 3.11.9
+Python 3.11.9
 /c/Users/owner/AppData/Local/Programs/Python/Python311/python
 
 === packages ===
-Traceback (most recent call last):
-  File "<string>", line 1, in <module>
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
 ModuleNotFoundError: No module named 'numpy'
 
 ==============================================================================
@@ -766,15 +766,15 @@ USER  [2026-09-17T18:53:41.262Z]
 
 [tool_result]
 === py launcher list ===
- -V:3.11 *        C:\Users\owner\AppData\Local\Programs\Python\Python311\python.exe
+ -V:3.11 *        C:\Users\owner\AppData\Local\Programs\Python\Python311\python.exe
 
 === pip list (system 3.11) ===
-Package    Version
----------- -------
-pip        24.0
-setuptools 65.5.0
-
-[notice] A new release of pip is available: 24.0 -> 26.2.1
+Package    Version
+---------- -------
+pip        24.0
+setuptools 65.5.0
+
+[notice] A new release of pip is available: 24.0 -> 26.2.1
 [notice] To update, run: python.exe -m pip install --upgrade pip
 
 ==============================================================================
@@ -809,10 +809,10 @@ USER  [2026-09-17T18:53:47.152Z]
 
 [tool_result]
 Exit code 2
-C:\Users\owner\AppData\Local\r-miniconda
-C:\Users\owner\AppData\Local\R-MINI~1
-C:\Users\owner\AppData\Local\R-MINI~1\envs\r-reticulate
-C:\Users\owner\AppData\Local\R-MINI~1\envs\r-hf
+C:\Users\owner\AppData\Local\r-miniconda
+C:\Users\owner\AppData\Local\R-MINI~1
+C:\Users\owner\AppData\Local\R-MINI~1\envs\r-reticulate
+C:\Users\owner\AppData\Local\R-MINI~1\envs\r-hf
 --- which conda ---
 which: no conda in (/c/Users/owner/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/bin:/mingw64/bin:/usr/bin:/c/Users/owner/bin:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR:/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/cmd:/c/Program Files/nodejs:/c/Program Files/WireGuard:/c/Users/owner/AppData/Local/Programs/Python/Python311/Scripts:/c/Users/owner/AppData/Local/Programs/Python/Python311:/c/Users/owner/.local/bin:/c/Users/owner/AppData/Local/Microsoft/WindowsApps:/c/Users/owner/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/owner/AppData/Local/Microsoft/WinGet/Links:/c/Users/owner/AppData/Roaming/npm:/c/Users/owner/AppData/Roaming/TinyTeX/bin/windows:/c/Users/owner/tools/poppler/poppler-24.08.0/Library/bin:/c/Users/owner/AppData/Local/Pandoc:/c/Users/owner/AppData/Local/GitHubDesktop/bin:/usr/bin/vendor_perl:/usr/bin/core_perl)
 
@@ -868,10 +868,10 @@ USER  [2026-09-17T18:54:00.044Z]
 
 [tool_result]
 === sessions/README.md ===
-# AI sessions for Assignment 1
-
-Agent used: Claude Code
-
+# AI sessions for Assignment 1
+
+Agent used: Claude Code
+
 - claude-code/ : one export per session.
 === rubric headings ===
 1:# Assignment 1 — grading rubric
@@ -1279,13 +1279,13 @@ USER  [2026-09-17T19:03:49.502Z]
 ==============================================================================
 
 [tool_result]
-d for sensitive data
-#  refer to https://docs.cursor.com/context/ignore-files
-.cursorignore
-.cursorindexingignore
-
-# --- Assignment 1 ---
-# Run logs saved as evidence belong in the submission.
+d for sensitive data
+#  refer to https://docs.cursor.com/context/ignore-files
+.cursorignore
+.cursorindexingignore
+
+# --- Assignment 1 ---
+# Run logs saved as evidence belong in the submission.
 !analysis/outputs/**/*.log
 
 ==============================================================================
@@ -1304,20 +1304,20 @@ USER  [2026-09-17T19:04:42.587Z]
 ==============================================================================
 
 [tool_result]
-Downloading kiwisolver-1.5.1-cp311-cp311-win_amd64.whl (70 kB)
-Downloading narwhals-2.26.0-py3-none-any.whl (474 kB)
-Using cached packaging-26.3-py3-none-any.whl (129 kB)
-Downloading pillow-12.3.0-cp311-cp311-win_amd64.whl (7.2 MB)
-   ---------------------------------------- 7.2/7.2 MB 44.7 MB/s  0:00:00
-Downloading pyparsing-3.3.2-py3-none-any.whl (122 kB)
-Using cached python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
-Downloading scipy-1.17.1-cp311-cp311-win_amd64.whl (36.6 MB)
-   ---------------------------------------- 36.6/36.6 MB 43.1 MB/s  0:00:00
-Using cached six-1.17.0-py2.py3-none-any.whl (11 kB)
-Downloading threadpoolctl-3.7.0-py3-none-any.whl (26 kB)
-Using cached tzdata-2026.4-py2.py3-none-any.whl (347 kB)
-Installing collected packages: tzdata, threadpoolctl, six, pyparsing, pillow, packaging, numpy, narwhals, kiwisolver, fonttools, cycler, cloudpickle, scipy, python-dateutil, joblib, contourpy, scikit-learn, pandas, matplotlib
-
+Downloading kiwisolver-1.5.1-cp311-cp311-win_amd64.whl (70 kB)
+Downloading narwhals-2.26.0-py3-none-any.whl (474 kB)
+Using cached packaging-26.3-py3-none-any.whl (129 kB)
+Downloading pillow-12.3.0-cp311-cp311-win_amd64.whl (7.2 MB)
+   ---------------------------------------- 7.2/7.2 MB 44.7 MB/s  0:00:00
+Downloading pyparsing-3.3.2-py3-none-any.whl (122 kB)
+Using cached python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+Downloading scipy-1.17.1-cp311-cp311-win_amd64.whl (36.6 MB)
+   ---------------------------------------- 36.6/36.6 MB 43.1 MB/s  0:00:00
+Using cached six-1.17.0-py2.py3-none-any.whl (11 kB)
+Downloading threadpoolctl-3.7.0-py3-none-any.whl (26 kB)
+Using cached tzdata-2026.4-py2.py3-none-any.whl (347 kB)
+Installing collected packages: tzdata, threadpoolctl, six, pyparsing, pillow, packaging, numpy, narwhals, kiwisolver, fonttools, cycler, cloudpickle, scipy, python-dateutil, joblib, contourpy, scikit-learn, pandas, matplotlib
+
 Successfully installed cloudpickle-3.1.2 contourpy-1.3.3 cycler-0.12.1 fonttools-4.65.0 joblib-1.6.0 kiwisolver-1.5.1 matplotlib-3.11.2 narwhals-2.26.0 numpy-2.4.6 packaging-26.3 pandas-3.0.5 pillow-12.3.0 pyparsing-3.3.2 python-dateutil-2.9.0.post0 scikit-learn-1.9.1 scipy-1.17.1 six-1.17.0 threadpoolctl-3.7.0 tzdata-2026.4
 
 ==============================================================================
@@ -1342,11 +1342,11 @@ USER  [2026-09-17T19:05:02.271Z]
 ==============================================================================
 
 [tool_result]
-part1 load_raw -> (33340, 18) | month_key smoke: True
-part2 load_h -> (3350, 15) dedup_h -> (3000, 15)
-part2 load_a -> (197, 15) replicates -> (900, 16)
-folds: 5 | alpha grid: 25 | queries: ['H', 'A']
-poly_pipeline steps: ['poly', 'scale', 'est']
+part1 load_raw -> (33340, 18) | month_key smoke: True
+part2 load_h -> (3350, 15) dedup_h -> (3000, 15)
+part2 load_a -> (197, 15) replicates -> (900, 16)
+folds: 5 | alpha grid: 25 | queries: ['H', 'A']
+poly_pipeline steps: ['poly', 'scale', 'est']
 bootstrap_indices draws: 20
 
 ==============================================================================
@@ -2184,8 +2184,8 @@ USER  [2026-09-17T19:19:44.146Z]
 ==============================================================================
 
 [tool_result]
-a1-session-1.jsonl -> sessions\claude-code\a1-session-1.txt
-messages rendered: 117, unparseable lines: 0
+a1-session-1.jsonl -> sessions\claude-code\a1-session-1.txt
+messages rendered: 117, unparseable lines: 0
 --- sizes ---
 total 712K
 -rw-r--r-- 1 owner 197121 600K Sep 17 14:19 a1-session-1.jsonl
@@ -2214,20 +2214,20 @@ USER  [2026-09-17T19:19:53.377Z]
 
 [tool_result]
 === first 6 lines ===
-==============================================================================
-USER  [2026-09-17T18:50:43.360Z]
-==============================================================================
-
-are you running on the a1_eval project folder rn?
-
+==============================================================================
+USER  [2026-09-17T18:50:43.360Z]
+==============================================================================
+
+are you running on the a1_eval project folder rn?
+
 
 === last 6 lines ===
-
-[tool_use: Bash]
-{
-  "command": "cd \"C:/Users/owner/Desktop/a1_evaluation_and_flexibility\" && SRC=\"C:/Users/owner/.claude/projects/c--Users-owner-Desktop-a1-evaluation-and-flexibility/c19a2720-2101-4dda-94b2-43c0dc536931.jsonl\" && cp \"$SRC\" sessions/claude-code/a1-session-1.jsonl && .venv/Scripts/python.exe sessions/render_transcript.py sessions/claude-code/a1-session-1.jsonl sessions/claude-code/a1-session-1.txt && echo \"--- sizes ---\" && ls -lh sessions/claude-code/ | tail -3",
-  "description": "Copy the raw transcript and render the readable version"
-}
+
+[tool_use: Bash]
+{
+  "command": "cd \"C:/Users/owner/Desktop/a1_evaluation_and_flexibility\" && SRC=\"C:/Users/owner/.claude/projects/c--Users-owner-Desktop-a1-evaluation-and-flexibility/c19a2720-2101-4dda-94b2-43c0dc536931.jsonl\" && cp \"$SRC\" sessions/claude-code/a1-session-1.jsonl && .venv/Scripts/python.exe sessions/render_transcript.py sessions/claude-code/a1-session-1.jsonl sessions/claude-code/a1-session-1.txt && echo \"--- sizes ---\" && ls -lh sessions/claude-code/ | tail -3",
+  "description": "Copy the raw transcript and render the readable version"
+}
 
 === sanity: any line with >20 commas (would suggest leaked CSV rows)? ===
 3 lines
@@ -2280,8 +2280,8 @@ USER  [2026-09-17T19:20:14.500Z]
 ==============================================================================
 
 [tool_result]
-a1-session-1.jsonl -> sessions\claude-code\a1-session-1.txt
-messages rendered: 117, unparseable lines: 0
+a1-session-1.jsonl -> sessions\claude-code\a1-session-1.txt
+messages rendered: 117, unparseable lines: 0
 
 sessions:
 -rw-r--r-- 1 owner 197121 1962 Sep 17 14:20 README.md
@@ -2331,8 +2331,8 @@ USER  [2026-09-17T19:20:31.025Z]
 ==============================================================================
 
 [tool_result]
-a1-session-1.jsonl -> sessions\claude-code\a1-session-1.txt
-messages rendered: 131, unparseable lines: 0
+a1-session-1.jsonl -> sessions\claude-code\a1-session-1.txt
+messages rendered: 131, unparseable lines: 0
 warning: in the working copy of 'sessions/README.md', LF will be replaced by CRLF the next time Git touches it
 warning: in the working copy of 'sessions/claude-code/a1-session-1.jsonl', LF will be replaced by CRLF the next time Git touches it
 warning: in the working copy of 'sessions/render_transcript.py', LF will be replaced by CRLF the next time Git touches it
@@ -2371,8 +2371,8 @@ M  sessions/README.md
 A  sessions/claude-code/a1-session-1.jsonl
 A  sessions/claude-code/a1-session-1.txt
 A  sessions/render_transcript.py
-# Auto detect text files and perform LF normalization
-* text=auto
+# Auto detect text files and perform LF normalization
+* text=auto
 
 # Session transcripts are the record. Keep them byte-exact across machines,
 # rather than letting text=auto rewrite their line endings.
@@ -2503,173 +2503,173 @@ USER  [2026-09-21T01:35:39.388Z]
 ==============================================================================
 
 [tool_result]
-# Working notes, IDS 575 Assignment 1
-
-Append one section per work block. Read this first when switching machines.
-
----
-
-## Session 1 — 2026-09-17 (Windows 11 machine). Setup only, no analysis.
-
-Transcript: `sessions/claude-code/a1-session-1.jsonl` (raw) and
-`a1-session-1.txt` (readable).
-
-**`/export` does not work in the VS Code extension** and the CLI has no export
-subcommand. Used Option A from the course sheet (the raw JSONL) plus
-`sessions/render_transcript.py` to reproduce the readable form. Documented in
-`sessions/README.md`. If a future session runs in the terminal CLI rather than
-the extension, `/export` may work there; either route is fine.
-
-### What was done
-
-- Audited the folder against the brief's "What is in this folder" list. All nine
-  supplied files present, nothing missing.
-- Built the Python environment. `.venv` at the repo root, pinned versions in
-  `requirements.txt`. Nothing was installed before this; the system Python had
-  only pip and setuptools.
-- Fixed `.gitignore`. The stock Python template ignored `lib/`, `var/`, `build/`,
-  `dist/`, `target/`, `instance/`, `cover/`, `htmlcov/` at any depth, so an
-  `analysis/part2/lib/` would have been dropped from the submission silently.
-  Those are now anchored to the repo root. Added an exception so run logs under
-  `analysis/outputs/` can be committed.
-- Confirmed the supplied folders are untouched. `git diff HEAD` against
-  `part1_northline` and `part2_cascade` is empty. The starter `OUT` paths are as
-  shipped. `__pycache__` folders created by the smoke test were deleted.
-
-### Environment
-
-Python 3.11.9 on this machine. Recreate on the Mac with Python 3.11:
-
-    python3.11 -m venv .venv
-    source .venv/bin/activate
-    pip install -r requirements.txt
-
-`.venv` is git-ignored and does not travel. `requirements.txt` does.
-Versions are pinned so numbers reproduce across the two machines.
-
-### Numbers produced, with provenance
-
-All from `wc -l` on the CSVs and from a smoke-test script run under the new
-`.venv` that imported the starter modules and printed shapes only. No data file
-contents were read into the session.
-
-| Quantity | Value | Source |
-|---|---|---|
-| `member_months.csv` rows | 33,340 | `wc -l`; matches the brief's stated figure |
-| `member_months.csv` shape | (33340, 18) | `part1_northline/starter/load.py::load_raw()` |
-| `division_h.csv` shape | (3350, 15) | `part2_cascade/starter/load.py::load_h()` |
-| `division_h.csv` after `dedup_h()` | (3000, 15) | same, so 350 duplicate store-weeks |
-| `division_a.csv` shape | (197, 15) | `load_a()` |
-| `replicates.csv` shape | (900, 16) | `load_replicates()` |
-| Folds / alpha grid / queries | 5 / 25 / H, A | `make_folds()`, `ALPHA_GRID`, `QUERY_CONFIGS` |
-
-These are structural checks, not results. Nothing here is a finding for the memo.
-
-### Open questions for next session
-
-1. **Where Part B outputs land.** The starters write to `sweep_outputs/` and
-   `b3_outputs/` beside the script. Decision made: keep those folder names. Not
-   yet decided whether they sit at `analysis/part2/<name>/` or
-   `analysis/outputs/<name>/`. My call to make at the start of Part B.
-2. **Running `sweep.py` in place would write into `part2_cascade/starter/`.**
-   Run it from a copy under `analysis/part2/` instead, to keep the supplied
-   folder clean.
-3. **Handouts.** Pull from Canvas into `handouts/`: Handout 1
-   (`lecture01_learning_from_data.pdf`), Handout 2 (Lecture 2, logistic
-   regression), Handout 3 (`lecture03_bias_variance.pdf`), Handout R1
-   (`handoutR1_reading_a_metric.pdf`). Undecided whether to track or ignore them.
-4. **Not started yet:** `analysis/README.md`, `ai_process_note.md`, the memo.
-
-### Next block
-
-A1, the baselines. Base rate, the trivial rule's accuracy and whether accuracy
-suits this decision, at least one single-variable AUC, the analyst's 0.967
-beside them. Do-nothing answer before any modelling.
-
----
-
-## Session 2 — 2026-09-17 (macOS laptop). Mac environment, concept review, A1 done.
-
-Transcript: `sessions/claude-code/a1-session-2.jsonl` (raw) and
-`a1-session-2.txt` (readable), exported the same way as session 1.
-
-### What was done
-
-- Built the Mac environment: Homebrew `python@3.11` (3.11.16), `.venv` from
-  `requirements.txt`. Package versions identical to Windows. Smoke test
-  reproduced session 1's shapes exactly.
-- `.vscode/settings.json` now selects `.venv` (was pointing at system Python).
-  `handouts/` un-ignored and tracked; five PDFs added from Canvas.
-- Read Handouts 1, 2 and R1 in full. **The brief's section numbers for
-  "Handout 1 §6 / §6.5 / §7.2 / §7.3–7.4" are actually Handout 2 §4 / §4.5 /
-  §5.2 / §5.3–5.4** (`lecture02_evaluating_models.pdf`). Handout 1 stops at §5.
-  Handout 2 Exercise 7 (leakage triage) and Exercise 10 (baselines) map almost
-  directly onto A2's column decision and A1.
-- Concept review before any code: risk vs empirical risk vs loss, K-fold CV
-  and what it estimates (risk of the procedure), the three data roles, why CV
-  may choose model classes (H2 §3.1, Ex. 1) but the winner's CV score is
-  optimistic, one-SE rule, AUC as a pairwise ranking probability, the
-  cost-derived threshold t* = C_FP/(C_FP+C_FN) (R1 §3 eq. 4).
-- Wrote `analysis/run.sh` (one command), `analysis/README.md`,
-  `analysis/part1/a1_baselines.py`. Run time ~15 s. Runs the supplied
-  `analyst_model.py` unmodified and captures its output.
-- Drafted `drafts/a1_draft.md`: Exhibit A1, ~180 words of prose, notes to self,
-  argue-against list, provenance table.
-
-### Design decisions made (mine)
-
-- Clean = `month_key()` normalise, then `drop_duplicates()` on all columns.
-  No cleaned CSV is written; cleaning is in code, logged to `a1_cleaning.txt`.
-- Base rate reported row-level (headline, matches analyst's unit) and
-  member-level (context).
-- Single-variable AUCs for four columns, directions fixed from the dictionary
-  before computing: days_since_last_login (+), tenure_months (−),
-  app_opens_last_30d (−), avg_session_minutes (−).
-- Keep the brief's two-month gap even though the label behaves like a 30-day
-  window (see below): the brief fixes the windows, and the protocol should be
-  safe under the documented definition.
-
-### Numbers produced, with provenance (all from `bash analysis/run.sh`)
-
-| Quantity | Value | File |
-|---|---|---|
-| Duplicates removed (all 2025-03) | 1,695 → 31,645 rows | `a1_cleaning.txt` |
-| Base rate, rows | 0.0929 (2,939 / 31,645) | `a1_baselines.csv` |
-| Base rate, members ever churning | 0.6998 (2,939 / 4,200) | " |
-| Accuracy of "no churn" | 0.9071 | " |
-| AUC days_since_last_login / tenure / app_opens / avg_session | 0.6464 / 0.5017 / 0.6476 / 0.6810 | " |
-| Analyst's CV AUC as printed | 0.967 (AP 0.899, threshold 0.267, $19,774/qtr) | `analyst_model_output.txt` |
-| Base rate 2024 / 2025 | 0.1061 / 0.0862; corporate share 0 / 0.101 | `a1_base_rate_by_year.csv` |
-| Monthly base rate range | 0.053 (2025-04) to 0.142 (2025-08); 2024 Jul–Sep 0.124–0.133 | `a1_base_rate_by_month.csv` |
-| Corporate share 2025-12 | 0.202 | " |
-| Book size | peaks 2,119 rows (2025-07), 1,376 by 2025-12 | " |
-| exit_survey_started = 1 | 1,810 rows, all churners, all last rows, 61.6% of churners, AUC alone 0.808 | `a1_column_timing.csv` |
-| winback_offer_sent = 1 | 3,533 rows, 2,239 churners (63.4%), 76.2% of churners, AUC alone 0.858 | " |
-
-### Findings not in the brief
-
-- **Label structure.** Every churner has exactly one flagged row and it is
-  always their last row (2,939 of 2,939). A literal 60-day window would flag
-  two. In practice `churn_next_60d = 1` means "cancellation month." Evidence:
-  `exit_survey_started` is 1 only on flagged rows.
-- **Leakage mechanism is concrete.** The row is scored at the start of the
-  month; `exit_survey_started` and `winback_offer_sent` record events during
-  or after it. On 1 April 2026 both will be 0 for everyone.
-
-### Open questions / next session (A2)
-
-1. **First task:** move the cleaning into `analysis/part1/prep.py` with a
-   `load_clean()` so A2 and A3 clean identically. Refactor `a1_baselines.py` to
-   use it and confirm numbers unchanged.
-2. **A2 design, to decide before coding:** import `analyst_pipeline()` from the
-   supplied `analyst_model.py` so each row changes protocol only; the order of
-   the four changes; which columns are admissible (argue every column from the
-   dictionary's timing notes, kept and dropped); how grouped CV is done
-   (GroupKFold vs StratifiedGroupKFold — my call).
-3. Handout 3 (Part B) and R2 not yet read.
-4. Part B output-folder question from session 1 still open.
-5. `ai_process_note.md` and `memo.md` not started. Raw material for the
-   process note is kept per session in `drafts/ai_process_note_draft.md`;
+# Working notes, IDS 575 Assignment 1
+
+Append one section per work block. Read this first when switching machines.
+
+---
+
+## Session 1 — 2026-09-17 (Windows 11 machine). Setup only, no analysis.
+
+Transcript: `sessions/claude-code/a1-session-1.jsonl` (raw) and
+`a1-session-1.txt` (readable).
+
+**`/export` does not work in the VS Code extension** and the CLI has no export
+subcommand. Used Option A from the course sheet (the raw JSONL) plus
+`sessions/render_transcript.py` to reproduce the readable form. Documented in
+`sessions/README.md`. If a future session runs in the terminal CLI rather than
+the extension, `/export` may work there; either route is fine.
+
+### What was done
+
+- Audited the folder against the brief's "What is in this folder" list. All nine
+  supplied files present, nothing missing.
+- Built the Python environment. `.venv` at the repo root, pinned versions in
+  `requirements.txt`. Nothing was installed before this; the system Python had
+  only pip and setuptools.
+- Fixed `.gitignore`. The stock Python template ignored `lib/`, `var/`, `build/`,
+  `dist/`, `target/`, `instance/`, `cover/`, `htmlcov/` at any depth, so an
+  `analysis/part2/lib/` would have been dropped from the submission silently.
+  Those are now anchored to the repo root. Added an exception so run logs under
+  `analysis/outputs/` can be committed.
+- Confirmed the supplied folders are untouched. `git diff HEAD` against
+  `part1_northline` and `part2_cascade` is empty. The starter `OUT` paths are as
+  shipped. `__pycache__` folders created by the smoke test were deleted.
+
+### Environment
+
+Python 3.11.9 on this machine. Recreate on the Mac with Python 3.11:
+
+    python3.11 -m venv .venv
+    source .venv/bin/activate
+    pip install -r requirements.txt
+
+`.venv` is git-ignored and does not travel. `requirements.txt` does.
+Versions are pinned so numbers reproduce across the two machines.
+
+### Numbers produced, with provenance
+
+All from `wc -l` on the CSVs and from a smoke-test script run under the new
+`.venv` that imported the starter modules and printed shapes only. No data file
+contents were read into the session.
+
+| Quantity | Value | Source |
+|---|---|---|
+| `member_months.csv` rows | 33,340 | `wc -l`; matches the brief's stated figure |
+| `member_months.csv` shape | (33340, 18) | `part1_northline/starter/load.py::load_raw()` |
+| `division_h.csv` shape | (3350, 15) | `part2_cascade/starter/load.py::load_h()` |
+| `division_h.csv` after `dedup_h()` | (3000, 15) | same, so 350 duplicate store-weeks |
+| `division_a.csv` shape | (197, 15) | `load_a()` |
+| `replicates.csv` shape | (900, 16) | `load_replicates()` |
+| Folds / alpha grid / queries | 5 / 25 / H, A | `make_folds()`, `ALPHA_GRID`, `QUERY_CONFIGS` |
+
+These are structural checks, not results. Nothing here is a finding for the memo.
+
+### Open questions for next session
+
+1. **Where Part B outputs land.** The starters write to `sweep_outputs/` and
+   `b3_outputs/` beside the script. Decision made: keep those folder names. Not
+   yet decided whether they sit at `analysis/part2/<name>/` or
+   `analysis/outputs/<name>/`. My call to make at the start of Part B.
+2. **Running `sweep.py` in place would write into `part2_cascade/starter/`.**
+   Run it from a copy under `analysis/part2/` instead, to keep the supplied
+   folder clean.
+3. **Handouts.** Pull from Canvas into `handouts/`: Handout 1
+   (`lecture01_learning_from_data.pdf`), Handout 2 (Lecture 2, logistic
+   regression), Handout 3 (`lecture03_bias_variance.pdf`), Handout R1
+   (`handoutR1_reading_a_metric.pdf`). Undecided whether to track or ignore them.
+4. **Not started yet:** `analysis/README.md`, `ai_process_note.md`, the memo.
+
+### Next block
+
+A1, the baselines. Base rate, the trivial rule's accuracy and whether accuracy
+suits this decision, at least one single-variable AUC, the analyst's 0.967
+beside them. Do-nothing answer before any modelling.
+
+---
+
+## Session 2 — 2026-09-17 (macOS laptop). Mac environment, concept review, A1 done.
+
+Transcript: `sessions/claude-code/a1-session-2.jsonl` (raw) and
+`a1-session-2.txt` (readable), exported the same way as session 1.
+
+### What was done
+
+- Built the Mac environment: Homebrew `python@3.11` (3.11.16), `.venv` from
+  `requirements.txt`. Package versions identical to Windows. Smoke test
+  reproduced session 1's shapes exactly.
+- `.vscode/settings.json` now selects `.venv` (was pointing at system Python).
+  `handouts/` un-ignored and tracked; five PDFs added from Canvas.
+- Read Handouts 1, 2 and R1 in full. **The brief's section numbers for
+  "Handout 1 §6 / §6.5 / §7.2 / §7.3–7.4" are actually Handout 2 §4 / §4.5 /
+  §5.2 / §5.3–5.4** (`lecture02_evaluating_models.pdf`). Handout 1 stops at §5.
+  Handout 2 Exercise 7 (leakage triage) and Exercise 10 (baselines) map almost
+  directly onto A2's column decision and A1.
+- Concept review before any code: risk vs empirical risk vs loss, K-fold CV
+  and what it estimates (risk of the procedure), the three data roles, why CV
+  may choose model classes (H2 §3.1, Ex. 1) but the winner's CV score is
+  optimistic, one-SE rule, AUC as a pairwise ranking probability, the
+  cost-derived threshold t* = C_FP/(C_FP+C_FN) (R1 §3 eq. 4).
+- Wrote `analysis/run.sh` (one command), `analysis/README.md`,
+  `analysis/part1/a1_baselines.py`. Run time ~15 s. Runs the supplied
+  `analyst_model.py` unmodified and captures its output.
+- Drafted `drafts/a1_draft.md`: Exhibit A1, ~180 words of prose, notes to self,
+  argue-against list, provenance table.
+
+### Design decisions made (mine)
+
+- Clean = `month_key()` normalise, then `drop_duplicates()` on all columns.
+  No cleaned CSV is written; cleaning is in code, logged to `a1_cleaning.txt`.
+- Base rate reported row-level (headline, matches analyst's unit) and
+  member-level (context).
+- Single-variable AUCs for four columns, directions fixed from the dictionary
+  before computing: days_since_last_login (+), tenure_months (−),
+  app_opens_last_30d (−), avg_session_minutes (−).
+- Keep the brief's two-month gap even though the label behaves like a 30-day
+  window (see below): the brief fixes the windows, and the protocol should be
+  safe under the documented definition.
+
+### Numbers produced, with provenance (all from `bash analysis/run.sh`)
+
+| Quantity | Value | File |
+|---|---|---|
+| Duplicates removed (all 2025-03) | 1,695 → 31,645 rows | `a1_cleaning.txt` |
+| Base rate, rows | 0.0929 (2,939 / 31,645) | `a1_baselines.csv` |
+| Base rate, members ever churning | 0.6998 (2,939 / 4,200) | " |
+| Accuracy of "no churn" | 0.9071 | " |
+| AUC days_since_last_login / tenure / app_opens / avg_session | 0.6464 / 0.5017 / 0.6476 / 0.6810 | " |
+| Analyst's CV AUC as printed | 0.967 (AP 0.899, threshold 0.267, $19,774/qtr) | `analyst_model_output.txt` |
+| Base rate 2024 / 2025 | 0.1061 / 0.0862; corporate share 0 / 0.101 | `a1_base_rate_by_year.csv` |
+| Monthly base rate range | 0.053 (2025-04) to 0.142 (2025-08); 2024 Jul–Sep 0.124–0.133 | `a1_base_rate_by_month.csv` |
+| Corporate share 2025-12 | 0.202 | " |
+| Book size | peaks 2,119 rows (2025-07), 1,376 by 2025-12 | " |
+| exit_survey_started = 1 | 1,810 rows, all churners, all last rows, 61.6% of churners, AUC alone 0.808 | `a1_column_timing.csv` |
+| winback_offer_sent = 1 | 3,533 rows, 2,239 churners (63.4%), 76.2% of churners, AUC alone 0.858 | " |
+
+### Findings not in the brief
+
+- **Label structure.** Every churner has exactly one flagged row and it is
+  always their last row (2,939 of 2,939). A literal 60-day window would flag
+  two. In practice `churn_next_60d = 1` means "cancellation month." Evidence:
+  `exit_survey_started` is 1 only on flagged rows.
+- **Leakage mechanism is concrete.** The row is scored at the start of the
+  month; `exit_survey_started` and `winback_offer_sent` record events during
+  or after it. On 1 April 2026 both will be 0 for everyone.
+
+### Open questions / next session (A2)
+
+1. **First task:** move the cleaning into `analysis/part1/prep.py` with a
+   `load_clean()` so A2 and A3 clean identically. Refactor `a1_baselines.py` to
+   use it and confirm numbers unchanged.
+2. **A2 design, to decide before coding:** import `analyst_pipeline()` from the
+   supplied `analyst_model.py` so each row changes protocol only; the order of
+   the four changes; which columns are admissible (argue every column from the
+   dictionary's timing notes, kept and dropped); how grouped CV is done
+   (GroupKFold vs StratifiedGroupKFold — my call).
+3. Handout 3 (Part B) and R2 not yet read.
+4. Part B output-folder question from session 1 still open.
+5. `ai_process_note.md` and `memo.md` not started. Raw material for the
+   process note is kept per session in `drafts/ai_process_note_draft.md`;
    append a block each session. `drafts/a1_draft.md` exists.
 
 ==============================================================================
@@ -2711,73 +2711,73 @@ Then, in one short paragraph: what would have to be true about this dataset for 
 11:| A1 | **Baselines.** Base rate, accuracy of the trivial rule with a correct statement of whether accuracy suits this decision, at least one single-variable AUC, and the analyst's headline beside them. The paragraph on what would have to be true for 0.967 to be credible. | **8** |
 
 === run.sh ===
-#!/usr/bin/env bash
-# One command for the whole analysis.  Run from anywhere:
-#
-#     bash analysis/run.sh
-#
-# Everything lands in analysis/outputs/.  Stdout is also saved there as
-# run.log so every number in the memo has a printed source.
-set -euo pipefail
-
-HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-ROOT="$(cd "$HERE/.." && pwd)"
-OUT="$HERE/outputs"
-mkdir -p "$OUT"
-
-# Use the project .venv if it exists, otherwise whatever python3 is on PATH.
-if [ -x "$ROOT/.venv/bin/python" ]; then PY="$ROOT/.venv/bin/python"
-elif [ -x "$ROOT/.venv/Scripts/python.exe" ]; then PY="$ROOT/.venv/Scripts/python.exe"
-else PY="python3"; fi
-
-{
-  echo "=== environment ==="
-  "$PY" --version
-  "$PY" -c "import numpy, pandas, sklearn, matplotlib; print('numpy', numpy.__version__, '| pandas', pandas.__version__, '| sklearn', sklearn.__version__, '| matplotlib', matplotlib.__version__)"
-  echo
-
-  # The analyst's pipeline, run exactly as supplied, from its own folder.  It
-  # prints the headline the brief quotes; its output is kept so A1 can put
-  # that number beside the baselines without anyone retyping it.
-  echo "=== part1: analyst_model.py (as supplied) ==="
-  "$PY" "$ROOT/part1_northline/starter/analyst_model.py" | tee "$OUT/analyst_model_output.txt"
-  echo
-
-  echo "=== part1: A1 baselines ==="
-  "$PY" "$HERE/part1/a1_baselines.py"
-  echo
-} 2>&1 | tee "$OUT/run.log"
+#!/usr/bin/env bash
+# One command for the whole analysis.  Run from anywhere:
+#
+#     bash analysis/run.sh
+#
+# Everything lands in analysis/outputs/.  Stdout is also saved there as
+# run.log so every number in the memo has a printed source.
+set -euo pipefail
+
+HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT="$(cd "$HERE/.." && pwd)"
+OUT="$HERE/outputs"
+mkdir -p "$OUT"
+
+# Use the project .venv if it exists, otherwise whatever python3 is on PATH.
+if [ -x "$ROOT/.venv/bin/python" ]; then PY="$ROOT/.venv/bin/python"
+elif [ -x "$ROOT/.venv/Scripts/python.exe" ]; then PY="$ROOT/.venv/Scripts/python.exe"
+else PY="python3"; fi
+
+{
+  echo "=== environment ==="
+  "$PY" --version
+  "$PY" -c "import numpy, pandas, sklearn, matplotlib; print('numpy', numpy.__version__, '| pandas', pandas.__version__, '| sklearn', sklearn.__version__, '| matplotlib', matplotlib.__version__)"
+  echo
+
+  # The analyst's pipeline, run exactly as supplied, from its own folder.  It
+  # prints the headline the brief quotes; its output is kept so A1 can put
+  # that number beside the baselines without anyone retyping it.
+  echo "=== part1: analyst_model.py (as supplied) ==="
+  "$PY" "$ROOT/part1_northline/starter/analyst_model.py" | tee "$OUT/analyst_model_output.txt"
+  echo
+
+  echo "=== part1: A1 baselines ==="
+  "$PY" "$HERE/part1/a1_baselines.py"
+  echo
+} 2>&1 | tee "$OUT/run.log"
 
 === analysis/README.md ===
-# Analysis — how to run
-
-One command, from the assignment folder root:
-
-    bash analysis/run.sh
-
-Requires Python 3.10+ with numpy, pandas, scikit-learn and matplotlib. No
-other packages. No GPU. Pinned versions used to produce the submitted numbers
-are in `../requirements.txt` (Python 3.11; numpy 2.4.6, pandas 3.0.5,
-scikit-learn 1.9.1, matplotlib 3.11.2). The script prefers `../.venv` if one
-exists and otherwise uses `python3` on PATH.
-
-Runtime: about 15 seconds so far (A1 only). Will be updated as parts are added.
-
-## What it runs, in order
-
-| Step | Script | Writes to `outputs/` |
-|---|---|---|
-| Analyst's pipeline, as supplied | `part1_northline/starter/analyst_model.py` | `analyst_model_output.txt` |
-| A1 baselines | `part1/a1_baselines.py` | `a1_baselines.csv` (the exhibit), `a1_cleaning.txt`, and diagnostics `a1_base_rate_by_year.csv`, `a1_base_rate_by_month.csv`, `a1_column_timing.csv` |
-
-Everything printed is also captured in `outputs/run.log`.
-
-## Notes
-
-- The supplied `starter/` modules are imported, not copied or modified.
-- A1 has no randomness (single-variable rules are not fitted). Seeds for later
-  parts are set in the scripts that need them and noted here when added.
-- Data files are read in place from `part1_northline/data/` and
+# Analysis — how to run
+
+One command, from the assignment folder root:
+
+    bash analysis/run.sh
+
+Requires Python 3.10+ with numpy, pandas, scikit-learn and matplotlib. No
+other packages. No GPU. Pinned versions used to produce the submitted numbers
+are in `../requirements.txt` (Python 3.11; numpy 2.4.6, pandas 3.0.5,
+scikit-learn 1.9.1, matplotlib 3.11.2). The script prefers `../.venv` if one
+exists and otherwise uses `python3` on PATH.
+
+Runtime: about 15 seconds so far (A1 only). Will be updated as parts are added.
+
+## What it runs, in order
+
+| Step | Script | Writes to `outputs/` |
+|---|---|---|
+| Analyst's pipeline, as supplied | `part1_northline/starter/analyst_model.py` | `analyst_model_output.txt` |
+| A1 baselines | `part1/a1_baselines.py` | `a1_baselines.csv` (the exhibit), `a1_cleaning.txt`, and diagnostics `a1_base_rate_by_year.csv`, `a1_base_rate_by_month.csv`, `a1_column_timing.csv` |
+
+Everything printed is also captured in `outputs/run.log`.
+
+## Notes
+
+- The supplied `starter/` modules are imported, not copied or modified.
+- A1 has no randomness (single-variable rules are not fitted). Seeds for later
+  parts are set in the scripts that need them and noted here when added.
+- Data files are read in place from `part1_northline/data/` and
   `part2_cascade/data/`; nothing is written there.
 
 ==============================================================================
@@ -2795,214 +2795,214 @@ USER  [2026-09-21T01:35:45.926Z]
 ==============================================================================
 
 [tool_result]
-"""
-A1 -- baselines before any modelling.  Northline Fitness churn.
-
-What this produces, all written to analysis/outputs/:
-
-    a1_baselines.csv            the A1 exhibit: base rate, trivial-rule
-                                accuracy, single-variable AUCs, analyst's AUC
-    a1_base_rate_by_year.csv    diagnostic: does the base rate move over time?
-    a1_base_rate_by_month.csv   same, monthly
-    a1_cleaning.txt             what dedup removed, and the uniqueness check
-
-Cleaning done here, and nothing else: normalise snapshot_month with the
-supplied month_key(), then drop exact duplicate rows (ticket NLF-2231).  No
-column is dropped -- that is A2 change 1, and A1 comes before it.
-
-Single-variable rules need no fitting, so there is no cross-validation and
-no randomness in this script.  The direction of each rule is fixed below
-from what the column means, before the number is seen, and is not flipped
-afterwards.
-"""
-import re
-import sys
-from pathlib import Path
-
-import numpy as np
-import pandas as pd
-from sklearn.metrics import accuracy_score, roc_auc_score
-
-HERE = Path(__file__).resolve().parent
-ROOT = HERE.parents[1]
-OUT = ROOT / "analysis" / "outputs"
-
-# Use the supplied loader rather than reimplementing it.
-sys.path.insert(0, str(ROOT / "part1_northline" / "starter"))
-from load import TARGET, load_raw, month_key  # noqa: E402
-
-ANALYST_OUTPUT = OUT / "analyst_model_output.txt"
-ANALYST_QUOTED_AUC = 0.967   # the figure in the brief, used only as a label
-
-# Single-variable rules.  sign=+1 means "higher value -> more likely to
-# churn"; sign=-1 means the opposite.  Chosen from the column definitions in
-# the data dictionary, not from the data.
-SINGLE_VARIABLE_RULES = {
-    "days_since_last_login": (+1, "longer since last login -> more likely to churn"),
-    "tenure_months":         (-1, "shorter tenure -> more likely to churn"),
-    "app_opens_last_30d":    (-1, "fewer app opens -> more likely to churn"),
-    "avg_session_minutes":   (-1, "shorter sessions -> more likely to churn"),
-}
-
-# Two columns the dictionary's timing notes say are recorded during or after
-# the month being scored.  Diagnostic only: how do they sit against the label?
-POST_SCORING_COLUMNS = ["exit_survey_started", "winback_offer_sent"]
-
-
-def column_timing(df: pd.DataFrame) -> pd.DataFrame:
-    """For each post-scoring column: how a 1 in it lines up with the label."""
-    y = df[TARGET]
-    is_last = df.index.isin(df.groupby("member_id").tail(1).index)
-    rows = []
-    for col in POST_SCORING_COLUMNS:
-        one = df[col].eq(1)
-        rows.append({
-            "column": col,
-            "rows_with_1": int(one.sum()),
-            "share_of_rows_with_1": round(one.mean(), 4),
-            "churners_among_1s": int(y[one].sum()),
-            "non_churners_among_1s": int((1 - y[one]).sum()),
-            "p_churn_given_1": round(y[one].mean(), 4),
-            "p_churn_given_0": round(y[~one].mean(), 4),
-            "share_of_churners_with_1": round(y[one].sum() / y.sum(), 4),
-            "ones_on_members_last_row": int((one & is_last).sum()),
-            "auc_alone": round(roc_auc_score(y, df[col]), 4),
-        })
-    return pd.DataFrame(rows)
-
-
-def clean(df: pd.DataFrame) -> tuple[pd.DataFrame, list[str]]:
-    """Normalise the month, drop exact duplicates, and record what happened."""
-    notes = []
-    df = df.copy()
-    df["month"] = df["snapshot_month"].map(month_key)
-    df["year"] = df["month"].str[:4]
-
-    before = len(df)
-    dup_mask = df.duplicated(keep="first")
-    dup_months = df.loc[dup_mask, "month"].value_counts().sort_index()
-    df = df.loc[~dup_mask].reset_index(drop=True)
-    notes.append(f"rows as delivered           {before:,}")
-    notes.append(f"exact duplicate rows removed {int(dup_mask.sum()):,}")
-    notes.append(f"rows after dedup             {len(df):,}")
-    notes.append("duplicates by month: " +
-                 ", ".join(f"{m}={n:,}" for m, n in dup_months.items()))
-
-    # After removing exact duplicates, one row per member per month is what
-    # the dictionary promises.  Check it rather than assume it.
-    remaining = df.duplicated(subset=["member_id", "month"]).sum()
-    notes.append(f"(member_id, month) pairs still duplicated after dedup: {remaining:,}")
-    if remaining:
-        raise RuntimeError("non-identical duplicate member-months remain; inspect before continuing")
-
-    notes.append(f"unique members               {df['member_id'].nunique():,}")
-    notes.append(f"months covered               {df['month'].min()} -> {df['month'].max()} "
-                 f"({df['month'].nunique()} months)")
-
-    # How the label sits within a member's history.  The dictionary defines it
-    # as a 60-day forward window, which could flag more than one row per
-    # churner; record what the extract actually does.
-    df = df.sort_values(["member_id", "month"]).reset_index(drop=True)
-    flags_per_member = df.groupby("member_id")[TARGET].sum()
-    last_rows = df.groupby("member_id").tail(1)
-    notes.append(f"churners (members with >=1 flagged row)      {int((flags_per_member > 0).sum()):,}")
-    notes.append(f"churners with more than one flagged row      {int((flags_per_member > 1).sum()):,}")
-    notes.append(f"flagged rows that are the member's last row  {int(last_rows[TARGET].sum()):,} "
-                 f"of {int(df[TARGET].sum()):,}")
-    return df, notes
-
-
-def analyst_auc() -> float | None:
-    """Read the AUC the analyst's script printed, if run.sh has captured it."""
-    if not ANALYST_OUTPUT.exists():
-        return None
-    m = re.search(r"cross-validated AUC\s+([0-9.]+)", ANALYST_OUTPUT.read_text())
-    return float(m.group(1)) if m else None
-
-
-def main() -> None:
-    OUT.mkdir(parents=True, exist_ok=True)
-    df, notes = clean(load_raw())
-    (OUT / "a1_cleaning.txt").write_text("\n".join(notes) + "\n")
-    print("\n".join(notes))
-    print()
-
-    y = df[TARGET].to_numpy()
-    n_rows, n_pos = len(y), int(y.sum())
-
-    # 1. Base rate.  Row-level is the unit the analyst's model and the monthly
-    #    programme use.  Member-level is context: a member who ever churns.
-    base_rate_rows = y.mean()
-    base_rate_members = df.groupby("member_id")[TARGET].max().mean()
-
-    # 2. The trivial rule: predict "no churn" for everyone.
-    trivial_acc = accuracy_score(y, np.zeros_like(y))
-
-    # 3. Single-variable rules, scored on all deduped rows.  No fitting.
-    rule_rows = []
-    for col, (sign, meaning) in SINGLE_VARIABLE_RULES.items():
-        auc = roc_auc_score(y, sign * df[col].to_numpy())
-        rule_rows.append((col, sign, meaning, auc))
-
-    # 4. The analyst's headline, as their script printed it.
-    a_auc = analyst_auc()
-
-    table = [
-        {"quantity": "base rate of churn_next_60d (rows)",
-         "value": round(base_rate_rows, 4),
-         "n": n_rows, "positives": n_pos,
-         "note": "deduped member-months; unit matches the analyst's model"},
-        {"quantity": "base rate (members ever churning)",
-         "value": round(base_rate_members, 4),
-         "n": df["member_id"].nunique(),
-         "positives": int(df.groupby("member_id")[TARGET].max().sum()),
-         "note": "context only; different unit"},
-        {"quantity": "accuracy of predicting 'no churn' for everyone",
-         "value": round(trivial_acc, 4), "n": n_rows, "positives": n_pos,
-         "note": "= 1 - base rate; no information used"},
-    ]
-    for col, sign, meaning, auc in rule_rows:
-        table.append({"quantity": f"AUC, single-variable rule: {col}",
-                      "value": round(auc, 4), "n": n_rows, "positives": n_pos,
-                      "note": f"{meaning}; all deduped rows, no fitting"})
-    table.append({"quantity": "analyst's 5-fold CV AUC (all columns, raw rows)",
-                  "value": a_auc if a_auc is not None else "not run",
-                  "n": "33,340 raw rows", "positives": "",
-                  "note": f"as printed by starter/analyst_model.py; brief quotes {ANALYST_QUOTED_AUC}"})
-    exhibit = pd.DataFrame(table)
-    exhibit.to_csv(OUT / "a1_baselines.csv", index=False)
-
-    # Diagnostic: base rate over time.  Not an A1 deliverable; evidence for the
-    # paragraph on whether a pooled 2024-2025 number speaks to April 2026.
-    df["corporate"] = df["acquisition_channel"].eq("corporate")
-    agg = dict(rows=(TARGET, "size"), churners=(TARGET, "sum"),
-               base_rate=(TARGET, "mean"), corporate_share=("corporate", "mean"))
-    by_year = df.groupby("year").agg(**agg).reset_index()
-    by_month = df.groupby("month").agg(**agg).reset_index()
-    by_year.to_csv(OUT / "a1_base_rate_by_year.csv", index=False)
-    by_month.to_csv(OUT / "a1_base_rate_by_month.csv", index=False)
-
-    # Diagnostic: the two columns the dictionary dates after the scoring moment.
-    timing = column_timing(df)
-    timing.to_csv(OUT / "a1_column_timing.csv", index=False)
-
-    print("A1 exhibit")
-    print(exhibit.to_string(index=False))
-    print()
-    print("base rate by year (diagnostic)")
-    print(by_year.to_string(index=False, float_format=lambda v: f"{v:.4f}"))
-    print()
-    print("base rate by month, last six (diagnostic)")
-    print(by_month.tail(6).to_string(index=False, float_format=lambda v: f"{v:.4f}"))
-    print()
-    print("post-scoring columns against the label (diagnostic)")
-    print(timing.T.to_string(header=False))
-    print()
-    print(f"wrote {OUT / 'a1_baselines.csv'}, a1_base_rate_by_year.csv, "
-          f"a1_base_rate_by_month.csv, a1_column_timing.csv, a1_cleaning.txt")
-
-
-if __name__ == "__main__":
+"""
+A1 -- baselines before any modelling.  Northline Fitness churn.
+
+What this produces, all written to analysis/outputs/:
+
+    a1_baselines.csv            the A1 exhibit: base rate, trivial-rule
+                                accuracy, single-variable AUCs, analyst's AUC
+    a1_base_rate_by_year.csv    diagnostic: does the base rate move over time?
+    a1_base_rate_by_month.csv   same, monthly
+    a1_cleaning.txt             what dedup removed, and the uniqueness check
+
+Cleaning done here, and nothing else: normalise snapshot_month with the
+supplied month_key(), then drop exact duplicate rows (ticket NLF-2231).  No
+column is dropped -- that is A2 change 1, and A1 comes before it.
+
+Single-variable rules need no fitting, so there is no cross-validation and
+no randomness in this script.  The direction of each rule is fixed below
+from what the column means, before the number is seen, and is not flipped
+afterwards.
+"""
+import re
+import sys
+from pathlib import Path
+
+import numpy as np
+import pandas as pd
+from sklearn.metrics import accuracy_score, roc_auc_score
+
+HERE = Path(__file__).resolve().parent
+ROOT = HERE.parents[1]
+OUT = ROOT / "analysis" / "outputs"
+
+# Use the supplied loader rather than reimplementing it.
+sys.path.insert(0, str(ROOT / "part1_northline" / "starter"))
+from load import TARGET, load_raw, month_key  # noqa: E402
+
+ANALYST_OUTPUT = OUT / "analyst_model_output.txt"
+ANALYST_QUOTED_AUC = 0.967   # the figure in the brief, used only as a label
+
+# Single-variable rules.  sign=+1 means "higher value -> more likely to
+# churn"; sign=-1 means the opposite.  Chosen from the column definitions in
+# the data dictionary, not from the data.
+SINGLE_VARIABLE_RULES = {
+    "days_since_last_login": (+1, "longer since last login -> more likely to churn"),
+    "tenure_months":         (-1, "shorter tenure -> more likely to churn"),
+    "app_opens_last_30d":    (-1, "fewer app opens -> more likely to churn"),
+    "avg_session_minutes":   (-1, "shorter sessions -> more likely to churn"),
+}
+
+# Two columns the dictionary's timing notes say are recorded during or after
+# the month being scored.  Diagnostic only: how do they sit against the label?
+POST_SCORING_COLUMNS = ["exit_survey_started", "winback_offer_sent"]
+
+
+def column_timing(df: pd.DataFrame) -> pd.DataFrame:
+    """For each post-scoring column: how a 1 in it lines up with the label."""
+    y = df[TARGET]
+    is_last = df.index.isin(df.groupby("member_id").tail(1).index)
+    rows = []
+    for col in POST_SCORING_COLUMNS:
+        one = df[col].eq(1)
+        rows.append({
+            "column": col,
+            "rows_with_1": int(one.sum()),
+            "share_of_rows_with_1": round(one.mean(), 4),
+            "churners_among_1s": int(y[one].sum()),
+            "non_churners_among_1s": int((1 - y[one]).sum()),
+            "p_churn_given_1": round(y[one].mean(), 4),
+            "p_churn_given_0": round(y[~one].mean(), 4),
+            "share_of_churners_with_1": round(y[one].sum() / y.sum(), 4),
+            "ones_on_members_last_row": int((one & is_last).sum()),
+            "auc_alone": round(roc_auc_score(y, df[col]), 4),
+        })
+    return pd.DataFrame(rows)
+
+
+def clean(df: pd.DataFrame) -> tuple[pd.DataFrame, list[str]]:
+    """Normalise the month, drop exact duplicates, and record what happened."""
+    notes = []
+    df = df.copy()
+    df["month"] = df["snapshot_month"].map(month_key)
+    df["year"] = df["month"].str[:4]
+
+    before = len(df)
+    dup_mask = df.duplicated(keep="first")
+    dup_months = df.loc[dup_mask, "month"].value_counts().sort_index()
+    df = df.loc[~dup_mask].reset_index(drop=True)
+    notes.append(f"rows as delivered           {before:,}")
+    notes.append(f"exact duplicate rows removed {int(dup_mask.sum()):,}")
+    notes.append(f"rows after dedup             {len(df):,}")
+    notes.append("duplicates by month: " +
+                 ", ".join(f"{m}={n:,}" for m, n in dup_months.items()))
+
+    # After removing exact duplicates, one row per member per month is what
+    # the dictionary promises.  Check it rather than assume it.
+    remaining = df.duplicated(subset=["member_id", "month"]).sum()
+    notes.append(f"(member_id, month) pairs still duplicated after dedup: {remaining:,}")
+    if remaining:
+        raise RuntimeError("non-identical duplicate member-months remain; inspect before continuing")
+
+    notes.append(f"unique members               {df['member_id'].nunique():,}")
+    notes.append(f"months covered               {df['month'].min()} -> {df['month'].max()} "
+                 f"({df['month'].nunique()} months)")
+
+    # How the label sits within a member's history.  The dictionary defines it
+    # as a 60-day forward window, which could flag more than one row per
+    # churner; record what the extract actually does.
+    df = df.sort_values(["member_id", "month"]).reset_index(drop=True)
+    flags_per_member = df.groupby("member_id")[TARGET].sum()
+    last_rows = df.groupby("member_id").tail(1)
+    notes.append(f"churners (members with >=1 flagged row)      {int((flags_per_member > 0).sum()):,}")
+    notes.append(f"churners with more than one flagged row      {int((flags_per_member > 1).sum()):,}")
+    notes.append(f"flagged rows that are the member's last row  {int(last_rows[TARGET].sum()):,} "
+                 f"of {int(df[TARGET].sum()):,}")
+    return df, notes
+
+
+def analyst_auc() -> float | None:
+    """Read the AUC the analyst's script printed, if run.sh has captured it."""
+    if not ANALYST_OUTPUT.exists():
+        return None
+    m = re.search(r"cross-validated AUC\s+([0-9.]+)", ANALYST_OUTPUT.read_text())
+    return float(m.group(1)) if m else None
+
+
+def main() -> None:
+    OUT.mkdir(parents=True, exist_ok=True)
+    df, notes = clean(load_raw())
+    (OUT / "a1_cleaning.txt").write_text("\n".join(notes) + "\n")
+    print("\n".join(notes))
+    print()
+
+    y = df[TARGET].to_numpy()
+    n_rows, n_pos = len(y), int(y.sum())
+
+    # 1. Base rate.  Row-level is the unit the analyst's model and the monthly
+    #    programme use.  Member-level is context: a member who ever churns.
+    base_rate_rows = y.mean()
+    base_rate_members = df.groupby("member_id")[TARGET].max().mean()
+
+    # 2. The trivial rule: predict "no churn" for everyone.
+    trivial_acc = accuracy_score(y, np.zeros_like(y))
+
+    # 3. Single-variable rules, scored on all deduped rows.  No fitting.
+    rule_rows = []
+    for col, (sign, meaning) in SINGLE_VARIABLE_RULES.items():
+        auc = roc_auc_score(y, sign * df[col].to_numpy())
+        rule_rows.append((col, sign, meaning, auc))
+
+    # 4. The analyst's headline, as their script printed it.
+    a_auc = analyst_auc()
+
+    table = [
+        {"quantity": "base rate of churn_next_60d (rows)",
+         "value": round(base_rate_rows, 4),
+         "n": n_rows, "positives": n_pos,
+         "note": "deduped member-months; unit matches the analyst's model"},
+        {"quantity": "base rate (members ever churning)",
+         "value": round(base_rate_members, 4),
+         "n": df["member_id"].nunique(),
+         "positives": int(df.groupby("member_id")[TARGET].max().sum()),
+         "note": "context only; different unit"},
+        {"quantity": "accuracy of predicting 'no churn' for everyone",
+         "value": round(trivial_acc, 4), "n": n_rows, "positives": n_pos,
+         "note": "= 1 - base rate; no information used"},
+    ]
+    for col, sign, meaning, auc in rule_rows:
+        table.append({"quantity": f"AUC, single-variable rule: {col}",
+                      "value": round(auc, 4), "n": n_rows, "positives": n_pos,
+                      "note": f"{meaning}; all deduped rows, no fitting"})
+    table.append({"quantity": "analyst's 5-fold CV AUC (all columns, raw rows)",
+                  "value": a_auc if a_auc is not None else "not run",
+                  "n": "33,340 raw rows", "positives": "",
+                  "note": f"as printed by starter/analyst_model.py; brief quotes {ANALYST_QUOTED_AUC}"})
+    exhibit = pd.DataFrame(table)
+    exhibit.to_csv(OUT / "a1_baselines.csv", index=False)
+
+    # Diagnostic: base rate over time.  Not an A1 deliverable; evidence for the
+    # paragraph on whether a pooled 2024-2025 number speaks to April 2026.
+    df["corporate"] = df["acquisition_channel"].eq("corporate")
+    agg = dict(rows=(TARGET, "size"), churners=(TARGET, "sum"),
+               base_rate=(TARGET, "mean"), corporate_share=("corporate", "mean"))
+    by_year = df.groupby("year").agg(**agg).reset_index()
+    by_month = df.groupby("month").agg(**agg).reset_index()
+    by_year.to_csv(OUT / "a1_base_rate_by_year.csv", index=False)
+    by_month.to_csv(OUT / "a1_base_rate_by_month.csv", index=False)
+
+    # Diagnostic: the two columns the dictionary dates after the scoring moment.
+    timing = column_timing(df)
+    timing.to_csv(OUT / "a1_column_timing.csv", index=False)
+
+    print("A1 exhibit")
+    print(exhibit.to_string(index=False))
+    print()
+    print("base rate by year (diagnostic)")
+    print(by_year.to_string(index=False, float_format=lambda v: f"{v:.4f}"))
+    print()
+    print("base rate by month, last six (diagnostic)")
+    print(by_month.tail(6).to_string(index=False, float_format=lambda v: f"{v:.4f}"))
+    print()
+    print("post-scoring columns against the label (diagnostic)")
+    print(timing.T.to_string(header=False))
+    print()
+    print(f"wrote {OUT / 'a1_baselines.csv'}, a1_base_rate_by_year.csv, "
+          f"a1_base_rate_by_month.csv, a1_column_timing.csv, a1_cleaning.txt")
+
+
+if __name__ == "__main__":
     main()
 
 ==============================================================================
@@ -3027,151 +3027,151 @@ USER  [2026-09-21T01:35:50.089Z]
 ==============================================================================
 
 [tool_result]
-# A1 draft — baselines
-
-Working draft for the A1 part of memo §1 (to the VP of Membership). Not the
-memo. Every number here is in `analysis/outputs/` from `bash analysis/run.sh`
-(session 2, 2026-09-17) unless marked otherwise. Prose budget: §1 is two pages
-for A1–A3 together, so A1 should be about a third of a page plus the exhibit.
-
----
-
-## Exhibit A1 — Baselines before any modelling
-
-Source: `analysis/outputs/a1_baselines.csv`, `a1_cleaning.txt`.
-
-| Quantity | Value | Basis |
-|---|---:|---|
-| Base rate of `churn_next_60d` | **9.29%** (2,939 of 31,645 member-months) | deduplicated rows, Jan 2024 – Dec 2025 |
-| *Context:* members who churn at some point in the window | 70.0% (2,939 of 4,200) | member level; a different unit, shown for scale |
-| Accuracy of predicting "no churn" for everyone | **90.71%** | = 1 − base rate; uses no information |
-| AUC, rank members by `avg_session_minutes` (shorter → churn) | **0.681** | one column, no fitting, all deduplicated rows |
-| AUC, rank by `app_opens_last_30d` (fewer → churn) | 0.648 | " |
-| AUC, rank by `days_since_last_login` (longer → churn) | 0.646 | " |
-| AUC, rank by `tenure_months` (shorter → churn) | 0.502 | " |
-| **Analyst's 5-fold cross-validated AUC, all 14 columns** | **0.967** | raw 33,340 rows, random shuffled folds, as printed by `analyst_model.py` |
-
-Footnote for the exhibit: the extract contains 1,695 exact duplicate rows, all
-in March 2025 (ticket NLF-2231), removed before every number above except the
-analyst's, which is reported as their script prints it on the raw file.
-
----
-
-## Prose (draft, ~180 words)
-
-**Where the model would have to start from.** About one member-month in
-eleven ends in a cancellation: the base rate is 9.29%, 2,939 flagged rows out of
-31,645 after removing the duplicated March 2025 load. A rule that predicts "no
-churn" for everyone is therefore 90.7% accurate while identifying nobody.
-Accuracy is the wrong yardstick here for two reasons: the outcome is rare, so
-the number is dominated by the 91% of rows where nothing happens; and the two
-mistakes cost different amounts — a wasted offer costs $18, a churner not
-offered forgoes $66 — so counting them equally is the wrong loss. The number
-that fits the decision is the dollar value of the programme at the
-cost-derived threshold (Exhibit A3); AUC is used below only to compare
-evaluation protocols before any threshold exists.
-
-Ranking members by a single behavioural column, with no model at all, gives
-an AUC between 0.65 and 0.68 (shorter sessions, fewer app opens, longer since
-last login). Tenure on its own carries no ranking signal (0.50). The analyst's
-model reports 0.967.
-
-**What would have to be true for 0.967 to describe April 2026.** Four
-things. The data dictionary's timing notes would have to be wrong: every
-column the model uses would have to be known at the start of the month rather
-than filled in afterwards — but `winback_offer_sent` is written from an
-at-risk list circulated after month close, and `exit_survey_started` is the
-cancellation flow itself, set on 1,810 rows, every one of them a cancellation
-month and none a non-churner. The April book would have to resemble the pooled 2024–25 file — but corporate
-members were 0% of 2024 rows, 10% of 2025 rows, 20% of December 2025, and are
-forecast at 35%. The churn process would have to be stable across the two
-years — but the monthly rate ranged from 5.3% (April 2025) to 14.2% (August
-2025), with the two highest months coinciding with the competitor's July 2025
-launch. And predicting a member's month from that same member's other months
-would have to count as prediction — which is what random folds permit. Set
-against a best single-column AUC of 0.68, a jump to 0.97 from a linear
-combination of fourteen columns is the pattern the course describes as a leak
-until shown otherwise. Section A2 tests each of these one at a time.
-
----
-
-## Notes to self (not memo text)
-
-### What the label actually is
-
-From `a1_cleaning.txt`: 2,939 churners, none with more than one flagged row,
-and every flagged row is the member's last row. The dictionary defines the
-target as a 60-day forward window, which would normally flag two rows per
-churner. The extract flags one: the cancellation month itself. So in practice
-`churn_next_60d = 1` means "this is the member's final month on the book."
-Worth one line in the memo (shows the dictionary was checked, not trusted).
-It also means the brief's two-month gap between training and validation is
-conservative; keep it anyway — the brief fixes the windows for comparability,
-and a protocol should be safe under the documented definition.
-
-### Evidence for the leakage claim
-
-Source: `analysis/outputs/a1_column_timing.csv`. Usable in the memo.
-
-| | `exit_survey_started` | `winback_offer_sent` |
-|---|---:|---:|
-| Rows with a 1 | 1,810 (5.7%) | 3,533 (11.2%) |
-| Churners among them | 1,810 — all | 2,239 (63.4%) |
-| Non-churners among them | 0 | 1,294 |
-| P(churn \| 0) | 3.8% | 2.5% |
-| Share of churners with a 1 | 61.6% | 76.2% |
-| 1s on the member's last row | 1,810 of 1,810 | 2,288 of 3,533 |
-| AUC of the column alone | 0.808 | 0.858 |
-
-Mechanism, in one sentence: the row is scored at the start of the month, but
-these two columns record events during or after it, so on 1 April 2026 they
-will be 0 for everyone — including the members who go on to cancel — and what
-the model learned from them is worthless at deployment.
-
-The framing for the memo paragraph (yours): for 0.967 to hold, the
-dictionary's timing notes would have to be wrong — the columns would have to
-be known at the start of the month rather than filled in afterwards. The
-extract says they were filled in afterwards: a column that is 1 only on
-cancellation months and never on a non-churner is recording the cancellation,
-not predicting it.
-
-### Arguing against the draft
-
-- The 0.68 → 0.97 gap is a suspicion, not proof; fourteen columns can beat any
-  one. Keep "until shown otherwise"; A2 change 1 is the test.
-- Seasonality vs competitor: 2024 also peaked in Jul–Sep (12.4–13.3%). Two
-  years cannot separate the two; the draft says "coinciding with," not "caused
-  by." Keep it that way.
-- `tenure_months` at 0.50 is not a bug: churn may be non-monotone in tenure,
-  which a single ranking cannot capture — and a linear logit cannot either.
-- 70% of members churning over 24 months is consistent with a 9% 60-day rate
-  (a hazard of roughly 4.5%/month compounds to ~67% over 24 months).
-- Row counts differ from the analyst's (31,645 vs 33,340) because of dedup;
-  the duplicated March 2025 rows have a below-average rate (6.0%), so dedup
-  raises the base rate slightly. Footnoted in the exhibit.
-- Everything came out as expected. Course doc §4: that is the moment to slow
-  down, not speed up. The one thing not expected — the label structure — was
-  found by checking rather than trusting.
-
-### Numbers used and where they live
-
-| Number | File |
-|---|---|
-| 9.29%, 2,939 / 31,645; 70.0%, 2,939 / 4,200; 90.71%; AUCs 0.681 / 0.648 / 0.646 / 0.502; 0.967 | `a1_baselines.csv` |
-| 1,695 duplicates, all 2025-03; 31,645 rows; one flag per churner, 2,939 of 2,939 on last row | `a1_cleaning.txt` |
-| 2024: 10.61%, corporate 0%; 2025: 8.62%, corporate 10.1% | `a1_base_rate_by_year.csv` |
-| 5.3% (2025-04), 14.2% (2025-08), 2024 Jul–Sep 12.4–13.3%, corporate 20.2% in 2025-12 | `a1_base_rate_by_month.csv` |
-| 1,810 / 0 / 61.6% / 0.808; 3,533 / 2,239 / 76.2% / 0.858 | `a1_column_timing.csv` |
-
-### How to use the leakage evidence in the memo (settled end of session 2)
-
-The *reason* to drop `exit_survey_started` and `winback_offer_sent` is the
-dictionary's timing notes: not available at the moment of scoring. That is
-what the rubric grades ("argued from availability at the moment of scoring").
-The cross-tab and single-column AUCs are *corroboration* that the timing note
-holds in this extract, and they size what A2 change 1 should do to the
-number. Order in the memo: timing argument first, evidence second. Never
-"dropped because they predict too well" — a genuinely available column with
+# A1 draft — baselines
+
+Working draft for the A1 part of memo §1 (to the VP of Membership). Not the
+memo. Every number here is in `analysis/outputs/` from `bash analysis/run.sh`
+(session 2, 2026-09-17) unless marked otherwise. Prose budget: §1 is two pages
+for A1–A3 together, so A1 should be about a third of a page plus the exhibit.
+
+---
+
+## Exhibit A1 — Baselines before any modelling
+
+Source: `analysis/outputs/a1_baselines.csv`, `a1_cleaning.txt`.
+
+| Quantity | Value | Basis |
+|---|---:|---|
+| Base rate of `churn_next_60d` | **9.29%** (2,939 of 31,645 member-months) | deduplicated rows, Jan 2024 – Dec 2025 |
+| *Context:* members who churn at some point in the window | 70.0% (2,939 of 4,200) | member level; a different unit, shown for scale |
+| Accuracy of predicting "no churn" for everyone | **90.71%** | = 1 − base rate; uses no information |
+| AUC, rank members by `avg_session_minutes` (shorter → churn) | **0.681** | one column, no fitting, all deduplicated rows |
+| AUC, rank by `app_opens_last_30d` (fewer → churn) | 0.648 | " |
+| AUC, rank by `days_since_last_login` (longer → churn) | 0.646 | " |
+| AUC, rank by `tenure_months` (shorter → churn) | 0.502 | " |
+| **Analyst's 5-fold cross-validated AUC, all 14 columns** | **0.967** | raw 33,340 rows, random shuffled folds, as printed by `analyst_model.py` |
+
+Footnote for the exhibit: the extract contains 1,695 exact duplicate rows, all
+in March 2025 (ticket NLF-2231), removed before every number above except the
+analyst's, which is reported as their script prints it on the raw file.
+
+---
+
+## Prose (draft, ~180 words)
+
+**Where the model would have to start from.** About one member-month in
+eleven ends in a cancellation: the base rate is 9.29%, 2,939 flagged rows out of
+31,645 after removing the duplicated March 2025 load. A rule that predicts "no
+churn" for everyone is therefore 90.7% accurate while identifying nobody.
+Accuracy is the wrong yardstick here for two reasons: the outcome is rare, so
+the number is dominated by the 91% of rows where nothing happens; and the two
+mistakes cost different amounts — a wasted offer costs $18, a churner not
+offered forgoes $66 — so counting them equally is the wrong loss. The number
+that fits the decision is the dollar value of the programme at the
+cost-derived threshold (Exhibit A3); AUC is used below only to compare
+evaluation protocols before any threshold exists.
+
+Ranking members by a single behavioural column, with no model at all, gives
+an AUC between 0.65 and 0.68 (shorter sessions, fewer app opens, longer since
+last login). Tenure on its own carries no ranking signal (0.50). The analyst's
+model reports 0.967.
+
+**What would have to be true for 0.967 to describe April 2026.** Four
+things. The data dictionary's timing notes would have to be wrong: every
+column the model uses would have to be known at the start of the month rather
+than filled in afterwards — but `winback_offer_sent` is written from an
+at-risk list circulated after month close, and `exit_survey_started` is the
+cancellation flow itself, set on 1,810 rows, every one of them a cancellation
+month and none a non-churner. The April book would have to resemble the pooled 2024–25 file — but corporate
+members were 0% of 2024 rows, 10% of 2025 rows, 20% of December 2025, and are
+forecast at 35%. The churn process would have to be stable across the two
+years — but the monthly rate ranged from 5.3% (April 2025) to 14.2% (August
+2025), with the two highest months coinciding with the competitor's July 2025
+launch. And predicting a member's month from that same member's other months
+would have to count as prediction — which is what random folds permit. Set
+against a best single-column AUC of 0.68, a jump to 0.97 from a linear
+combination of fourteen columns is the pattern the course describes as a leak
+until shown otherwise. Section A2 tests each of these one at a time.
+
+---
+
+## Notes to self (not memo text)
+
+### What the label actually is
+
+From `a1_cleaning.txt`: 2,939 churners, none with more than one flagged row,
+and every flagged row is the member's last row. The dictionary defines the
+target as a 60-day forward window, which would normally flag two rows per
+churner. The extract flags one: the cancellation month itself. So in practice
+`churn_next_60d = 1` means "this is the member's final month on the book."
+Worth one line in the memo (shows the dictionary was checked, not trusted).
+It also means the brief's two-month gap between training and validation is
+conservative; keep it anyway — the brief fixes the windows for comparability,
+and a protocol should be safe under the documented definition.
+
+### Evidence for the leakage claim
+
+Source: `analysis/outputs/a1_column_timing.csv`. Usable in the memo.
+
+| | `exit_survey_started` | `winback_offer_sent` |
+|---|---:|---:|
+| Rows with a 1 | 1,810 (5.7%) | 3,533 (11.2%) |
+| Churners among them | 1,810 — all | 2,239 (63.4%) |
+| Non-churners among them | 0 | 1,294 |
+| P(churn \| 0) | 3.8% | 2.5% |
+| Share of churners with a 1 | 61.6% | 76.2% |
+| 1s on the member's last row | 1,810 of 1,810 | 2,288 of 3,533 |
+| AUC of the column alone | 0.808 | 0.858 |
+
+Mechanism, in one sentence: the row is scored at the start of the month, but
+these two columns record events during or after it, so on 1 April 2026 they
+will be 0 for everyone — including the members who go on to cancel — and what
+the model learned from them is worthless at deployment.
+
+The framing for the memo paragraph (yours): for 0.967 to hold, the
+dictionary's timing notes would have to be wrong — the columns would have to
+be known at the start of the month rather than filled in afterwards. The
+extract says they were filled in afterwards: a column that is 1 only on
+cancellation months and never on a non-churner is recording the cancellation,
+not predicting it.
+
+### Arguing against the draft
+
+- The 0.68 → 0.97 gap is a suspicion, not proof; fourteen columns can beat any
+  one. Keep "until shown otherwise"; A2 change 1 is the test.
+- Seasonality vs competitor: 2024 also peaked in Jul–Sep (12.4–13.3%). Two
+  years cannot separate the two; the draft says "coinciding with," not "caused
+  by." Keep it that way.
+- `tenure_months` at 0.50 is not a bug: churn may be non-monotone in tenure,
+  which a single ranking cannot capture — and a linear logit cannot either.
+- 70% of members churning over 24 months is consistent with a 9% 60-day rate
+  (a hazard of roughly 4.5%/month compounds to ~67% over 24 months).
+- Row counts differ from the analyst's (31,645 vs 33,340) because of dedup;
+  the duplicated March 2025 rows have a below-average rate (6.0%), so dedup
+  raises the base rate slightly. Footnoted in the exhibit.
+- Everything came out as expected. Course doc §4: that is the moment to slow
+  down, not speed up. The one thing not expected — the label structure — was
+  found by checking rather than trusting.
+
+### Numbers used and where they live
+
+| Number | File |
+|---|---|
+| 9.29%, 2,939 / 31,645; 70.0%, 2,939 / 4,200; 90.71%; AUCs 0.681 / 0.648 / 0.646 / 0.502; 0.967 | `a1_baselines.csv` |
+| 1,695 duplicates, all 2025-03; 31,645 rows; one flag per churner, 2,939 of 2,939 on last row | `a1_cleaning.txt` |
+| 2024: 10.61%, corporate 0%; 2025: 8.62%, corporate 10.1% | `a1_base_rate_by_year.csv` |
+| 5.3% (2025-04), 14.2% (2025-08), 2024 Jul–Sep 12.4–13.3%, corporate 20.2% in 2025-12 | `a1_base_rate_by_month.csv` |
+| 1,810 / 0 / 61.6% / 0.808; 3,533 / 2,239 / 76.2% / 0.858 | `a1_column_timing.csv` |
+
+### How to use the leakage evidence in the memo (settled end of session 2)
+
+The *reason* to drop `exit_survey_started` and `winback_offer_sent` is the
+dictionary's timing notes: not available at the moment of scoring. That is
+what the rubric grades ("argued from availability at the moment of scoring").
+The cross-tab and single-column AUCs are *corroboration* that the timing note
+holds in this extract, and they size what A2 change 1 should do to the
+number. Order in the memo: timing argument first, evidence second. Never
+"dropped because they predict too well" — a genuinely available column with
 a high AUC should be kept.
 
 ==============================================================================
@@ -3190,44 +3190,44 @@ USER  [2026-09-21T01:35:52.175Z]
 
 [tool_result]
 === a1_baselines.csv ===
-quantity,value,n,positives,note
-base rate of churn_next_60d (rows),0.0929,31645,2939,deduped member-months; unit matches the analyst's model
-base rate (members ever churning),0.6998,4200,2939,context only; different unit
-accuracy of predicting 'no churn' for everyone,0.9071,31645,2939,= 1 - base rate; no information used
-"AUC, single-variable rule: days_since_last_login",0.6464,31645,2939,"longer since last login -> more likely to churn; all deduped rows, no fitting"
-"AUC, single-variable rule: tenure_months",0.5017,31645,2939,"shorter tenure -> more likely to churn; all deduped rows, no fitting"
-"AUC, single-variable rule: app_opens_last_30d",0.6476,31645,2939,"fewer app opens -> more likely to churn; all deduped rows, no fitting"
-"AUC, single-variable rule: avg_session_minutes",0.681,31645,2939,"shorter sessions -> more likely to churn; all deduped rows, no fitting"
-"analyst's 5-fold CV AUC (all columns, raw rows)",0.967,"33,340 raw rows",,as printed by starter/analyst_model.py; brief quotes 0.967
+quantity,value,n,positives,note
+base rate of churn_next_60d (rows),0.0929,31645,2939,deduped member-months; unit matches the analyst's model
+base rate (members ever churning),0.6998,4200,2939,context only; different unit
+accuracy of predicting 'no churn' for everyone,0.9071,31645,2939,= 1 - base rate; no information used
+"AUC, single-variable rule: days_since_last_login",0.6464,31645,2939,"longer since last login -> more likely to churn; all deduped rows, no fitting"
+"AUC, single-variable rule: tenure_months",0.5017,31645,2939,"shorter tenure -> more likely to churn; all deduped rows, no fitting"
+"AUC, single-variable rule: app_opens_last_30d",0.6476,31645,2939,"fewer app opens -> more likely to churn; all deduped rows, no fitting"
+"AUC, single-variable rule: avg_session_minutes",0.681,31645,2939,"shorter sessions -> more likely to churn; all deduped rows, no fitting"
+"analyst's 5-fold CV AUC (all columns, raw rows)",0.967,"33,340 raw rows",,as printed by starter/analyst_model.py; brief quotes 0.967
 
 === a1_cleaning.txt ===
-rows as delivered           33,340
-exact duplicate rows removed 1,695
-rows after dedup             31,645
-duplicates by month: 2025-03=1,695
-(member_id, month) pairs still duplicated after dedup: 0
-unique members               4,200
-months covered               2024-01 -> 2025-12 (24 months)
-churners (members with >=1 flagged row)      2,939
-churners with more than one flagged row      0
-flagged rows that are the member's last row  2,939 of 2,939
+rows as delivered           33,340
+exact duplicate rows removed 1,695
+rows after dedup             31,645
+duplicates by month: 2025-03=1,695
+(member_id, month) pairs still duplicated after dedup: 0
+unique members               4,200
+months covered               2024-01 -> 2025-12 (24 months)
+churners (members with >=1 flagged row)      2,939
+churners with more than one flagged row      0
+flagged rows that are the member's last row  2,939 of 2,939
 
 === analyst_model_output.txt ===
-rows                        33,340
-unique members              4,200
-features used               14
-base rate                   0.0912
-
-5-fold cross-validated AUC  0.967
-5-fold cross-validated AP   0.899
-optimal threshold           0.267
-estimated programme value   $19,774 per quarter
-
-Recommendation: strong signal, move to production this quarter.
+rows                        33,340
+unique members              4,200
+features used               14
+base rate                   0.0912
+
+5-fold cross-validated AUC  0.967
+5-fold cross-validated AP   0.899
+optimal threshold           0.267
+estimated programme value   $19,774 per quarter
+
+Recommendation: strong signal, move to production this quarter.
 
 === by_year ===
-year,rows,churners,base_rate,corporate_share
-2024,10612,1126,0.10610629476064833,0.0
+year,rows,churners,base_rate,corporate_share
+2024,10612,1126,0.10610629476064833,0.0
 2025,21033,1813,0.08619787952265487,0.10126943374696905
 
 ==============================================================================
@@ -3252,49 +3252,49 @@ USER  [2026-09-21T01:35:56.217Z]
 ==============================================================================
 
 [tool_result]
-# `member_months.csv` — data dictionary
-
-Extract prepared by the Membership Analytics team, **March 2026**.
-Source systems: Billing (Zuora), Product Analytics (app event stream), Zendesk, Salesforce.
-
-**Grain.** One row per **member per calendar month** in which the member was active at any point during that month. A member appears once for every month they were on the book. Members who cancel stop appearing after the month in which they cancelled.
-
-**Window.** January 2024 through December 2025. All outcomes have matured: the last snapshot month is December 2025, whose 60-day outcome window closed at the end of February 2026, before this extract was pulled.
-
----
-
-## Columns
-
-| Column | Type | Source | Definition |
-|---|---|---|---|
-| `member_id` | int | Billing | Stable member identifier. |
-| `snapshot_month` | str | Billing | The calendar month the row describes. *Note: this field was written by three different pipeline versions over the extract window and the formatting is not consistent.* |
-| `signup_month` | str | Billing | Month the member's first paid subscription started. |
-| `acquisition_channel` | str | Salesforce | How the member was acquired: `organic`, `paid_search`, `partner_gym`, `corporate`. The `corporate` channel covers members enrolled through an employer wellness contract; the first such contract went live in February 2025. |
-| `plan_tier` | str | Billing | `basic`, `plus`, or `elite`. |
-| `monthly_price` | float | Billing | List price of the plan in USD. Does not reflect promotional discounts. |
-| `city_tier` | str | Salesforce | `metro`, `suburban`, `rural`. Self-reported at signup. |
-| `tenure_months` | int | Billing | Completed months since `signup_month`, as of the start of `snapshot_month`. |
-| `sessions_last_30d` | int | Product Analytics | Completed workout sessions logged in the 30 days ending on the **last day of the previous month**. |
-| `app_opens_last_30d` | float | Product Analytics | App launches over the same 30-day window. |
-| `avg_session_minutes` | float | Product Analytics | Mean session length over the same window. |
-| `days_since_last_login` | float | Product Analytics | Days between the member's last app login and the **last day of the previous month**. Capped at 90. |
-| `support_tickets_last_30d` | int | Zendesk | Tickets opened by the member over the same 30-day window. |
-| `payment_failures_last_90d` | int | Billing | Declined or failed charge attempts in the 90 days ending on the **last day of the previous month**. A failure is recorded when the card issuer declines; it does not imply the member intended to cancel. |
-| `referrals_made` | int | Product Analytics | Successful referrals, same 30-day window. |
-| `winback_offer_sent` | int | Salesforce | `1` if the Retention team contacted this member about this month. **The Retention team works from the at-risk list that Membership Analytics circulates on the third business day after month close.** |
-| `exit_survey_started` | int | Product Analytics | `1` if the member opened the cancellation exit survey. |
-| `churn_next_60d` | int | Billing | **Target.** `1` if the member's subscription terminated within 60 days of the end of `snapshot_month`. |
-
----
-
-## Known issues logged against this extract
-
-- **NLF-2231** — The March 2025 load was re-run after a partition failure. The re-run was not idempotent. *Status: open.*
-- **NLF-2198** — `snapshot_month` formatting varies by pipeline version. *Status: won't fix, downstream consumers handle it.*
-
-## Notes from the analyst who pulled it
-
+# `member_months.csv` — data dictionary
+
+Extract prepared by the Membership Analytics team, **March 2026**.
+Source systems: Billing (Zuora), Product Analytics (app event stream), Zendesk, Salesforce.
+
+**Grain.** One row per **member per calendar month** in which the member was active at any point during that month. A member appears once for every month they were on the book. Members who cancel stop appearing after the month in which they cancelled.
+
+**Window.** January 2024 through December 2025. All outcomes have matured: the last snapshot month is December 2025, whose 60-day outcome window closed at the end of February 2026, before this extract was pulled.
+
+---
+
+## Columns
+
+| Column | Type | Source | Definition |
+|---|---|---|---|
+| `member_id` | int | Billing | Stable member identifier. |
+| `snapshot_month` | str | Billing | The calendar month the row describes. *Note: this field was written by three different pipeline versions over the extract window and the formatting is not consistent.* |
+| `signup_month` | str | Billing | Month the member's first paid subscription started. |
+| `acquisition_channel` | str | Salesforce | How the member was acquired: `organic`, `paid_search`, `partner_gym`, `corporate`. The `corporate` channel covers members enrolled through an employer wellness contract; the first such contract went live in February 2025. |
+| `plan_tier` | str | Billing | `basic`, `plus`, or `elite`. |
+| `monthly_price` | float | Billing | List price of the plan in USD. Does not reflect promotional discounts. |
+| `city_tier` | str | Salesforce | `metro`, `suburban`, `rural`. Self-reported at signup. |
+| `tenure_months` | int | Billing | Completed months since `signup_month`, as of the start of `snapshot_month`. |
+| `sessions_last_30d` | int | Product Analytics | Completed workout sessions logged in the 30 days ending on the **last day of the previous month**. |
+| `app_opens_last_30d` | float | Product Analytics | App launches over the same 30-day window. |
+| `avg_session_minutes` | float | Product Analytics | Mean session length over the same window. |
+| `days_since_last_login` | float | Product Analytics | Days between the member's last app login and the **last day of the previous month**. Capped at 90. |
+| `support_tickets_last_30d` | int | Zendesk | Tickets opened by the member over the same 30-day window. |
+| `payment_failures_last_90d` | int | Billing | Declined or failed charge attempts in the 90 days ending on the **last day of the previous month**. A failure is recorded when the card issuer declines; it does not imply the member intended to cancel. |
+| `referrals_made` | int | Product Analytics | Successful referrals, same 30-day window. |
+| `winback_offer_sent` | int | Salesforce | `1` if the Retention team contacted this member about this month. **The Retention team works from the at-risk list that Membership Analytics circulates on the third business day after month close.** |
+| `exit_survey_started` | int | Product Analytics | `1` if the member opened the cancellation exit survey. |
+| `churn_next_60d` | int | Billing | **Target.** `1` if the member's subscription terminated within 60 days of the end of `snapshot_month`. |
+
+---
+
+## Known issues logged against this extract
+
+- **NLF-2231** — The March 2025 load was re-run after a partition failure. The re-run was not idempotent. *Status: open.*
+- **NLF-2198** — `snapshot_month` formatting varies by pipeline version. *Status: won't fix, downstream consumers handle it.*
+
+## Notes from the analyst who pulled it
+
 > Left all columns in — figured the model can decide what's useful. Didn't do anything about NLF-2231, shouldn't matter for modelling. Corporate members are a small slice so I didn't look at them separately.
 
 ==============================================================================
@@ -3495,9 +3495,9 @@ USER  [2026-09-21T02:16:25.940Z]
 ==============================================================================
 
 [tool_result]
-2024: min 0.064 (2024-01)  max 0.133 (2024-07)  swing 0.069
-    01=0.064 02=0.109 03=0.085 04=0.103 05=0.085 06=0.106 07=0.133 08=0.128 09=0.124 10=0.113 11=0.098 12=0.081
-2025: min 0.053 (2025-04)  max 0.142 (2025-08)  swing 0.089
+2024: min 0.064 (2024-01)  max 0.133 (2024-07)  swing 0.069
+    01=0.064 02=0.109 03=0.085 04=0.103 05=0.085 06=0.106 07=0.133 08=0.128 09=0.124 10=0.113 11=0.098 12=0.081
+2025: min 0.053 (2025-04)  max 0.142 (2025-08)  swing 0.089
     01=0.056 02=0.060 03=0.060 04=0.053 05=0.071 06=0.067 07=0.126 08=0.142 09=0.108 10=0.095 11=0.089 12=0.084
 
 ==============================================================================
@@ -3529,18 +3529,18 @@ USER  [2026-09-21T02:16:48.310Z]
 ==============================================================================
 
 [tool_result]
-patched
+patched
 exit 0
 --- exhibit ---
-quantity,value,n,positives,note
-base rate of churn_next_60d (rows),0.0929,31645,2939,deduped member-months; unit matches the analyst's model
-base rate (members ever churning),0.6998,4200,2939,context only; different unit
-accuracy of predicting 'no churn' for everyone,0.9071,31645,2939,= 1 - base rate; no information used
-AUC of predicting 'no churn' for everyone,0.5,31645,2939,"every row tied, no ranking; the do-nothing rung on the AUC scale"
-"AUC, single-variable rule: days_since_last_login",0.6464,31645,2939,"longer since last login -> more likely to churn; all deduped rows, no fitting"
-"AUC, single-variable rule: tenure_months",0.5017,31645,2939,"shorter tenure -> more likely to churn; all deduped rows, no fitting"
-"AUC, single-variable rule: app_opens_last_30d",0.6476,31645,2939,"fewer app opens -> more likely to churn; all deduped rows, no fitting"
-"AUC, single-variable rule: avg_session_minutes",0.681,31645,2939,"shorter sessions -> more likely to churn; all deduped rows, no fitting"
+quantity,value,n,positives,note
+base rate of churn_next_60d (rows),0.0929,31645,2939,deduped member-months; unit matches the analyst's model
+base rate (members ever churning),0.6998,4200,2939,context only; different unit
+accuracy of predicting 'no churn' for everyone,0.9071,31645,2939,= 1 - base rate; no information used
+AUC of predicting 'no churn' for everyone,0.5,31645,2939,"every row tied, no ranking; the do-nothing rung on the AUC scale"
+"AUC, single-variable rule: days_since_last_login",0.6464,31645,2939,"longer since last login -> more likely to churn; all deduped rows, no fitting"
+"AUC, single-variable rule: tenure_months",0.5017,31645,2939,"shorter tenure -> more likely to churn; all deduped rows, no fitting"
+"AUC, single-variable rule: app_opens_last_30d",0.6476,31645,2939,"fewer app opens -> more likely to churn; all deduped rows, no fitting"
+"AUC, single-variable rule: avg_session_minutes",0.681,31645,2939,"shorter sessions -> more likely to churn; all deduped rows, no fitting"
 "analyst's 5-fold CV AUC (all columns, raw rows)",0.967,"33,340 raw rows",,as printed by starter/analyst_model.py; brief quotes 0.967
 
 ==============================================================================
@@ -3571,7 +3571,7 @@ USER  [2026-09-21T02:17:01.687Z]
 ==============================================================================
 
 [tool_result]
-draft updated
+draft updated
 warning: in the working copy of 'analysis/outputs/run.log', LF will be replaced by CRLF the next time Git touches it
  analysis/outputs/a1_baselines.csv |  1 +
  analysis/outputs/run.log          |  5 +++--
@@ -3681,25 +3681,25 @@ USER  [2026-09-21T02:31:01.766Z]
 ==============================================================================
 
 [tool_result]
-tenure_months: min 0 max 51
-
-churn rate by tenure bucket (deduped rows)
-             rows  churners  rate
-tenure_bin                       
-0             247        24 0.097
-1             446        33 0.074
-2             642        43 0.067
-3             717        57 0.079
-4-5          1631       136 0.083
-6-8          2547       258 0.101
-9-11         2565       248 0.097
-12            884        81 0.092
-13-17        4798       469 0.098
-18-23        5933       574 0.097
-24+         11235      1016 0.090
-
-corporate members: tenure range and churn rate
-  rows 2130 | tenure min 0 max 12 | churn rate 0.031 | non-corporate rate 0.0973
+tenure_months: min 0 max 51
+
+churn rate by tenure bucket (deduped rows)
+             rows  churners  rate
+tenure_bin                       
+0             247        24 0.097
+1             446        33 0.074
+2             642        43 0.067
+3             717        57 0.079
+4-5          1631       136 0.083
+6-8          2547       258 0.101
+9-11         2565       248 0.097
+12            884        81 0.092
+13-17        4798       469 0.098
+18-23        5933       574 0.097
+24+         11235      1016 0.090
+
+corporate members: tenure range and churn rate
+  rows 2130 | tenure min 0 max 12 | churn rate 0.031 | non-corporate rate 0.0973
   corporate rows in training window (<= 2025-06): 533 | tenure max there: 6
 
 ==============================================================================
@@ -3799,26 +3799,26 @@ USER  [2026-09-21T02:39:43.980Z]
 ==============================================================================
 
 [tool_result]
-patched
+patched
 exit 0
 === tenure ===
-tenure_bucket,rows,churners,churn_rate
-0,247,24,0.0972
-1,446,33,0.074
-2,642,43,0.067
-3,717,57,0.0795
-4-5,1631,136,0.0834
-6-8,2547,258,0.1013
-9-11,2565,248,0.0967
-12,884,81,0.0916
-13-17,4798,469,0.0977
-18-23,5933,574,0.0967
-24+,11235,1016,0.0904
+tenure_bucket,rows,churners,churn_rate
+0,247,24,0.0972
+1,446,33,0.074
+2,642,43,0.067
+3,717,57,0.0795
+4-5,1631,136,0.0834
+6-8,2547,258,0.1013
+9-11,2565,248,0.0967
+12,884,81,0.0916
+13-17,4798,469,0.0977
+18-23,5933,574,0.0967
+24+,11235,1016,0.0904
 
 === corporate ===
-segment,rows,churners,churn_rate,members,tenure_min,tenure_max,first_month,rows_in_training_window_to_2025-06,tenure_max_in_training_window
-corporate,2130,66,0.031,328,0,12,2025-02,533,6
-other,29515,2873,0.0973,3872,0,51,2024-01,20498,45
+segment,rows,churners,churn_rate,members,tenure_min,tenure_max,first_month,rows_in_training_window_to_2025-06,tenure_max_in_training_window
+corporate,2130,66,0.031,328,0,12,2025-02,533,6
+other,29515,2873,0.0973,3872,0,51,2024-01,20498,45
 
 === exhibit unchanged? ===
  analysis/outputs/a1_baselines.csv | 1 +
@@ -3889,199 +3889,199 @@ USER  [2026-09-21T02:40:44.898Z]
 
 [tool_result]
 === analyst_model.py ===
-"""
-The junior analyst's pipeline, exactly as they ran it.
-
-This file is given to you so that you do not have to reverse-engineer the
-headline number.  It runs, it reproduces the figures quoted in the brief, and
-it is wrong.  Your job is to find out *why* it is wrong -- not to rebuild it.
-
-Read it.  Every line is a defensible-looking choice, and several of them are
-the assignment.  Note in particular that the modelling itself is careful: the
-encoder and the scaler are fitted inside each fold, so there is no
-preprocessing leak here.  Whatever is wrong with this number is wrong at the
-level of the protocol, not the pipeline.
-
-    python3 analyst_model.py
-
-Expected output (Python 3.10+, scikit-learn >= 1.3; small version drift is
-normal and does not matter):
-
-    rows                       33,340
-    5-fold cross-validated AUC  0.967
-    5-fold cross-validated AP   0.899
-    estimated programme value   $19,774 per quarter
-"""
-import warnings
-from pathlib import Path
-
-import numpy as np
-import pandas as pd
-from sklearn.compose import ColumnTransformer
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import average_precision_score, roc_auc_score
-from sklearn.model_selection import StratifiedKFold
-from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import OneHotEncoder, StandardScaler
-
-warnings.filterwarnings("ignore")
-
-DATA = Path(__file__).resolve().parents[1] / "data" / "member_months.csv"
-
-# Economics from the finance team, per the brief.
-OFFER_COST = 18.0        # cost of extending one retention offer, USD
-MEMBER_LTV = 240.0       # value of a member who stays, USD
-OFFER_CONVERSION = 0.35  # fraction of would-be churners retained by the offer
-
-TARGET = "churn_next_60d"
-# The analyst dropped only the identifier and the two date strings, on the
-# grounds that they are not numeric features.  Everything else was kept:
-# "figured the model can decide what's useful."
-NOT_FEATURES = (TARGET, "member_id", "snapshot_month", "signup_month")
-
-
-def analyst_pipeline(categorical, numeric) -> Pipeline:
-    """One-hot the categoricals, standardise the rest, fit logistic regression.
-
-    Everything fitted from data lives inside this object, so when it is fitted
-    on a fold's training portion the encoder and the scaler see only that
-    portion.  This much the analyst got right.
-    """
-    return Pipeline([
-        ("prep", ColumnTransformer([
-            ("cat", OneHotEncoder(handle_unknown="ignore", drop="first"), categorical),
-            ("num", StandardScaler(), numeric),
-        ])),
-        ("est", LogisticRegression(max_iter=2000)),
-    ])
-
-
-def main() -> None:
-    df = pd.read_csv(DATA)
-    y = df[TARGET].to_numpy()
-
-    features = [c for c in df.columns if c not in NOT_FEATURES]
-    categorical = [c for c in features if not pd.api.types.is_numeric_dtype(df[c])]
-    numeric = [c for c in features if c not in categorical]
-    X = df[features]
-
-    folds = StratifiedKFold(n_splits=5, shuffle=True, random_state=0)
-    oof = np.zeros(len(df))
-    for train_idx, test_idx in folds.split(X, y):
-        model = analyst_pipeline(categorical, numeric)
-        model.fit(X.iloc[train_idx], y[train_idx])
-        oof[test_idx] = model.predict_proba(X.iloc[test_idx])[:, 1]
-
-    auc = roc_auc_score(y, oof)
-    ap = average_precision_score(y, oof)
-
-    # Value of one targeting decision: offer a churner and you net
-    # LTV * conversion - cost; offer a non-churner and you lose the cost.
-    realised = y * MEMBER_LTV * OFFER_CONVERSION - OFFER_COST
-    grid = np.linspace(0.005, 0.6, 400)
-    values = [float(np.sum((oof > t) * realised)) for t in grid]
-    best = int(np.argmax(values))
-    # 24 months of data = 8 quarters.
-    per_quarter = values[best] / 8.0
-
-    print(f"rows                        {len(df):,}")
-    print(f"unique members              {df['member_id'].nunique():,}")
-    print(f"features used               {len(features)}")
-    print(f"base rate                   {y.mean():.4f}")
-    print()
-    print(f"5-fold cross-validated AUC  {auc:.3f}")
-    print(f"5-fold cross-validated AP   {ap:.3f}")
-    print(f"optimal threshold           {grid[best]:.3f}")
-    print(f"estimated programme value   ${per_quarter:,.0f} per quarter")
-    print()
-    print("Recommendation: strong signal, move to production this quarter.")
-
-
-if __name__ == "__main__":
-    main()
+"""
+The junior analyst's pipeline, exactly as they ran it.
+
+This file is given to you so that you do not have to reverse-engineer the
+headline number.  It runs, it reproduces the figures quoted in the brief, and
+it is wrong.  Your job is to find out *why* it is wrong -- not to rebuild it.
+
+Read it.  Every line is a defensible-looking choice, and several of them are
+the assignment.  Note in particular that the modelling itself is careful: the
+encoder and the scaler are fitted inside each fold, so there is no
+preprocessing leak here.  Whatever is wrong with this number is wrong at the
+level of the protocol, not the pipeline.
+
+    python3 analyst_model.py
+
+Expected output (Python 3.10+, scikit-learn >= 1.3; small version drift is
+normal and does not matter):
+
+    rows                       33,340
+    5-fold cross-validated AUC  0.967
+    5-fold cross-validated AP   0.899
+    estimated programme value   $19,774 per quarter
+"""
+import warnings
+from pathlib import Path
+
+import numpy as np
+import pandas as pd
+from sklearn.compose import ColumnTransformer
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import average_precision_score, roc_auc_score
+from sklearn.model_selection import StratifiedKFold
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+
+warnings.filterwarnings("ignore")
+
+DATA = Path(__file__).resolve().parents[1] / "data" / "member_months.csv"
+
+# Economics from the finance team, per the brief.
+OFFER_COST = 18.0        # cost of extending one retention offer, USD
+MEMBER_LTV = 240.0       # value of a member who stays, USD
+OFFER_CONVERSION = 0.35  # fraction of would-be churners retained by the offer
+
+TARGET = "churn_next_60d"
+# The analyst dropped only the identifier and the two date strings, on the
+# grounds that they are not numeric features.  Everything else was kept:
+# "figured the model can decide what's useful."
+NOT_FEATURES = (TARGET, "member_id", "snapshot_month", "signup_month")
+
+
+def analyst_pipeline(categorical, numeric) -> Pipeline:
+    """One-hot the categoricals, standardise the rest, fit logistic regression.
+
+    Everything fitted from data lives inside this object, so when it is fitted
+    on a fold's training portion the encoder and the scaler see only that
+    portion.  This much the analyst got right.
+    """
+    return Pipeline([
+        ("prep", ColumnTransformer([
+            ("cat", OneHotEncoder(handle_unknown="ignore", drop="first"), categorical),
+            ("num", StandardScaler(), numeric),
+        ])),
+        ("est", LogisticRegression(max_iter=2000)),
+    ])
+
+
+def main() -> None:
+    df = pd.read_csv(DATA)
+    y = df[TARGET].to_numpy()
+
+    features = [c for c in df.columns if c not in NOT_FEATURES]
+    categorical = [c for c in features if not pd.api.types.is_numeric_dtype(df[c])]
+    numeric = [c for c in features if c not in categorical]
+    X = df[features]
+
+    folds = StratifiedKFold(n_splits=5, shuffle=True, random_state=0)
+    oof = np.zeros(len(df))
+    for train_idx, test_idx in folds.split(X, y):
+        model = analyst_pipeline(categorical, numeric)
+        model.fit(X.iloc[train_idx], y[train_idx])
+        oof[test_idx] = model.predict_proba(X.iloc[test_idx])[:, 1]
+
+    auc = roc_auc_score(y, oof)
+    ap = average_precision_score(y, oof)
+
+    # Value of one targeting decision: offer a churner and you net
+    # LTV * conversion - cost; offer a non-churner and you lose the cost.
+    realised = y * MEMBER_LTV * OFFER_CONVERSION - OFFER_COST
+    grid = np.linspace(0.005, 0.6, 400)
+    values = [float(np.sum((oof > t) * realised)) for t in grid]
+    best = int(np.argmax(values))
+    # 24 months of data = 8 quarters.
+    per_quarter = values[best] / 8.0
+
+    print(f"rows                        {len(df):,}")
+    print(f"unique members              {df['member_id'].nunique():,}")
+    print(f"features used               {len(features)}")
+    print(f"base rate                   {y.mean():.4f}")
+    print()
+    print(f"5-fold cross-validated AUC  {auc:.3f}")
+    print(f"5-fold cross-validated AP   {ap:.3f}")
+    print(f"optimal threshold           {grid[best]:.3f}")
+    print(f"estimated programme value   ${per_quarter:,.0f} per quarter")
+    print()
+    print("Recommendation: strong signal, move to production this quarter.")
+
+
+if __name__ == "__main__":
+    main()
 
 === load.py ===
-"""
-Assignment 1 starter.  Northline Fitness churn.
-
-This file exists so you do not have to retype boilerplate.  It deliberately
-does NOT clean the data, choose features, or drop any column.  Every one of
-those is a decision you are being graded on.
-
-The evaluation windows below are the ones the brief tells you to use.  They
-are here so your A3 numbers are comparable to everyone else's -- you are
-graded on explaining why this shape is right, not on inventing the boundaries.
-
-Usage:
-    from load import load_raw, month_key, TRAIN_END, VALID_MONTH, TEST_START
-    df = load_raw()
-    df["month"] = df["snapshot_month"].map(month_key)
-"""
-from pathlib import Path
-
-import pandas as pd
-
-DATA = Path(__file__).resolve().parents[1] / "data" / "member_months.csv"
-
-# The economics from the assignment brief.
-OFFER_COST = 18.0        # cost of extending one retention offer, USD
-MEMBER_LTV = 240.0       # value of a member who stays, USD
-OFFER_CONVERSION = 0.35  # fraction of would-be churners retained by the offer
-
-TARGET = "churn_next_60d"
-
-# The evaluation windows from the brief, as 'YYYY-MM' strings.
-# Training  : months <= TRAIN_END
-# Not used  : 2025-07, 2025-08   (labels for the last training month mature at
-#                                 the end of August 2025)
-# Validation: month == VALID_MONTH
-# Test      : months >= TEST_START   -- touch this once, at the end
-TRAIN_END = "2025-06"
-VALID_MONTH = "2025-09"
-TEST_START = "2025-10"
-
-
-def load_raw() -> pd.DataFrame:
-    """Read the extract exactly as delivered.  No cleaning."""
-    return pd.read_csv(DATA)
-
-
-def month_key(value: str) -> str:
-    """Normalise the three `snapshot_month` formats to 'YYYY-MM'.
-
-    You still have to decide whether and how to use the month.  This just
-    stops the three formats from silently becoming three different categories.
-    """
-    s = str(value).strip()
-    if "/" in s:                      # 'MM/YYYY'
-        month, year = s.split("/")
-        return f"{year}-{int(month):02d}"
-    return s[:7]                      # 'YYYY-MM' or 'YYYY-MM-DD'
-
-
-def offer_value(churned: int, offered: int) -> float:
-    """Realised dollar value of one targeting decision, per the brief."""
-    if not offered:
-        return 0.0
-    return MEMBER_LTV * OFFER_CONVERSION - OFFER_COST if churned else -OFFER_COST
-
-
-if __name__ == "__main__":
-    df = load_raw()
-    df["month"] = df["snapshot_month"].map(month_key)
-    print(f"rows                {len(df):,}")
-    print(f"unique member_id    {df['member_id'].nunique():,}")
-    print(f"columns             {len(df.columns) - 1}")
-    print(f"target base rate    {df[TARGET].mean():.4f}")
-    print()
-    print("months present:")
-    print(sorted(df["month"].unique()))
-    print()
-    print(f"rows in training window (<= {TRAIN_END}) : "
-          f"{(df['month'] <= TRAIN_END).sum():,}")
-    print(f"rows in validation window ({VALID_MONTH})  : "
-          f"{(df['month'] == VALID_MONTH).sum():,}")
-    print(f"rows in test window (>= {TEST_START})     : "
+"""
+Assignment 1 starter.  Northline Fitness churn.
+
+This file exists so you do not have to retype boilerplate.  It deliberately
+does NOT clean the data, choose features, or drop any column.  Every one of
+those is a decision you are being graded on.
+
+The evaluation windows below are the ones the brief tells you to use.  They
+are here so your A3 numbers are comparable to everyone else's -- you are
+graded on explaining why this shape is right, not on inventing the boundaries.
+
+Usage:
+    from load import load_raw, month_key, TRAIN_END, VALID_MONTH, TEST_START
+    df = load_raw()
+    df["month"] = df["snapshot_month"].map(month_key)
+"""
+from pathlib import Path
+
+import pandas as pd
+
+DATA = Path(__file__).resolve().parents[1] / "data" / "member_months.csv"
+
+# The economics from the assignment brief.
+OFFER_COST = 18.0        # cost of extending one retention offer, USD
+MEMBER_LTV = 240.0       # value of a member who stays, USD
+OFFER_CONVERSION = 0.35  # fraction of would-be churners retained by the offer
+
+TARGET = "churn_next_60d"
+
+# The evaluation windows from the brief, as 'YYYY-MM' strings.
+# Training  : months <= TRAIN_END
+# Not used  : 2025-07, 2025-08   (labels for the last training month mature at
+#                                 the end of August 2025)
+# Validation: month == VALID_MONTH
+# Test      : months >= TEST_START   -- touch this once, at the end
+TRAIN_END = "2025-06"
+VALID_MONTH = "2025-09"
+TEST_START = "2025-10"
+
+
+def load_raw() -> pd.DataFrame:
+    """Read the extract exactly as delivered.  No cleaning."""
+    return pd.read_csv(DATA)
+
+
+def month_key(value: str) -> str:
+    """Normalise the three `snapshot_month` formats to 'YYYY-MM'.
+
+    You still have to decide whether and how to use the month.  This just
+    stops the three formats from silently becoming three different categories.
+    """
+    s = str(value).strip()
+    if "/" in s:                      # 'MM/YYYY'
+        month, year = s.split("/")
+        return f"{year}-{int(month):02d}"
+    return s[:7]                      # 'YYYY-MM' or 'YYYY-MM-DD'
+
+
+def offer_value(churned: int, offered: int) -> float:
+    """Realised dollar value of one targeting decision, per the brief."""
+    if not offered:
+        return 0.0
+    return MEMBER_LTV * OFFER_CONVERSION - OFFER_COST if churned else -OFFER_COST
+
+
+if __name__ == "__main__":
+    df = load_raw()
+    df["month"] = df["snapshot_month"].map(month_key)
+    print(f"rows                {len(df):,}")
+    print(f"unique member_id    {df['member_id'].nunique():,}")
+    print(f"columns             {len(df.columns) - 1}")
+    print(f"target base rate    {df[TARGET].mean():.4f}")
+    print()
+    print("months present:")
+    print(sorted(df["month"].unique()))
+    print()
+    print(f"rows in training window (<= {TRAIN_END}) : "
+          f"{(df['month'] <= TRAIN_END).sum():,}")
+    print(f"rows in validation window ({VALID_MONTH})  : "
+          f"{(df['month'] == VALID_MONTH).sum():,}")
+    print(f"rows in test window (>= {TEST_START})     : "
           f"{(df['month'] >= TEST_START).sum():,}")
 
 ==============================================================================
@@ -4133,7 +4133,7 @@ USER  [2026-09-21T02:41:25.189Z]
 ==============================================================================
 
 [tool_result]
-a1_baselines.py refactored
+a1_baselines.py refactored
 18:month_key(), then drop exact duplicate rows (ticket NLF-2231).  Shared with
 24:from what the column means, before the number is seen, and is not flipped
 27:import re
@@ -4206,7 +4206,7 @@ USER  [2026-09-21T02:41:51.474Z]
 ==============================================================================
 
 [tool_result]
-run.sh patched
+run.sh patched
 run exit 0
 pycache dirs anywhere outside .venv:
 (end)
@@ -4590,38 +4590,38 @@ USER  [2026-09-21T03:34:47.479Z]
 ==============================================================================
 
 [tool_result]
-harness check: analyst's protocol on raw file, all months  AUC 0.967  (analyst_model.py prints 0.967; this is not an exhibit row)
-
-building window (<= 2025-06): 21,031 rows, 1,767 churners, 3,648 members
-test window     (>= 2025-10): 4,556 rows, 408 churners, 1,669 members
-
-row 0  analyst's protocol, deduplicated         AUC 0.9679   [cross-validated]
-row 1  + admissible columns only                AUC 0.7475   [cross-validated]
-row 2  + one member never in both folds         AUC 0.7466   [cross-validated]
-row 3  + past to future                         AUC 0.6435   [test-window]
-row 4  + by segment: corporate                  AUC 0.4044   [test-window]
-row 4  + by segment: other                      AUC 0.6406   [test-window]
-
-A2 exhibit
- row                           change  n_features  rows_fit  rows_scored  churners_scored    auc            kind
-   0 analyst's protocol, deduplicated          14     21031        21031             1767 0.9679 cross-validated
-   1        + admissible columns only          12     21031        21031             1767 0.7475 cross-validated
-   2 + one member never in both folds          12     21031        21031             1767 0.7466 cross-validated
-   3                 + past to future          12     21031         4556              408 0.6435     test-window
-   4          + by segment: corporate          12     21031          860               34 0.4044     test-window
-   4              + by segment: other          12     21031         3696              374 0.6406     test-window
-
-test-window rows and churners by month and segment
-                   rows  churners
-month   segment                  
-2025-10 corporate   296        10
-        other      1373       148
-2025-11 corporate   286         8
-        other      1225       127
-2025-12 corporate   278        16
-        other      1098        99
-
-wrote C:\Users\owner\Desktop\a1_evaluation_and_flexibility\analysis\outputs\a2_table.csv, a2_columns.csv, a2_test_scores.csv
+harness check: analyst's protocol on raw file, all months  AUC 0.967  (analyst_model.py prints 0.967; this is not an exhibit row)
+
+building window (<= 2025-06): 21,031 rows, 1,767 churners, 3,648 members
+test window     (>= 2025-10): 4,556 rows, 408 churners, 1,669 members
+
+row 0  analyst's protocol, deduplicated         AUC 0.9679   [cross-validated]
+row 1  + admissible columns only                AUC 0.7475   [cross-validated]
+row 2  + one member never in both folds         AUC 0.7466   [cross-validated]
+row 3  + past to future                         AUC 0.6435   [test-window]
+row 4  + by segment: corporate                  AUC 0.4044   [test-window]
+row 4  + by segment: other                      AUC 0.6406   [test-window]
+
+A2 exhibit
+ row                           change  n_features  rows_fit  rows_scored  churners_scored    auc            kind
+   0 analyst's protocol, deduplicated          14     21031        21031             1767 0.9679 cross-validated
+   1        + admissible columns only          12     21031        21031             1767 0.7475 cross-validated
+   2 + one member never in both folds          12     21031        21031             1767 0.7466 cross-validated
+   3                 + past to future          12     21031         4556              408 0.6435     test-window
+   4          + by segment: corporate          12     21031          860               34 0.4044     test-window
+   4              + by segment: other          12     21031         3696              374 0.6406     test-window
+
+test-window rows and churners by month and segment
+                   rows  churners
+month   segment                  
+2025-10 corporate   296        10
+        other      1373       148
+2025-11 corporate   286         8
+        other      1225       127
+2025-12 corporate   278        16
+        other      1098        99
+
+wrote C:\Users\owner\Desktop\a1_evaluation_and_flexibility\analysis\outputs\a2_table.csv, a2_columns.csv, a2_test_scores.csv
 
 real	0m5.630s
 user	0m0.015s
@@ -4656,7 +4656,7 @@ USER  [2026-09-21T03:35:36.462Z]
 ==============================================================================
 
 [tool_result]
-run.sh and README updated
+run.sh and README updated
 run exit 0
 129
 97:harness check: analyst's protocol on raw file, all months  AUC 0.967  (analyst_model.py prints 0.967; this is not an exhibit row)
@@ -4756,7 +4756,7 @@ USER  [2026-09-21T04:09:09.023Z]
 ==============================================================================
 
 [tool_result]
-patched
+patched
 row 0  analyst's protocol, deduplicated         AUC 0.9679   [cross-validated]
 row 1  + admissible columns only                AUC 0.7475   [cross-validated]
 row 2  + one member never in both folds         AUC 0.7466   [cross-validated]
@@ -4807,8 +4807,8 @@ USER  [2026-09-21T04:09:41.611Z]
 ==============================================================================
 
 [tool_result]
-members in building window: 3648
-members with rows in 2+ folds (analyst's split): 2899 (79.5%)
+members in building window: 3648
+members with rows in 2+ folds (analyst's split): 2899 (79.5%)
 members with only one row: 613
 
 ==============================================================================
@@ -4910,7 +4910,7 @@ USER  [2026-09-21T04:32:19.996Z]
 ==============================================================================
 
 [tool_result]
-patched
+patched
 run exit 0
 102:row 0  analyst's protocol, deduplicated         AUC 0.9679   [cross-validated]
 103:row 1  + admissible columns only                AUC 0.7475   [cross-validated]
@@ -4919,7 +4919,7 @@ run exit 0
 106:row 3  + past to future                         AUC 0.6435   [test-window]
 107:row 4  + by segment: corporate                  AUC 0.4044   [test-window]
 108:row 4  + by segment: other                      AUC 0.6406   [test-window]
-members_in_building_window,members_with_rows_in_2_or_more_folds,share,members_with_one_row
+members_in_building_window,members_with_rows_in_2_or_more_folds,share,members_with_one_row
 3648,2899,0.7947,613
 
 ==============================================================================
@@ -4974,9 +4974,9 @@ USER  [2026-09-21T04:33:37.219Z]
 ==============================================================================
 
 [tool_result]
-A2 prose words: 552
-A1 prose words: 499
-860/4556 = 0.189 | 34/408 = 0.083
+A2 prose words: 552
+A1 prose words: 499
+860/4556 = 0.189 | 34/408 = 0.083
  M CLAUDE.md
  M analysis/README.md
  M analysis/outputs/a1_baselines.csv
@@ -5277,7 +5277,7 @@ USER  [2026-09-21T04:56:48.209Z]
 ==============================================================================
 
 [tool_result]
-NOTES.md appended
+NOTES.md appended
 sessions/README.md updated
 
 ==============================================================================
@@ -5308,8 +5308,8 @@ USER  [2026-09-21T04:57:00.085Z]
 ==============================================================================
 
 [tool_result]
-a1-session-3.jsonl -> sessions\claude-code\a1-session-3.txt
-messages rendered: 291, unparseable lines: 0
+a1-session-3.jsonl -> sessions\claude-code\a1-session-3.txt
+messages rendered: 291, unparseable lines: 0
 -rw-r--r-- 1 owner 197121 1.7M Sep 20 23:56 a1-session-3.jsonl
 -rw-r--r-- 1 owner 197121 381K Sep 20 23:56 a1-session-3.txt
 --- CSV-row scan (lines with >20 commas) ---

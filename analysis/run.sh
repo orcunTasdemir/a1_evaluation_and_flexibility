@@ -42,4 +42,8 @@ else PY="python3"; fi
   echo "=== part1: A2 evaluation ==="
   "$PY" "$HERE/part1/a2_evaluation.py"
   echo
+
+  echo "=== part1: A3 targeting decision ==="
+  "$PY" "$HERE/part1/a3_decision.py"
+  echo
 } 2>&1 | tee "$OUT/run.log"

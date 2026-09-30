@@ -37,11 +37,24 @@ few messages short of the true end. The missing tail is the export and the
 `git commit`/`git push` that followed it, which are visible in the repository
 history. Nothing about the analysis is lost this way.
 
-## Size note
+## Images in the readable rendering
 
-Session 2's transcript is about 10 MB because the agent read the course
-handout PDFs page by page and the page images are embedded in the record.
-That is course material, not private data.
+The agent read the course handout PDFs page by page, so the raw transcripts
+embed those pages as base64 images. In `a1-session-4.jsonl` they were 93% of
+the rendered text, which made the readable `.txt` unreadable -- the opposite
+of what it is for.
+
+`render_transcript.py` therefore writes an image as a labelled placeholder
+giving its media type and payload size, for example:
+
+    [image omitted from the readable rendering: image/png, 412,336 base64
+     chars; the full payload is in the .jsonl]
+
+**Nothing is removed from the record.** The `.jsonl` files are byte-for-byte
+as Claude Code wrote them, images included, and they are the authoritative
+submission; only the derived readable view substitutes the placeholder. The
+images are course handout pages, not private data. `sessions/` is about 27 MB,
+of which roughly 22 MB is the four `.jsonl` files.
 
 ## Sessions
 
@@ -50,8 +63,21 @@ That is course material, not private data.
 | 1 | 2026-09-17 | Windows 11 | Setup only. Folder audit, Python environment, `.gitignore` fix, `NOTES.md`. No analysis. |
 | 2 | 2026-09-17 | macOS | Mac environment, handouts added, concept review (Handouts 1, 2, R1), A1 baselines script and draft. |
 | 3 | 2026-09-20 | Windows 11 | A1 review quiz and finalisation, `prep.py` refactor, A2 evaluation built and drafted. |
+| 4 | 2026-09-29 | macOS | A3: cost-based threshold, calibration on the validation month, realised value on the test quarter, draft. Part A complete. |
 
-Sessions 1 and 3 are the same VS Code conversation, continued on a later
-day. `a1-session-3.jsonl` is therefore the full thread and contains session 1
-as its first part; `a1-session-1.jsonl` is the earlier snapshot of the same
-thread. Neither is sliced or edited.
+There are two VS Code conversations, each worked in twice, so two of the
+four files contain an earlier file as their opening part. Nothing is sliced,
+truncated or edited; the later file in each pair is the full thread and the
+earlier one is the snapshot taken at the end of the first sitting.
+
+| File | Records | Relationship |
+|---|---:|---|
+| `a1-session-1.jsonl` | 245 | thread A, snapshot after session 1 |
+| `a1-session-3.jsonl` | 636 | thread A in full; its first 245 records are byte-identical to `a1-session-1.jsonl` |
+| `a1-session-2.jsonl` | 637 | thread B, snapshot after session 2 |
+| `a1-session-4.jsonl` | 1,064 | thread B in full; its first 637 records are byte-identical to `a1-session-2.jsonl` |
+
+Both containments were verified with `cmp`, not asserted. All four files are
+submitted rather than only the two full threads, because the snapshots are
+what existed at the end of each working session and removing them would be
+curating the record.

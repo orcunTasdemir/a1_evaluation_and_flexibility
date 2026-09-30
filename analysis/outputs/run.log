@@ -1,5 +1,5 @@
 === environment ===
-Python 3.11.9
+Python 3.11.16
 numpy 2.4.6 | pandas 3.0.5 | sklearn 1.9.1 | matplotlib 3.11.2
 
 === part1: analyst_model.py (as supplied) ===
@@ -91,7 +91,7 @@ first_month                           2025-02  2024-01
 rows_in_training_window_to_2025-06        533    20498
 tenure_max_in_training_window               6       45
 
-wrote C:\Users\owner\Desktop\a1_evaluation_and_flexibility\analysis\outputs\a1_baselines.csv, a1_base_rate_by_year.csv, a1_base_rate_by_month.csv, a1_column_timing.csv, a1_churn_by_tenure.csv, a1_corporate_segment.csv, a1_cleaning.txt
+wrote /Users/orcuntasdemir/Desktop/a1_evaluation_and_flexibility/analysis/outputs/a1_baselines.csv, a1_base_rate_by_year.csv, a1_base_rate_by_month.csv, a1_column_timing.csv, a1_churn_by_tenure.csv, a1_corporate_segment.csv, a1_cleaning.txt
 
 === part1: A2 evaluation ===
 harness check: analyst's protocol on raw file, all months  AUC 0.967  (analyst_model.py prints 0.967; this is not an exhibit row)
@@ -145,5 +145,100 @@ acquisition_channel_paid_search one-hot vs dropped first category               
                 city_tier_rural one-hot vs dropped first category                  NaN -0.0646             0.9375                  NaN               city_tier=metro
              city_tier_suburban one-hot vs dropped first category                  NaN -0.0021             0.9979                  NaN               city_tier=metro
 
-wrote C:\Users\owner\Desktop\a1_evaluation_and_flexibility\analysis\outputs\a2_table.csv, a2_columns.csv, a2_test_scores.csv, a2_fold_overlap.csv, a2_odds_ratios.csv
+wrote /Users/orcuntasdemir/Desktop/a1_evaluation_and_flexibility/analysis/outputs/a2_table.csv, a2_columns.csv, a2_test_scores.csv, a2_fold_overlap.csv, a2_odds_ratios.csv
+
+=== part1: A3 targeting decision ===
+Deriving the threshold from the finance table
+
+  offer cost                     $18.00
+  lifetime value of a member     $240.00
+  fraction of churners retained  0.35
+
+An offer to a member who would have churned is worth
+  240 x 0.35 - 18 = $66.00
+An offer to a member who would not have churned costs
+  $18.00
+No offer is worth $0.
+
+At predicted probability p the expected value of offering is
+  E[value | p] = p x 66 + (1 - p) x (-18) = 84p - 18
+
+Offering beats not offering when that expectation exceeds 0:
+  84p - 18 > 0
+  p > 18 / 84 = 18 / (240 x 0.35)
+  p > 0.214286
+
+Threshold t* = 0.2143.  Offer to every member scored above it.
+
+Cross-check, Handout R1 eq. (4): t* = C_FP / (C_FP + C_FN) with a
+wasted offer C_FP = $18 and a missed churner
+C_FN = $66 gives 18/(18+66) = 0.214286.  Same number.
+
+Note this depends only on the finance figures, not on the data, and
+was fixed before any test-window score was read.  The analyst's
+script instead grid-searched 0.267 by maximising realised value
+on its own out-of-fold predictions, which is a choice made by looking
+at outcomes.
+
+Calibration check on the validation month (2025-09)
+  rows 1,836   churners 198   observed rate 0.1078
+  mean predicted probability      0.0890
+  observed minus predicted        +0.0188
+  AUC on the validation month     0.6952
+  Platt slope 0.7878, intercept -0.2186 (1.0 and 0.0 would be perfectly calibrated)
+
+ bin  rows  mean_predicted  observed_rate  churners  predicted_minus_observed
+   1   184          0.0119         0.0326         6                   -0.0207
+   2   184          0.0247         0.0761        14                   -0.0514
+   3   184          0.0364         0.0598        11                   -0.0234
+   4   184          0.0485         0.0380         7                    0.0105
+   5   184          0.0606         0.0598        11                    0.0008
+   6   184          0.0757         0.1033        19                   -0.0276
+   7   183          0.0941         0.0929        17                    0.0012
+   8   183          0.1177         0.1421        26                   -0.0244
+   9   183          0.1568         0.1858        34                   -0.0290
+  10   183          0.2654         0.2896        53                   -0.0242
+
+calibration setting in use: platt
+
+A3 value exhibit (test quarter, Oct-Dec 2025)
+                         policy   segment  rows_scored  churners  offers  offers_to_churners  offers_wasted  value_usd
+        targeted at t* = 0.2143       all         4556       408     242                  62            180      852.0
+        targeted at t* = 0.2143 corporate          860        34       9                   1              8      -78.0
+        targeted at t* = 0.2143     other         3696       374     233                  61            172      930.0
+    offer to every member-month       all         4556       408    4556                 408           4148   -47736.0
+    offer to every member-month corporate          860        34     860                  34            826   -12624.0
+    offer to every member-month     other         3696       374    3696                 374           3322   -35112.0
+                   no programme       all         4556       408       0                   0              0        0.0
+                   no programme corporate          860        34       0                   0              0        0.0
+                   no programme     other         3696       374       0                   0              0        0.0
+targeted at the analyst's 0.267       all         4556       408     108                  33             75      828.0
+targeted at the analyst's 0.267 corporate          860        34       3                   0              3      -54.0
+targeted at the analyst's 0.267     other         3696       374     105                  33             72      882.0
+
+realised value at t* over the quarter: $852 with a standard error of $572 (1.5 standard errors from zero); each offer returns +$66 or -$18, so the total is a sum of 242 such draws
+
+the same threshold, month by month
+  month  rows  base_rate  offers  offers_to_churners  precision  break_even_precision  value_usd  value_se_usd  value_per_offer_usd
+2025-10  1669     0.0947     114                  25     0.2193                0.2143       48.0        372.74                 0.42
+2025-11  1511     0.0893      81                  27     0.3333                0.2143      810.0        358.60                10.00
+2025-12  1376     0.0836      47                  10     0.2128                0.2143       -6.0        238.23                -0.13
+
+where the value comes from inside the offered set
+           cut          group  offers  offers_to_churners  precision  mean_predicted  predicted_minus_observed  value_usd  value_per_offer_usd
+       contact  first contact     195                  51     0.2615          0.2859                    0.0244      774.0                 3.97
+       contact repeat contact      47                  11     0.2340          0.2843                    0.0502       78.0                 1.66
+score quartile    Q1 (lowest)      61                  11     0.1803          0.2218                    0.0414     -174.0                -2.85
+score quartile       Q2 (mid)      60                  14     0.2333          0.2427                    0.0094       96.0                 1.60
+score quartile       Q3 (mid)      60                  20     0.3333          0.2809                   -0.0524      600.0                10.00
+score quartile   Q4 (highest)      61                  17     0.2787          0.3963                    0.1176      330.0                 5.41
+           all     all offers     242                  62     0.2562          0.2856                    0.0294      852.0                 3.52
+
+calibration sensitivity: on uncorrected probabilities the same policy offers to 203 rows and is worth $882, against 242 offers worth $852 on corrected ones
+
+threshold sensitivity: the curve peaks at $1,098 (threshold 0.236); the derived t* was fixed before scoring and was not chosen from this curve
+
+repeat-contact sensitivity: of 242 offers at t*, 47 are repeat contacts of a member already offered earlier in the quarter; contacting each member at most once gives 195 offers worth $774
+
+wrote /Users/orcuntasdemir/Desktop/a1_evaluation_and_flexibility/analysis/outputs/a3_threshold.txt, a3_calibration.csv, a3_value.csv, a3_by_month.csv, a3_offer_quality.csv, a3_value_curve.csv, a3_value_curve.png
 

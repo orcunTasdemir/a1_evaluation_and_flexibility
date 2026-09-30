@@ -269,3 +269,98 @@ test rows and 34/408 = 8% of test churners; raw base rate (2,939+101)/33,340
    from session 1 still open.
 7. `ai_process_note.md` and `memo.md` not started; raw material per session
    is in `drafts/ai_process_note_draft.md` (session 3 block added).
+
+---
+
+## Session 4 — 2026-09-29 (macOS laptop). A3 built and drafted. Part A complete.
+
+Transcript: `sessions/claude-code/a1-session-4.jsonl` and `.txt`.
+
+### What was done
+
+- Pulled session 3 from Windows. **Cross-machine reproducibility verified**:
+  re-running everything on the Mac left `a2_table.csv` and all six A1 outputs
+  byte-identical. Only `a2_test_scores.csv` moved, by at most 4e-14 in
+  `p_churn` (ARM vs x86 floating point), and the *same 203 rows* cleared the
+  threshold on both machines, so no dollar figure depends on the laptop.
+  `run.log` differs only by Python patch version and path separators.
+- Verified A2's partitions against the brief's window table from the data, not
+  from reading the code: fitted on 2024-01..2025-06 (18 months), scored on
+  2025-10..12 (3 months), 2025-07/08/09 in neither, no month in both.
+- `analysis/part1/a3_decision.py` written and added to `run.sh`. Full run is
+  ~12 s. Threshold derivation, calibration check and correction, value
+  exhibit, monthly split, offer-quality table, value curve and figure.
+- `drafts/a3_draft.md`: recommendation, Exhibits A3a-A3d, prose (448 words),
+  notes, argue-against list, provenance table, trimming candidates.
+
+### Design decisions made (mine)
+
+- One offer = one member-month (matches the monthly programme and the brief's
+  per-offer economics; per-member accounting has no honest answer to "which
+  month did the offer happen in", since a churner has only one flagged row).
+- Quarter as the reporting period. Monthly split added afterwards once it
+  proved informative — I had decided to skip it.
+- Priced t* against offer-everyone, no programme, and the analyst's 0.267.
+  Declined to score the test window with the analyst's *model*: that is a
+  second scoring, and A2 set the norm against it.
+- Calibration: checked on the validation month, and corrected there with
+  Platt scaling. **The verdict was set from validation evidence before any
+  dollar figure existed.** It cost $30.
+- Value curve reported (re-reads the same scores, no new scoring).
+- Recommendation shape (scope to non-corporate + dollar tripwire) chosen
+  before the numbers were computed.
+- Declined to add window-compliance assertions to `a2_evaluation.py`: A2 is
+  run and answered.
+
+### Numbers produced, with provenance (all from `bash analysis/run.sh`)
+
+| Quantity | Value | File |
+|---|---|---|
+| Threshold t* | 0.2143 = 18/84, two routes agreeing | `a3_threshold.txt` |
+| Value at t*, quarter | $852 (242 offers, 62 to churners, 180 wasted) | `a3_value.csv` |
+| Standard error of that total | $572, i.e. 1.5 SE from zero | `run.log` |
+| By segment | corporate -$78 (9 offers, 1 churner); other +$930 (233, 61) | `a3_value.csv` |
+| Offer to everyone | -$47,736 (4,556 offers, 408 churners) | " |
+| No programme | $0 | " |
+| At the analyst's 0.267 | $828 (108 offers, 33 churners) | " |
+| Monthly at t* | Oct $48 (114 offers, 21.9%); Nov $810 (81, 33.3%); Dec -$6 (47, 21.3%) | `a3_by_month.csv` |
+| First vs repeat contact | $3.97 vs $1.66 per offer; 195 vs 47 offers | `a3_offer_quality.csv` |
+| Top-quartile over-prediction | claims 39.6%, delivers 27.9% (61 offers) | " |
+| Q1 just above t* | 22.2% claimed, 18.0% observed, -$2.85 per offer | " |
+| Validation calibration | slope 0.788, intercept -0.219; under-predicts in 8 of 10 bins; val AUC 0.695 | `a3_calibration.csv`, `run.log` |
+| Calibration sensitivity | raw scores give $882 on 203 offers | `run.log` |
+| Curve peak | $1,098 at threshold 0.236; not selecting cost $264 | `a3_value_curve.csv` |
+
+Hand arithmetic, stated as such: break-even precision = t* = 21.43%, and
+value per offer = 84 x (precision - 0.2143); quarter precision 25.6%.
+
+### Findings this session
+
+- **The margin is thin, not the ranking.** Value per offer is $3.52 against a
+  break-even precision of 21.4% on a 9% base rate. Two of the three test
+  months are at or below break-even; the quarter's $852 is essentially
+  November. With 47-114 offers a month those differences are mostly noise,
+  which is the finding: the programme sits close enough to zero that ordinary
+  variation straddles it.
+- **The threshold was not the analyst's main error.** Their grid-searched
+  0.267 on honest scores gives $828 against our derived $852. The $19,774 came
+  from leaked columns and a shuffled evaluation, not from the cut point.
+- **The model overstates the members it selects.** Top-scoring quartile claims
+  39.6% and delivers 27.9% — selecting the top of a noisy score. This is why
+  the tripwire is a dollar figure, not AUC: AUC can hold while calibration
+  drifts and the cut point stops meaning what it meant.
+- A fixed threshold is self-regulating *if* the probabilities are honest, so
+  a lower April base rate should mean fewer offers rather than worse ones.
+  The exposure is miscalibration under drift, not the base rate itself.
+
+### Open questions / next session (Part B)
+
+1. **Part B is untouched and worth 35 points.** Handout 3 and R2 unread.
+   Output-folder question from session 1 still open (`sweep_outputs/` and
+   `b3_outputs/` under `analysis/part2/` vs `analysis/outputs/`).
+2. **Prose budget is over.** A1 499 + A2 552 + A3 448 = 1,499 words for a
+   two-page §1 (~1,000-1,200). Trimming candidates are listed at the end of
+   `drafts/a3_draft.md`; roughly 450 words need to come out.
+3. `memo.md` not started. `ai_process_note.md` not started; per-session raw
+   material is in `drafts/ai_process_note_draft.md` (session 4 block added).
+4. Deadline Thursday 1 October, 6:00 PM Central.

@@ -152,3 +152,60 @@ draft; `CLAUDE.md` drafting rule.
 churn not in the columns is a hypothesis); whether the 12-column model beats
 a single column on the test window (not computed, to honour score-once).
 
+
+---
+
+## Session 4 (2026-09-29, macOS) — A3, the targeting decision
+
+**Delegated:** the A3 script (threshold derivation, calibration check and
+correction, value exhibit, monthly split, offer-quality table, value curve and
+figure); the cross-machine reproducibility check; verifying A2's partitions
+against the brief's window table; the A3 draft.
+
+**Changed or rejected:**
+- I declined the agent's proposal to add window-compliance assertions to
+  `a2_evaluation.py`. A2 is run and its questions are answered; the assertions
+  only guard against future edits.
+- The agent recommended skipping the monthly split to save words, and I
+  agreed. It then turned out to be the clearest evidence that the value is
+  unstable — October $48, November $810, December -$6 — so it went in after
+  all. A pre-commitment revisited because the data disagreed with it.
+- The agent argued that fitting the calibration correction on September
+  (10.8% base rate) would over-correct for a lower-rate test window. That was
+  wrong and it said so: the raw model under-predicts on the test window too,
+  because the test book is more corporate and the model scores corporate low.
+- I chose one offer = one member-month over per-member accounting, and fixed
+  the shape of the recommendation (scope to non-corporate, plus a tripwire)
+  before any dollar figure was computed.
+- I rejected scoring the test window with the analyst's *model* for a
+  like-for-like dollar comparison: it would be a second scoring of the test
+  set, and session 3 had already set the norm against that.
+- I specified the tripwire in dollars — realised value per offer — rather than
+  AUC, after seeing that the model's top-scoring offers claim 39.6% and
+  deliver 27.9%, so a ranking statistic can hold steady while the programme
+  goes underwater.
+
+**How numbers were checked:**
+- Cross-machine: re-ran the whole pipeline on the Mac against outputs
+  committed from Windows. `a2_table.csv` and all six A1 outputs were
+  byte-identical; `a2_test_scores.csv` differed by at most 4e-14 in `p_churn`,
+  and the same 203 rows cleared the threshold on both machines, so no dollar
+  figure depends on the hardware.
+- The threshold is derived two ways in code — 18/(240 x 0.35) and the general
+  form C_FP/(C_FP+C_FN) — with an assertion that they agree, and both read the
+  constants from `starter/load.py` rather than being typed in.
+- The vectorised value calculation is asserted row by row against the supplied
+  `offer_value()` helper, so the economics come from the starter module.
+- A2's partitions were verified from the data (months present in each, no
+  overlap, all 24 accounted for) rather than from reading the code.
+- The calibration decision was made on validation evidence *before* any dollar
+  figure was computed, and it cost $30 — raw scores return $882 against $852
+  corrected. Deciding afterwards would have selected the raw scores.
+- The figure's annotation disagreed with the exhibit ($834 against $852)
+  because the curve grid did not pass through the derived threshold. Caught by
+  reading the figure against the table; fixed by putting t* and 0 in the grid.
+
+**Would still not bet on:** the corporate dollar line (-$78 on nine offers and
+one churner); the quartile pattern below the top quartile (~15 churners each);
+and that $852 transfers to April-June, which runs a lower base rate on a book
+forecast at 35% corporate.
