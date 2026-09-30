@@ -138,6 +138,35 @@ billing snapshot at the start of the month.
 - No single-column reference on the test window: "score once" honoured.
 - Model never touched: `analyst_pipeline()` imported unmodified.
 
+### On "no choice was made by looking at data" (for office hours, and for defending A2)
+
+The claim in the exhibit footnote is that A2 selected nothing from the data,
+so the validation month (Sep 2025) was not needed. Two precisions.
+
+**First: A2 did not use the validation month, but Part A did.** A3 used it,
+to check and correct calibration -- which is exactly its stated purpose in the
+brief, "any choice made by looking at data". So the accurate sentence is "A2
+made no choice by looking at data", not "the validation month was never used".
+
+**Second, the honest nuance.** We had already computed those two columns'
+univariate AUCs in A1 (`exit_survey_started` 0.808, `winback_offer_sent`
+0.858) before A2's column decision was finalised. The decision rule was
+provenance -- the dictionary dates both after the scoring moment -- and it
+would have been identical without those numbers. Two facts support that:
+`tenure_months` has an AUC of 0.50 and was **kept** because it is available,
+and a column with a high AUC that *was* available would also have been kept.
+But a strict reader could say we had seen them. The distinction is between
+looking at data *actively* (comparing numbers and letting the comparison pick
+the winner) and *passively* (computing something that corroborates a decision
+already reached on other grounds). Worth being able to state both sides.
+
+The test that classifies any decision: **would the choice have been different
+if the numbers had come out differently?** For every A2 decision the answer is
+no -- columns from the dictionary's timing notes, the order from structure
+(change 2 must precede change 3, because no folds exist after it), the fold
+object matched to the analyst's own settings, and the model imported
+unmodified with nothing tuned.
+
 ### Arguing against the draft
 
 - Row 4 corporate at 0.404: 34 churners. Rough SE of an AUC near 0.5 with

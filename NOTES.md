@@ -384,3 +384,36 @@ value per offer = 84 x (precision - 0.2143); quarter precision 25.6%.
   Treat that file as a quarry, not a first draft; it is not submitted. The
   strongest items are the ones where I corrected the agent, not the ones
   where it built something. Write it last, in one pass, covering both parts.
+
+### For office hours (added session 5, before 2026-09-30)
+
+Three questions, ranked by how much they could move a grade.
+
+1. **The "building data" ambiguity in A2.** The brief says rows before change
+   3 are "cross-validated on the building data" without defining the phrase.
+   We read it as the training window (months <= 2025-06, 21,031 rows). The
+   alternative reading is everything that is not test (<= 2025-09, including
+   the two gap months and the validation month). If the second reading is
+   intended, rows 0-2 change and `a2_evaluation.py` needs a one-line edit and
+   a re-run -- not a rebuild.
+2. **Does corroboration count as selection?** We dropped `winback_offer_sent`
+   and `exit_survey_started` on provenance grounds from the dictionary's
+   timing notes, but had already computed their univariate AUCs in A1. Does
+   having seen those numbers count as choosing from the data, and does it
+   oblige us to use the validation month? Written up in `drafts/a2_draft.md`
+   under "On 'no choice was made by looking at data'".
+3. **A3's use of the validation month.** We used Sep 2025 to check and then
+   correct calibration (Platt). We read that as squarely within "any choice
+   made by looking at data", but it is the only fitted correction in Part A
+   and is worth one sentence of confirmation.
+
+Related concept settled this session, in case it comes up: cross-validation
+carries **two opposing biases**. Fitting on (K-1)/K of the data makes every
+candidate's estimate pessimistic for the final refit model (Handout 2 s3.2,
+s4.3). Selecting the best of several noisy estimates makes the *winner's*
+reported score optimistic (Handout 2 s3.1, "applied one level up"). A
+simulation with 25 candidates of identical true risk 400 and CV noise 30
+reports 341 for "the best" -- 59 units of pure selection bias with no model
+involved. Pessimism is safe, optimism is not, which is why the test set
+exists. A2 row 3 compares no candidates, so it carries only the conservative
+bias. Both biases will be large in Apparel at n=197 with 25 alphas.
