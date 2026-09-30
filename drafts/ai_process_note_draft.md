@@ -209,3 +209,56 @@ against the brief's window table; the A3 draft.
 one churner); the quartile pattern below the top quartile (~15 churners each);
 and that $852 transfers to April-June, which runs a lower base rate on a book
 forecast at 35% corporate.
+
+---
+
+## Session 5 (2026-09-29, macOS) — B1, the noise floor
+
+**Delegated:** the B1 script (pooled within-configuration variance, its
+standard error, the verification that the twelve fields really are constant
+within a configuration, and the test of whether the floor is level-dependent);
+reading Handout 3; the B1 draft.
+
+**Changed or rejected:**
+- I asked what we actually test on — `test_extract()` or the replicates —
+  before letting any of Part B be built on an assumption. They are the same
+  object; the agent verified it with `.equals()` rather than telling me from
+  the docstring.
+- I asked for the "average unavoidable error" caveat to go into the draft,
+  and the agent had computed the supporting slope test as a one-off. It went
+  into `b1_noise_floor.py` before it was allowed into the draft — the same
+  rule I applied to the leakage evidence in A1.
+- I pushed back on the claim that the one-standard-error rule needs
+  cross-validation, pointing out that scoring the five fold-models on a
+  single held-out set would also give a spread. It would — but it measures
+  the spread of the *predictor* with the evaluation data fixed, which is the
+  Var term of the bias-variance decomposition and is what B3 measures with
+  bootstrap resamples, not the uncertainty of the risk estimate that the rule
+  needs.
+- I asked for the A2 "no decision was made from data" claim to be stated with
+  both caveats — that A3 *did* use the validation month, and that we had seen
+  the two dropped columns' univariate AUCs in A1 before finalising A2 — so
+  the write-up shows the rebuttal as well as the argument.
+
+**How numbers were checked:**
+- The pooled variance is computed two ways in the script — directly from the
+  definition, and as the mean of the per-group sample variances — with an
+  assertion that they agree when group sizes are equal.
+- The estimator's assumption is verified, not trusted: 0 of 12 recorded
+  fields vary within any of the 90 configurations, every group has exactly
+  ten rows, and the script raises rather than computing a floor if that fails.
+- **Independent check:** the brief states, in the B3 section, that a
+  configuration's replicate mean estimates true demand to within about
+  sigma/sqrt(10) ~ 4 units, without naming a division. Ours give 3.85 and
+  3.77. That figure was computed by the instructor from data we had not seen,
+  and our estimate lands on it.
+- The heteroscedasticity test was reported as inconclusive rather than spun:
+  a configuration's variance is estimated from ten rows and carries a standard
+  error near 70 on a value of 148, so Hardgoods' slope of +0.657 +/- 0.410 is
+  consistent with both a Poisson-like law and a constant floor.
+
+**Would still not bet on:** that the 45 configurations are representative of
+where the training rows live — they are points Merchandising Analytics chose
+during platform validation, and nothing claims they are a random sample; and
+the contractor's 231 and 414, which are quoted from the brief and not yet
+reproduced under our own protocol (B2 will say).

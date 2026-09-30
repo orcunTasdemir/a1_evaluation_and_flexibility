@@ -417,3 +417,148 @@ reports 341 for "the best" -- 59 units of pure selection bias with no model
 involved. Pessimism is safe, optimism is not, which is why the test set
 exists. A2 row 3 compares no candidates, so it carries only the conservative
 bias. Both biases will be large in Apparel at n=197 with 25 alphas.
+
+---
+
+## Session 5 — 2026-09-29 (macOS laptop). B1 done. Concepts for B2 settled.
+
+Transcript: `sessions/claude-code/a1-session-5.jsonl` and `.txt`. Same VS Code
+thread as sessions 2 and 4, continued, so the file contains those as its
+opening parts (see `sessions/README.md` for the containment table).
+
+### What was done
+
+- Confirmed `test_extract("H")` **is** `replicates.csv` filtered to division H
+  — verified with `.equals()`. There is no separate test set: one file, two
+  jobs (the noise floor, and scoring once). All **eight** B2 cells are scored
+  on their own division's 450 replicate rows; nothing is held back.
+- `analysis/part2/b1_noise_floor.py`, in `run.sh`. Full run now ~13 s.
+- `drafts/b1_draft.md`: exhibit, 62 words of prose, the two-variances note,
+  the level-dependence caveat, argue-against list, provenance.
+- `drafts/a2_draft.md`: new section on active vs passive use of data, and the
+  correction that A2 did not use the validation month but A3 did.
+- Office-hours questions recorded above (three, ranked).
+
+### B1 numbers, with provenance (all from `bash analysis/run.sh`)
+
+| Quantity | Value | File |
+|---|---|---|
+| Hardgoods sigma^2 | 148.11 +/- 10.41 (sigma 12.17 units, mean units 111.88) | `b1_noise_floor.csv` |
+| Apparel sigma^2 | 142.04 +/- 9.98 (sigma 11.92 units, mean units 111.04) | " |
+| dof | 405 each (45 configs x 9) | " |
+| Difference A - H | -6.1, SE 14.4, **0.42 standard errors** | `run.log` |
+| Avoidable vs contractor's best | H 82.9 (64% of 231 is floor); A 272.0 (34% of 414 is floor) | `b1_noise_floor.csv` |
+| Estimator's assumption | 0 of 12 fields vary within any of the 90 configs; all groups size 10; script raises if not | `b1_config_check.csv` |
+| Variance-on-mean slope | H +0.657 +/- 0.410 (consistent with both Poisson and constant); A +0.103 +/- 0.401 (rules out Poisson) | `b1_variance_shape.csv` |
+| Overdispersion vs Poisson | 1.32x / 1.28x | " |
+
+**Independent check:** the brief says sigma/sqrt(10) ~ 4 units without naming
+a division. Ours give 3.85 and 3.77. That figure was computed by the
+instructor from data we had not seen.
+
+**Finding:** the unavoidable error is the same size in both divisions, so the
+contractor's "Apparel is inherently harder" does not survive. What differs is
+avoidable error: 83 units^2 above the floor in Hardgoods, 272 in Apparel.
+
+### Concepts settled this session (carry into B2/B3)
+
+1. **Two variances, not one.** Handout 3 s1.1's "two levels of randomness".
+   **Var** = E_D[(fhat_D(x0) - fbar(x0))^2] is how much the *prediction* moves
+   across training samples — reducible. **sigma^2 = Var(eps_0)** is how much
+   the *outcome* moves at a fixed x — irreducible. B1 measures the second.
+2. **Say "the average unavoidable error".** Handout 3 eq. (4) bars Bias^2 and
+   Var but not sigma^2, silently assuming the floor is constant in x. `units`
+   is a count and Handout 1 s4.7 warns variance usually grows with the mean.
+   Tested: inconclusive (see slopes above). Doesn't threaten the B1
+   comparison — both divisions pooled identically over similar demand ranges
+   — but would matter for judging a single store-week prediction.
+3. **CV carries two opposing biases.** Fitting on (K-1)/K of the data makes
+   every candidate's estimate *pessimistic* for the final refit (H2 s3.2,
+   s4.3). Selecting the best of several noisy estimates makes the *winner's*
+   reported score *optimistic* (H2 s3.1, "applied one level up"). Simulation:
+   25 candidates with identical true risk 400 and CV noise 30 report 341 for
+   "the best" — 59 units of pure selection bias, no model involved.
+   Pessimism is safe; optimism is why the test set exists. A2 row 3 compared
+   no candidates, so it carries only the conservative bias.
+   **Expect both to be large in Apparel** (n=197, folds fit on ~158 rows, 25
+   alphas x 2 degrees), so Apparel's tuned CV number will flatter itself
+   relative to its test MSE, and by more than Hardgoods' does.
+4. **CV *replaces* a validation set, it does not supplement one** (H2 s3.2 ->
+   s4, protocol s6). Part B has no validation set. Part A has a validation
+   month only because its holdout is temporal and folds cannot manufacture a
+   time-ordered holdout.
+5. **The 1-SE rule needs fold-level errors.** H2 s4.5:
+   `SE(d) = sd(MSE_1..MSE_K)/sqrt(K)`, then take the *simplest* model whose CV
+   error is within one SE of the minimum. Scoring the K fold-models on a
+   single shared holdout instead would measure something else — the spread of
+   the *predictor* with the evaluation data fixed, which is the **Var** term
+   and is what B3 measures with bootstrap resamples. The rule's SE is a
+   heuristic: the K training sets overlap heavily so the fold errors are
+   correlated, and sd/sqrt(K) treats them as independent.
+
+### B2 — design calls still OPEN (mine to make before coding)
+
+1. **How the penalty is tuned.** (a) tune to the CV minimum and *discuss* the
+   1-SE rule in the write-up, or (b) tune *by* the 1-SE rule and report both.
+   Whichever is chosen becomes the value frozen into B3's
+   `RIDGE_ALPHA_DEG1/DEG2` — `stability.py` says do not re-tune inside the
+   resamples. The brief's B2 question 2 says to "note where the
+   one-standard-error rule bears on your answer", which reads like (a) plus
+   discussion, but (b) is defensible if stated.
+2. **Averaging, not pooling — recommended and near-settled.** The brief asks
+   for "CV MSE with its standard error across folds", and the SE only exists
+   if the five fold-level MSEs are kept. Note A2 *pooled* out-of-fold
+   predictions (right for AUC, which is not an average of per-row losses).
+   Fold sizes: Hardgoods 600x5 (pooled == averaged), Apparel 40,40,39,39,39
+   (they differ slightly). Verified in session 5.
+3. **Degree 3?** `DEGREES = (1,2,3)` exists and `basis_size(3)` = 454 terms,
+   which against 197 Apparel rows would make the terms-to-rows point vividly.
+   The brief specifies four models and says there are no marks for more.
+   Recommendation: keep it out of the exhibit; the optional `sweep.py` shows
+   it.
+4. **Where Part B's figures land** — open since session 1. `sweep.py` writes
+   to `sweep_outputs/` and `stability.py` to `b3_outputs/`, both beside the
+   script. Session-1 decision: keep the starter's folder names. Remaining
+   choice: `analysis/part2/<name>/` vs `analysis/outputs/<name>/`. Everything
+   else in this submission writes to `analysis/outputs/`.
+
+### B2 — what the script must do (from the brief's protocol table)
+
+- **Tune:** 5-fold CV on the division's own training extract using
+  `make_folds()` (seed 575, do not change). `poly_pipeline(estimator, degree=d)`
+  fits the basis and the scaler *inside* each fold. `ALPHA_GRID` is 25
+  log-spaced values; the brief warns that if the best value lands on an
+  endpoint, something upstream is wrong.
+- **Refit** each tuned configuration on all rows of that division's training
+  extract. Hardgoods must go through `dedup_h()` (3,350 -> 3,000).
+- **Test:** score once on `test_extract("H")` / `test_extract("A")`.
+- **Report** per cell: tuned penalty where there is one, CV MSE with its SE
+  across folds, test MSE, and **test MSE - sigma^2_hat**.
+- Eight cells: {degree 1, degree 2} x {OLS, ridge} x {H, A}.
+- Check our degree-1 and degree-2 OLS CV MSEs against the contractor's
+  quoted 336 / 231 (H) and 414 / 618 (A). If they land far off, B1's
+  "avoidable" column needs restating with our own figures.
+
+### Useful identity for B2's interpretation
+
+All ten replicates of a configuration are identical on every feature, so the
+model predicts the same value for all ten and the test MSE splits exactly:
+
+    test MSE = (405/450) * sigma^2_hat + (1/45) * sum_g (ybar_g - yhat_g)^2
+
+The second term is the only part a better model could remove. That is why the
+brief insists a raw MSE has no interpretation without the floor beside it.
+
+### Still open beyond B2
+
+- B3 after B2 (needs B2's penalties). `stability.py`'s `build_models()` is
+  the only thing to fill in; everything else there is fixed.
+- Prose budget: A1 499 + A2 552 + A3 448 = 1,499 words for a two-page S1
+  (~1,000-1,200). ~450 words to cut; candidates listed at the end of
+  `drafts/a3_draft.md`. S2 is one page for B1+B2+B3 together (~450-500
+  words), of which B1 uses about 60.
+- `memo.md` and `ai_process_note.md` not started. The process note is **one
+  page maximum for both parts** (~500 words) against 1,927 now in
+  `drafts/ai_process_note_draft.md` — that file is a quarry, not a draft, and
+  is not submitted.
+- Deadline Thursday 1 October, 6:00 PM Central.
