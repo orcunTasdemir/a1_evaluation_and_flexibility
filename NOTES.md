@@ -364,3 +364,23 @@ value per offer = 84 x (precision - 0.2143); quarter precision 25.6%.
 3. `memo.md` not started. `ai_process_note.md` not started; per-session raw
    material is in `drafts/ai_process_note_draft.md` (session 4 block added).
 4. Deadline Thursday 1 October, 6:00 PM Central.
+
+### Two structural points for the write-up (settled end of session 4)
+
+- **The memo is not the drafts stapled together.** One document, two
+  sections: §1 to the Northline VP (A1-A3, max 2 pages of prose, Exhibits
+  A1-A3), §2 to the Cascade VP (B1-B3, max 1 page, Exhibits B1-B3). Each
+  section *leads with its recommendation* and works backwards through the
+  evidence. The drafts are organised by rubric item so nothing is lost; the
+  memo has to be reorganised by argument. Some of the 450-word trim comes
+  free from that, since the three A-drafts repeat context for each other.
+  Also check the exhibit count: eight labels exist (A1, A2, A2b, A2c,
+  A3a-A3d) against the brief's "Exhibits A1-A3"; sub-lettering is fine but
+  four under A3 is probably one or two too many.
+- **`ai_process_note.md` is one page maximum for both parts**, stated in
+  README, the submission checklist and course doc 01, and length limits are
+  "stated per assignment, and enforced". That is ~500 words against the
+  1,927 now in `drafts/ai_process_note_draft.md`, with Part B still to add.
+  Treat that file as a quarry, not a first draft; it is not submitted. The
+  strongest items are the ones where I corrected the agent, not the ones
+  where it built something. Write it last, in one pass, covering both parts.

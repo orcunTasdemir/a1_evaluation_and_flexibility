@@ -75,7 +75,7 @@ earlier one is the snapshot taken at the end of the first sitting.
 | `a1-session-1.jsonl` | 245 | thread A, snapshot after session 1 |
 | `a1-session-3.jsonl` | 636 | thread A in full; its first 245 records are byte-identical to `a1-session-1.jsonl` |
 | `a1-session-2.jsonl` | 637 | thread B, snapshot after session 2 |
-| `a1-session-4.jsonl` | 1,064 | thread B in full; its first 637 records are byte-identical to `a1-session-2.jsonl` |
+| `a1-session-4.jsonl` | 1,134 | thread B in full; its first 637 records are byte-identical to `a1-session-2.jsonl` |
 
 Both containments were verified with `cmp`, not asserted. All four files are
 submitted rather than only the two full threads, because the snapshots are
