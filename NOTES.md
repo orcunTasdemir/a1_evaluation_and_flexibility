@@ -562,3 +562,140 @@ brief insists a raw MSE has no interpretation without the floor beside it.
   `drafts/ai_process_note_draft.md` — that file is a quarry, not a draft, and
   is not submitted.
 - Deadline Thursday 1 October, 6:00 PM Central.
+
+---
+
+## Session 6 - 2026-10-01 (Windows 11 machine). B2 and B3 done. Part B complete.
+
+Transcript: `sessions/claude-code/a1-session-6.jsonl` and `.txt`. Thread A
+continued (sessions 1 and 3), so the file contains those as its opening part;
+see the containment table in `sessions/README.md`.
+
+**Deadline extended to Friday 2026-10-02, midnight. Office hours Friday 11:00**,
+so the three ranked questions in the session-4 block get answered before
+submission.
+
+### What was done
+
+- `analysis/part2/b2_models.py` and `analysis/part2/b3_stability.py`, both in
+  `run.sh`. **The whole submission now runs in ~18 s from one command.**
+- `drafts/b2_draft.md` (Exhibits B2, B2b, B2c; prose 392 words) and
+  `drafts/b3_draft.md` (Exhibit B3, per-query-point table; prose 211 words).
+- Supplied folders still byte-identical: `git diff HEAD -- part1_northline
+  part2_cascade` is empty, B3 included.
+
+### Design decisions made (mine)
+
+- **Tuned to the CV minimum**, not by the 1-SE rule; the 1-SE alpha is
+  reported beside it. The asymmetry this creates (a ridge cell reports the
+  minimum of 25 estimates, an OLS cell reports one) is disclosed in the
+  Exhibit B2 footnote.
+- **CV MSE = average of the five fold MSEs**, not pooled, because the SE
+  across folds is asked for and only exists if the five are kept. A2 pooled,
+  correctly, for a different reason: AUC is a pairwise rank statistic and the
+  analyst's protocol had to be reproduced exactly.
+- **No degree 3.** No marks for more models.
+- **B3 runs the supplied loop as issued**, via a wrapper that imports
+  `stability.py` and supplies only the penalty dicts, `build_models()` and the
+  output path. Chosen over editing or copying it.
+- **Signed mean bias added** to B3's table beside the starter's mean absolute.
+- **Outputs to `analysis/outputs/`**, overriding the session-1 decision to
+  keep the starter's `b3_outputs/` folder name.
+- No bootstrap CI on the B2 cells; not asked, page budget.
+
+### B2 numbers, with provenance (all from `bash analysis/run.sh`)
+
+| Quantity | Value | File |
+|---|---|---|
+| Hardgoods d1 OLS / ridge | CV 336.62 +/- 6.42 / 336.61 +/- 6.39; test 398.55 / 398.38 | `b2_table.csv` |
+| Hardgoods d2 OLS / ridge | CV 233.12 +/- 4.64 / **232.98** +/- 4.79; test 246.16 / 247.47 | " |
+| Apparel d1 OLS / ridge | CV 413.53 +/- 29.84 / 412.06 +/- 36.19; test 363.58 / 354.12 | " |
+| Apparel d2 OLS / ridge | CV 617.97 +/- 67.54 / **329.80** +/- 14.31; test 366.86 / **296.19** | " |
+| Test - sigma^2, all eight | H 250.44 / 250.27 / 98.05 / 99.36; A 221.54 / 212.08 / 224.82 / **154.15** | " |
+| Tuned alpha | d1 H 10.0, A 10.0; d2 H 0.316, A 3.162. None on a grid endpoint | `b2_penalties.csv` |
+| 1-SE alpha | 316.2 / 5.62 / 56.2 / 10.0 | `b2_table.csv` |
+| Terms per row | H 0.004 / 0.030; A 0.061 / **0.457** | " |
+| Penalty effect, paired across folds | A d2 **288.16 +/- 55.02** (5.2 SE); H d1 0.01 +/- 0.05; H d2 0.15 +/- 0.22; A d1 1.47 +/- 7.26 | `b2_differences.csv` |
+| d2 ridge vs best hand-picked | H 0.15 +/- 0.22 (a tie); A better by 83.72 +/- 19.98 | " |
+| Alphas within 1 SE of the minimum | H 19/25 (d1), 12/25 (d2); A 16/25 (d1), 5/25 (d2) | `b2_alpha_curves.csv` |
+| Contractor reproduced | 336.62 / 233.12 / 413.53 / 617.97 against his 336 / 231 / 414 / 618, all under 0.5 SE | `b2_contractor_check.csv` |
+| Test MSE split, floor part | H 133.30, A 127.83 (= 0.9 sigma^2); identity checks to 0 in all 8 cells | `b2_test_decomposition.csv` |
+
+### B3 numbers, with provenance
+
+| Quantity | Value | File |
+|---|---|---|
+| Hardgoods mean sd / mean abs bias | d1 OLS 1.14 / 12.65; d1 ridge 1.14 / 12.66; d2 OLS 2.83 / 3.84; d2 ridge 2.80 / 3.64 | `b3_stability.csv` |
+| Apparel mean sd / mean abs bias | d1 OLS 4.33 / 16.66; d1 ridge 4.13 / 16.46; d2 OLS **25.24** / 18.78; d2 ridge **7.22** / 15.05 | " |
+| Signed mean bias | H +1.35 / +1.34 / +0.86 / +1.05; A +9.35 / +8.70 / -6.16 / +4.15 | " |
+| H d1 OLS per-point bias | +21.01, -15.06, -1.89 (cancel to +1.35) | " |
+| A d2 OLS per-point sd | 18.08, 30.25, 27.40 | " |
+| Bias^2 / variance (units^2) | H d2 ridge 15.1 / 8.9 (63% bias); A d2 OLS 474.9 / 664.2 (42%); A d2 ridge **292.8 / 52.9 (85% bias)** | " |
+| Yardstick precision | sigma/sqrt(10) = 3.85 (H), 3.77 (A) | `run.log` |
+| Figure | `b3_stability.png` | |
+
+Measured in session, notes only, not in a script: the B2-vs-B3 level gap
+decomposes as 154.2 (45 configs, one fit) -> 257.3 (3 query points, same fit)
+-> 345.7 (3 points, 20 bootstrap fits), with bootstrap resamples holding 0.625
+distinct rows. Per-point reducible error at the three Apparel query points is
+A10 = 624, A08 = -12, A07 = 159.
+
+### Findings this session
+
+- **The contractor's arithmetic was right; his conclusions were wrong.** All
+  four of his quoted figures reproduce within half a standard error.
+- **One specification serves both divisions: degree-2 ridge.** It ties the
+  best hand-picked choice in Hardgoods (0.15 +/- 0.22) and beats it in Apparel
+  (83.72 +/- 19.98). The 1-SE rule is what licenses the Hardgoods half.
+- **Terms per row, not division size, is the quantity.** Apparel degree 1 is
+  the proof: the same 197 rows, 12 terms instead of 90, penalty worth nothing
+  (1.47 +/- 7.26).
+- **Degree 1 -> 2 is a trade in Hardgoods and a pure loss in Apparel.**
+  H: sd 1.14 -> 2.83, bias 12.65 -> 3.84. A: sd 4.33 -> 25.24, bias 16.66 ->
+  18.78.
+- **The penalty converts Apparel's variance problem into a bias problem.** The
+  best Apparel model is 85% bias (293 against 53 units^2). So the standard
+  should say "collect more Apparel history", not "use a bigger basis" or
+  "penalise harder". This is the bridge into standardise-a-process.
+- **CV and test diverge in opposite directions by division.** Apparel's test
+  comes in below CV (158-row folds against a 197-row refit: the conservative
+  CV bias); Hardgoods degree 1 goes the other way (the 45 configurations are
+  not a random sample of where the training rows live).
+- Two instructor-embedded checks passed: sigma/sqrt(10) ~ 4, and the tuned
+  penalties coinciding at one degree and not the other.
+
+### Rule for the memo
+
+**Never put a B3 level beside a B2 level.** Same cell, but two different
+populations of query points and two different training sizes. Comparisons
+*within* a table are safe. B2 for levels, B3 for mechanism.
+
+### Open - everything that is left
+
+1. **`memo.md` is the whole remaining job.** One document, two sections, each
+   leading with its recommendation. S1 to the Northline VP (A1-A3, max 2 pages
+   of prose plus Exhibits A1-A3); S2 to the Cascade VP (B1-B3, max 1 page plus
+   Exhibits B1-B3), answering Part B's three questions and saying what a
+   company-wide standard should fix and what it should leave to the data, in
+   terms that would transfer to a third division acquired next year.
+   - S1 prose: 499 + 552 + 448 = **1,499 words against ~1,000-1,200.** Trim
+     candidates are listed at the end of `drafts/a3_draft.md`.
+   - S2 prose: 70 + 392 + 211 = **673 against ~450-500.** Candidates: B2's
+     fourth paragraph, the signed-bias clause, the CV-vs-test divergence.
+   - Exhibit count: A1, A2, A2b, A2c, A3a-A3d, B1, B2, B2b, B2c, B3 is
+     thirteen labels against the brief's "Exhibits A1-A3" and "B1-B3". Needs
+     pruning or re-lettering.
+   - The memo is organised by argument, not by rubric item. Some of the trim
+     comes free from that, since the drafts repeat context for each other.
+2. **`ai_process_note.md`** - one page, ~500 words, both parts.
+   `drafts/ai_process_note_draft.md` is now **3,199 words**. It is a quarry,
+   not a draft, and is not submitted. The strongest items are the ones where I
+   corrected the agent.
+3. **Office hours Friday 11:00.** Three ranked questions in the session-4
+   block. Question 1 (the "building data" reading in A2) is the only one that
+   could require a re-run, and that is a one-line edit plus a re-run, not a
+   rebuild.
+4. **Final verification before submitting:** clean clone, `bash analysis/run.sh`,
+   then confirm every number in the memo appears in `analysis/outputs/` or
+   `run.log`.
+5. Prose is the only thing left with no code behind it. Budget time for it.

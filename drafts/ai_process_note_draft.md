@@ -262,3 +262,78 @@ where the training rows live — they are points Merchandising Analytics chose
 during platform validation, and nothing claims they are a random sample; and
 the contractor's 231 and 414, which are quoted from the brief and not yet
 reproduced under our own protocol (B2 will say).
+
+---
+
+## Session 6 (2026-10-01, Windows) — B2 and B3. Part B complete.
+
+**Delegated:** `b2_models.py` and `b3_stability.py`; the explanations of
+ALPHA_GRID, pooling vs averaging, the test-MSE decomposition, bias/variance
+at a query point; both drafts; the session close.
+
+**Changed or rejected:**
+- I chose to tune to the CV minimum rather than by the 1-SE rule, reading the
+  brief's "note where the rule bears on your answer" as a request to discuss
+  it. My stated reason was that it keeps the ridge and OLS cells comparable;
+  the agent corrected me — it does the opposite. A ridge cell reports the
+  minimum of 25 noisy estimates and carries selection bias; an OLS cell
+  reports one estimate and carries none. I kept the decision and had the
+  asymmetry disclosed in the Exhibit B2 footnote instead. Evidence it is real
+  and small: Hardgoods degree 2, ridge wins the CV comparison by 0.15 and
+  loses the test comparison by 1.31.
+- Agent told me three times that the brief's `test MSE − σ̂²` was conservative
+  by σ̂²/10, because the "exact" gap against replicate means was larger. I
+  pushed for an explanation I could follow, and the explanation is what broke
+  it: the replicate mean is itself an average of ten weeks, so it wobbles by
+  σ̂²/10 and inflates the measured gap by exactly the amount the subtraction
+  over-removes. The two cancel; the brief's quantity is unbiased. Confirmed
+  by a 20,000-dataset simulation with known truth: target 99.92, replicate-mean
+  gap 114.19 (overstates by 14.27 ≈ σ²/10 = 14.4), brief's quantity 99.79.
+  Nothing about it went in the memo, because there was nothing to disclose.
+- Rejected degree 3 (no marks for more models) and a bootstrap CI on the B2
+  cells (not asked, page budget).
+- For B3 I chose the wrapper approach over editing or copying the supplied
+  `stability.py`, so the instructor's loop runs as issued and `git diff`
+  against the supplied folders stays empty.
+- I asked for signed bias alongside mean absolute. It earned its place:
+  Hardgoods degree-1 OLS has per-point biases +21.01, −15.06, −1.89, so its
+  signed mean of +1.35 would have made a rigid model look unbiased.
+- Agent predicted before running B3 that Apparel's problem would be variance.
+  Half wrong: true for degree-2 OLS (variance 664 of 1,139 units²), but the
+  penalty converts it, and Apparel's best model is 85% bias (293 vs 53). That
+  changed §2's conclusion from "penalise Apparel" to "the penalty has already
+  done its work; what remains needs more Apparel history."
+- Agent's B2 note called the degree-1 tuned α "close to arbitrary". The
+  starter's own comment says the two divisions land on the same α at one
+  degree, which ours do (10.0 at degree 1), so it is expected, not luck.
+  Note softened.
+- Overrode my own session-1 decision to keep the starter's `b3_outputs/`
+  folder name: everything else writes to `analysis/outputs/`, and one
+  consistent location is worth more than fidelity to a folder name.
+
+**How numbers were checked:**
+- Our refits of the contractor's four specifications reproduce his quoted
+  336 / 231 / 414 / 618 as 336.62 / 233.12 / 413.53 / 617.97, all within half
+  a standard error. So his arithmetic was never wrong; his conclusions were.
+- Two checks the instructor embedded in the materials, both passed: σ̂/√10 ≈ 4
+  units (ours 3.85 and 3.77), and `stability.py`'s hint that the tuned
+  penalties coincide at one degree and not the other (ours 10.0/10.0 at
+  degree 1, 0.316/3.162 at degree 2).
+- The test-MSE identity (floor part + structural part = test MSE) checks to
+  zero in all eight cells.
+- B3's penalties are read from `b2_penalties.csv` rather than retyped, so they
+  cannot drift from B2 or be re-tuned inside the resamples.
+- The bias²/variance split was computed in conversation first; it was moved
+  into `b3_stability.py` before any of it was allowed into a draft.
+- B3's 345.7 against B2's 154.15 for the same cell looked like a
+  contradiction. Decomposed it instead: 154.2 over all 45 configs, 257.3 over
+  the three query points with the same single fit, 345.7 once the fits are
+  bootstrap resamples holding only 62.5% distinct rows. Two stacked changes,
+  not a conflict. Recorded as a rule: B2 for levels, B3 for mechanism.
+- `a2_test_scores.csv` changed when re-run on Windows after the Mac. Verified
+  it is floating-point only: max change 4e-14 and the same 203 rows clear the
+  threshold, so no dollar figure moves.
+
+**Would still not bet on:** whether the three query points' per-point bias
+pattern (both divisions over-predicting low demand, under-predicting high)
+generalises across feature space. Three points cannot establish it.

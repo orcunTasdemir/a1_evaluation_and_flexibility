@@ -65,21 +65,23 @@ of which roughly 22 MB is the four `.jsonl` files.
 | 3 | 2026-09-20 | Windows 11 | A1 review quiz and finalisation, `prep.py` refactor, A2 evaluation built and drafted. |
 | 4 | 2026-09-29 | macOS | A3: cost-based threshold, calibration on the validation month, realised value on the test quarter, draft. Part A complete. |
 | 5 | 2026-09-29 | macOS | B1: the noise floor, with the estimator's assumption verified. Handout 3 read. A2 data-selection caveats recorded. |
+| 6 | 2026-10-01 | Windows 11 | B2: four models against the floor, contractor's figures reproduced. B3: the stability experiment, supplied loop run as issued. Part B complete. |
 
-There are two VS Code conversations, worked in repeatedly, so three of the
-five files contain an earlier file as their opening part. Nothing is sliced,
+There are two VS Code conversations, worked in repeatedly, so four of the
+six files contain an earlier file as their opening part. Nothing is sliced,
 truncated or edited; the last file in each chain is the full thread and the
 earlier ones are snapshots taken at the end of each sitting.
 
 | File | Records | Relationship |
 |---|---:|---|
 | `a1-session-1.jsonl` | 245 | thread A, snapshot after session 1 |
-| `a1-session-3.jsonl` | 636 | thread A in full; its first 245 records are byte-identical to `a1-session-1.jsonl` |
+| `a1-session-3.jsonl` | 636 | thread A after session 3; its first 245 records are byte-identical to `a1-session-1.jsonl` |
+| `a1-session-6.jsonl` | 1,034 | thread A in full; its first 636 records are byte-identical to `a1-session-3.jsonl` |
 | `a1-session-2.jsonl` | 637 | thread B, snapshot after session 2 |
 | `a1-session-4.jsonl` | 1,134 | thread B after session 4; its first 637 records are byte-identical to `a1-session-2.jsonl` |
 | `a1-session-5.jsonl` | 1,339 | thread B in full; its first 1,134 records are byte-identical to `a1-session-4.jsonl` |
 
-Both containments were verified with `cmp`, not asserted. All five files are
+Both containments were verified with `cmp`, not asserted. All six files are
 submitted rather than only the two full threads, because the snapshots are
 what existed at the end of each working session and removing them would be
 curating the record.
