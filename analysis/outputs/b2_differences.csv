@@ -1,0 +1,13 @@
+division,model_a,model_b,mean_difference,se_of_difference,ses_from_zero
+Hardgoods,degree-1 OLS,degree-1 ridge,0.01,0.05,0.14
+Hardgoods,degree-1 OLS,degree-2 OLS,103.5,5.31,19.48
+Hardgoods,degree-1 OLS,degree-2 ridge,103.64,5.37,19.31
+Hardgoods,degree-1 ridge,degree-2 OLS,103.49,5.31,19.48
+Hardgoods,degree-1 ridge,degree-2 ridge,103.64,5.37,19.3
+Hardgoods,degree-2 OLS,degree-2 ridge,0.15,0.22,0.68
+Apparel,degree-1 OLS,degree-1 ridge,1.47,7.26,0.2
+Apparel,degree-1 OLS,degree-2 OLS,-204.44,52.9,-3.86
+Apparel,degree-1 OLS,degree-2 ridge,83.72,19.98,4.19
+Apparel,degree-1 ridge,degree-2 OLS,-205.91,52.76,-3.9
+Apparel,degree-1 ridge,degree-2 ridge,82.25,26.32,3.13
+Apparel,degree-2 OLS,degree-2 ridge,288.16,55.02,5.24

@@ -1,5 +1,5 @@
 === environment ===
-Python 3.11.16
+Python 3.11.9
 numpy 2.4.6 | pandas 3.0.5 | sklearn 1.9.1 | matplotlib 3.11.2
 
 === part1: analyst_model.py (as supplied) ===
@@ -91,7 +91,7 @@ first_month                           2025-02  2024-01
 rows_in_training_window_to_2025-06        533    20498
 tenure_max_in_training_window               6       45
 
-wrote /Users/orcuntasdemir/Desktop/a1_evaluation_and_flexibility/analysis/outputs/a1_baselines.csv, a1_base_rate_by_year.csv, a1_base_rate_by_month.csv, a1_column_timing.csv, a1_churn_by_tenure.csv, a1_corporate_segment.csv, a1_cleaning.txt
+wrote C:\Users\owner\Desktop\a1_evaluation_and_flexibility\analysis\outputs\a1_baselines.csv, a1_base_rate_by_year.csv, a1_base_rate_by_month.csv, a1_column_timing.csv, a1_churn_by_tenure.csv, a1_corporate_segment.csv, a1_cleaning.txt
 
 === part1: A2 evaluation ===
 harness check: analyst's protocol on raw file, all months  AUC 0.967  (analyst_model.py prints 0.967; this is not an exhibit row)
@@ -145,7 +145,7 @@ acquisition_channel_paid_search one-hot vs dropped first category               
                 city_tier_rural one-hot vs dropped first category                  NaN -0.0646             0.9375                  NaN               city_tier=metro
              city_tier_suburban one-hot vs dropped first category                  NaN -0.0021             0.9979                  NaN               city_tier=metro
 
-wrote /Users/orcuntasdemir/Desktop/a1_evaluation_and_flexibility/analysis/outputs/a2_table.csv, a2_columns.csv, a2_test_scores.csv, a2_fold_overlap.csv, a2_odds_ratios.csv
+wrote C:\Users\owner\Desktop\a1_evaluation_and_flexibility\analysis\outputs\a2_table.csv, a2_columns.csv, a2_test_scores.csv, a2_fold_overlap.csv, a2_odds_ratios.csv
 
 === part1: A3 targeting decision ===
 Deriving the threshold from the finance table
@@ -240,7 +240,7 @@ threshold sensitivity: the curve peaks at $1,098 (threshold 0.236); the derived 
 
 repeat-contact sensitivity: of 242 offers at t*, 47 are repeat contacts of a member already offered earlier in the quarter; contacting each member at most once gives 195 offers worth $774
 
-wrote /Users/orcuntasdemir/Desktop/a1_evaluation_and_flexibility/analysis/outputs/a3_threshold.txt, a3_calibration.csv, a3_value.csv, a3_by_month.csv, a3_offer_quality.csv, a3_value_curve.csv, a3_value_curve.png
+wrote C:\Users\owner\Desktop\a1_evaluation_and_flexibility\analysis\outputs\a3_threshold.txt, a3_calibration.csv, a3_value.csv, a3_by_month.csv, a3_offer_quality.csv, a3_value_curve.csv, a3_value_curve.png
 
 === part2: B1 noise floor ===
 configuration check (the estimator's assumption)
@@ -265,5 +265,116 @@ division      name  config_mean_min  config_mean_max  slope_var_on_mean  se_slop
    variance comes from ten rows, so the slope is poorly determined and
    an inconclusive answer is the honest one)
 
-wrote /Users/orcuntasdemir/Desktop/a1_evaluation_and_flexibility/analysis/outputs/b1_noise_floor.csv, b1_config_check.csv, b1_variance_shape.csv
+wrote C:\Users\owner\Desktop\a1_evaluation_and_flexibility\analysis\outputs\b1_noise_floor.csv, b1_config_check.csv, b1_variance_shape.csv
+
+=== part2: B2 four models against the floor ===
+terms in each basis on 12 inputs: degree 1 = 12, degree 2 = 90
+
+--- Hardgoods: 3,000 training rows, 450 test rows, sigma^2_hat = 148.11
+    degree 1 OLS   alpha=          CV   336.62 +/-   6.42   test   398.55   test - sigma^2   250.44
+    degree 1 ridge alpha=   10.000 CV   336.61 +/-   6.39   test   398.38   test - sigma^2   250.27
+    degree 2 OLS   alpha=          CV   233.12 +/-   4.64   test   246.16   test - sigma^2    98.05
+    degree 2 ridge alpha=    0.316 CV   232.98 +/-   4.79   test   247.47   test - sigma^2    99.36
+
+--- Apparel: 197 training rows, 450 test rows, sigma^2_hat = 142.04
+    degree 1 OLS   alpha=          CV   413.53 +/-  29.84   test   363.58   test - sigma^2   221.54
+    degree 1 ridge alpha=   10.000 CV   412.06 +/-  36.19   test   354.12   test - sigma^2   212.08
+    degree 2 OLS   alpha=          CV   617.97 +/-  67.54   test   366.86   test - sigma^2   224.82
+    degree 2 ridge alpha=    3.162 CV   329.80 +/-  14.31   test   296.19   test - sigma^2   154.15
+
+B2 exhibit
+ division  degree treatment  terms  terms_per_row  tuned_alpha  cv_mse  cv_se  test_mse  test_mse_minus_sigma2
+Hardgoods       1       OLS     12         0.0040          NaN  336.62   6.42    398.55                 250.44
+Hardgoods       1     ridge     12         0.0040    10.000000  336.61   6.39    398.38                 250.27
+Hardgoods       2       OLS     90         0.0300          NaN  233.12   4.64    246.16                  98.05
+Hardgoods       2     ridge     90         0.0300     0.316228  232.98   4.79    247.47                  99.36
+  Apparel       1       OLS     12         0.0609          NaN  413.53  29.84    363.58                 221.54
+  Apparel       1     ridge     12         0.0609    10.000000  412.06  36.19    354.12                 212.08
+  Apparel       2       OLS     90         0.4569          NaN  617.97  67.54    366.86                 224.82
+  Apparel       2     ridge     90         0.4569     3.162278  329.80  14.31    296.19                 154.15
+
+tuned penalty vs the one-standard-error choice (diagnostic)
+ division  degree  tuned_alpha  cv_mse  cv_se  alpha_1se  cv_mse_1se alpha_on_grid_endpoint
+Hardgoods       1    10.000000  336.61   6.39 316.227766  342.288517                     no
+Hardgoods       2     0.316228  232.98   4.79   5.623413  237.493529                     no
+  Apparel       1    10.000000  412.06  36.19  56.234133  437.947457                     no
+  Apparel       2     3.162278  329.80  14.31  10.000000  342.065241                     no
+
+our OLS CV MSE against the contractor's quoted figures
+ division  degree  contractor_quoted  ours_cv_mse  ours_cv_se  difference  ses_from_quoted
+Hardgoods       1              336.0       336.62        6.42        0.62             0.10
+Hardgoods       2              231.0       233.12        4.64        2.12             0.46
+  Apparel       1              414.0       413.53       29.84       -0.47            -0.02
+  Apparel       2              618.0       617.97       67.54       -0.03            -0.00
+
+pairwise CV differences, paired across the five shared folds
+ division        model_a        model_b  mean_difference  se_of_difference  ses_from_zero
+Hardgoods   degree-1 OLS degree-1 ridge             0.01              0.05           0.14
+Hardgoods   degree-1 OLS   degree-2 OLS           103.50              5.31          19.48
+Hardgoods   degree-1 OLS degree-2 ridge           103.64              5.37          19.31
+Hardgoods degree-1 ridge   degree-2 OLS           103.49              5.31          19.48
+Hardgoods degree-1 ridge degree-2 ridge           103.64              5.37          19.30
+Hardgoods   degree-2 OLS degree-2 ridge             0.15              0.22           0.68
+  Apparel   degree-1 OLS degree-1 ridge             1.47              7.26           0.20
+  Apparel   degree-1 OLS   degree-2 OLS          -204.44             52.90          -3.86
+  Apparel   degree-1 OLS degree-2 ridge            83.72             19.98           4.19
+  Apparel degree-1 ridge   degree-2 OLS          -205.91             52.76          -3.90
+  Apparel degree-1 ridge degree-2 ridge            82.25             26.32           3.13
+  Apparel   degree-2 OLS degree-2 ridge           288.16             55.02           5.24
+
+exact split of each test MSE (floor part + structural part)
+ division  degree treatment  test_mse  floor_part  structural_part  identity_check  test_mse_minus_sigma2
+Hardgoods       1       OLS    398.55      133.30           265.25            -0.0                 250.44
+Hardgoods       1     ridge    398.38      133.30           265.08             0.0                 250.27
+Hardgoods       2       OLS    246.16      133.30           112.86            -0.0                  98.05
+Hardgoods       2     ridge    247.47      133.30           114.17             0.0                  99.36
+  Apparel       1       OLS    363.58      127.83           235.75            -0.0                 221.54
+  Apparel       1     ridge    354.12      127.83           226.28             0.0                 212.08
+  Apparel       2       OLS    366.86      127.83           239.03            -0.0                 224.82
+  Apparel       2     ridge    296.19      127.83           168.36            -0.0                 154.15
+
+wrote C:\Users\owner\Desktop\a1_evaluation_and_flexibility\analysis\outputs\b2_table.csv, b2_alpha_curves.csv, b2_penalties.csv, b2_contractor_check.csv, b2_differences.csv, b2_test_decomposition.csv
+
+=== part2: B3 stability experiment ===
+penalties held at the B2 values (not re-tuned inside the resamples):
+  degree 1: H 10.0000   A 10.0000
+  degree 2: H 0.3162   A 3.1623
+  yardstick precision, Hardgoods: sigma/sqrt(10) = 3.85 units
+  yardstick precision, Apparel  : sigma/sqrt(10) = 3.77 units
+
+B3 exhibit: spread of 20 bootstrap predictions, and distance from the truth
+division_name          model  mean_sd  mean_abs_bias  signed_mean_bias
+    Hardgoods   degree-1 OLS     1.14          12.65              1.35
+    Hardgoods degree-1 ridge     1.14          12.66              1.34
+    Hardgoods   degree-2 OLS     2.83           3.84              0.86
+    Hardgoods degree-2 ridge     2.80           3.64              1.05
+      Apparel   degree-1 OLS     4.33          16.66              9.35
+      Apparel degree-1 ridge     4.13          16.46              8.70
+      Apparel   degree-2 OLS    25.24          18.78             -6.16
+      Apparel degree-2 ridge     7.22          15.05              4.15
+
+per query point (q1 low, q2 middle, q3 high demand)
+division_name          model    sd_q1    sd_q2    sd_q3  bias_q1  bias_q2  bias_q3
+    Hardgoods   degree-1 OLS     1.02     1.15     1.25    21.01   -15.06    -1.89
+    Hardgoods degree-1 ridge     1.01     1.15     1.25    21.00   -15.03    -1.96
+    Hardgoods   degree-2 OLS     1.97     4.33     2.18    -4.46     5.01     2.05
+    Hardgoods degree-2 ridge     1.96     4.28     2.16    -3.89     5.15     1.88
+      Apparel   degree-1 OLS     3.39     5.07     4.52    19.60    19.40   -10.97
+      Apparel degree-1 ridge     3.23     4.77     4.39    19.28    18.45   -11.65
+      Apparel   degree-2 OLS    18.08    30.25    27.40    18.94    -5.17   -32.24
+      Apparel degree-2 ridge     5.96     7.62     8.07    24.31     4.48   -16.35
+
+the same rows in units^2, where bias and variance are comparable
+division_name          model  bias2_mean  variance_mean  bias2_plus_variance  bias_share_pct
+    Hardgoods   degree-1 OLS       224.0            1.3                225.3            99.4
+    Hardgoods degree-1 ridge       223.6            1.3                224.9            99.4
+    Hardgoods   degree-2 OLS        16.4            9.1                 25.5            64.2
+    Hardgoods degree-2 ridge        15.1            8.9                 24.0            62.8
+      Apparel   degree-1 OLS       293.6           19.2                312.9            93.9
+      Apparel degree-1 ridge       282.7           17.5                300.2            94.2
+      Apparel   degree-2 OLS       474.9          664.2               1139.0            41.7
+      Apparel degree-2 ridge       292.8           52.9                345.7            84.7
+
+wrote C:\Users\owner\Desktop\a1_evaluation_and_flexibility\analysis\outputs\b3_stability.png
+wrote C:\Users\owner\Desktop\a1_evaluation_and_flexibility\analysis\outputs\b3_stability.csv, b3_stability.png
 

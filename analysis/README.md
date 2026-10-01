@@ -10,7 +10,7 @@ are in `../requirements.txt` (Python 3.11; numpy 2.4.6, pandas 3.0.5,
 scikit-learn 1.9.1, matplotlib 3.11.2). The script prefers `../.venv` if one
 exists and otherwise uses `python3` on PATH.
 
-Runtime: about 25 seconds so far (A1 and A2). Will be updated as parts are added.
+Runtime: about 18 seconds for the whole submission (A1-A3, B1-B3).
 
 ## What it runs, in order
 
@@ -22,11 +22,19 @@ Runtime: about 25 seconds so far (A1 and A2). Will be updated as parts are added
 | A3 targeting decision | `part1/a3_decision.py` | `a3_threshold.txt` (the derivation), `a3_value.csv` (the exhibit), plus diagnostics `a3_calibration.csv`, `a3_by_month.csv`, `a3_offer_quality.csv`, `a3_value_curve.csv`, `a3_value_curve.png` |
 | B1 noise floor | `part2/b1_noise_floor.py` | `b1_noise_floor.csv` (the exhibit), `b1_config_check.csv` (the estimator's assumption, verified), `b1_variance_shape.csv` |
 
+| B2 four models | `part2/b2_models.py` | `b2_table.csv` (the exhibit), `b2_alpha_curves.csv`, `b2_penalties.csv` (tuned alphas, read by B3), `b2_contractor_check.csv`, `b2_differences.csv`, `b2_test_decomposition.csv` |
+| B3 stability | `part2/b3_stability.py` | `b3_stability.csv` (the exhibit, in units and units²), `b3_stability.png` (the figure) |
+
 Everything printed is also captured in `outputs/run.log`.
 
 ## Notes
 
-- The supplied `starter/` modules are imported, not copied or modified.
+- The supplied `starter/` modules are imported, not copied or modified. B3 is
+  the strongest case: `part2/b3_stability.py` imports the supplied
+  `stability.py` and supplies only the two penalty dicts, `build_models()` and
+  the output path, so the stability loop itself runs exactly as issued.
+- B2's tuned penalties are written to `outputs/b2_penalties.csv` and read back
+  by B3, so B3 cannot re-tune or drift from the B2 values.
   `part1/prep.py` holds the one cleaning routine (`load_clean()`) every Part A
   script uses: `month_key()` normalisation, then exact-duplicate removal.
 - A1 has no randomness (single-variable rules are not fitted). A2 uses

@@ -1,0 +1,9 @@
+division,degree,treatment,test_mse,floor_part,structural_part,identity_check,test_mse_minus_sigma2
+Hardgoods,1,OLS,398.55,133.3,265.25,-0.0,250.44
+Hardgoods,1,ridge,398.38,133.3,265.08,0.0,250.27
+Hardgoods,2,OLS,246.16,133.3,112.86,-0.0,98.05
+Hardgoods,2,ridge,247.47,133.3,114.17,0.0,99.36
+Apparel,1,OLS,363.58,127.83,235.75,-0.0,221.54
+Apparel,1,ridge,354.12,127.83,226.28,0.0,212.08
+Apparel,2,OLS,366.86,127.83,239.03,-0.0,224.82
+Apparel,2,ridge,296.19,127.83,168.36,-0.0,154.15

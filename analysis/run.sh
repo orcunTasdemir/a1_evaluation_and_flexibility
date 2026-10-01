@@ -50,4 +50,12 @@ else PY="python3"; fi
   echo "=== part2: B1 noise floor ==="
   "$PY" "$HERE/part2/b1_noise_floor.py"
   echo
+
+  echo "=== part2: B2 four models against the floor ==="
+  "$PY" "$HERE/part2/b2_models.py"
+  echo
+
+  echo "=== part2: B3 stability experiment ==="
+  "$PY" "$HERE/part2/b3_stability.py"
+  echo
 } 2>&1 | tee "$OUT/run.log"
