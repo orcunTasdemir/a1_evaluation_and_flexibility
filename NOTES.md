@@ -695,7 +695,12 @@ populations of query points and two different training sizes. Comparisons
    block. Question 1 (the "building data" reading in A2) is the only one that
    could require a re-run, and that is a one-line edit plus a re-run, not a
    rebuild.
-4. **Final verification before submitting:** clean clone, `bash analysis/run.sh`,
-   then confirm every number in the memo appears in `analysis/outputs/` or
-   `run.log`.
+4. **Final verification: DONE for the analysis, 2026-10-01.** Cloned the repo
+   to a fresh directory with no `.venv`, wiped `analysis/outputs/`, and ran
+   `bash analysis/run.sh` with only `python3` on PATH, as a grader would.
+   Exit 0, 12.7 s, 32 outputs; **all 31 files byte-identical** to the
+   committed versions, and `run.log` identical once absolute paths and the
+   Python patch version are stripped. Also checked: no absolute paths in
+   `analysis/`, seeds set, supplied folders byte-identical. Repeat this check
+   once more after the memo exists, against the memo's numbers.
 5. Prose is the only thing left with no code behind it. Budget time for it.

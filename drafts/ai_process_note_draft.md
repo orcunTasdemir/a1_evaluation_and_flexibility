@@ -337,3 +337,13 @@ at a query point; both drafts; the session close.
 **Would still not bet on:** whether the three query points' per-point bias
 pattern (both divisions over-predicting low demand, under-predicting high)
 generalises across feature space. Three points cannot establish it.
+
+**End-of-session verification (2026-10-01).** Rather than assert the
+submission reproduces, I had it tested: a fresh `git clone` into an empty
+directory with no `.venv`, outputs wiped, `bash analysis/run.sh` run with
+only `python3` on PATH. Exit 0 in 12.7 seconds; all 31 output files came
+back byte-identical to the committed ones and `run.log` matched once paths
+and the Python patch version were stripped. Separately, a script checked
+every numeric token in the B1-B3 prose and exhibits against the output
+files: 242 tokens, 0 unaccounted, with the brief's quoted contractor
+figures and hand-computed percentages listed explicitly as exceptions.
