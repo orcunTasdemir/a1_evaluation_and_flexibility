@@ -168,6 +168,16 @@ is itself post-treatment.
 
 ### Arguing against the draft
 
+- **Excluding corporate barely improves reliability** (added session 8, at
+  Orcun's question). Per-segment SEs are now in `a3_value.csv`: corporate is
+  -$78 +/- $84, which is 0.93 SE from zero and so cannot carry the exclusion
+  argument by itself; everyone else is $930 +/- $565, 1.65 SE from zero against
+  the pooled 1.49. Dropping 9 of 242 offers cannot sharpen the estimate. The
+  exclusion rests on the structural case instead: AUC 0.404 on 860 rows and 34
+  churners, 533 training rows with no tenure past six months, and a segment
+  forecast to go from 19% to 35% of the book. The memo gives both reasons, the
+  11% labelled as nine offers and the structural case named as the one to rely
+  on.
 - **$852 ± $572 is 1.5 SE from zero.** A "deploy" that rests on it is resting
   on a coin that landed the right way. The scoped-and-instrumented shape is
   what the uncertainty supports; an unconditional go is not.
@@ -217,7 +227,8 @@ is itself post-treatment.
 | AUC 0.644 / 0.404 / 0.641; 4,556 / 408; 860 / 34; 3,696 / 374 | `a2_table.csv` |
 | t* = 0.2143, the derivation, both routes | `a3_threshold.txt` |
 | $852 / −$78 / +$930 / −$47,736 / $0 / $828; offers and churner counts | `a3_value.csv` |
-| SE $572; 1.5 SE from zero | `run.log` (from `value_with_se`) |
+| SE $572; 1.5 SE from zero | `a3_value.csv` (`value_se_usd`, `ses_from_zero`) |
+| Segment SEs: corporate -$78 +/- $84 (-0.93 SE); other $930 +/- $565 (1.65 SE) | `a3_value.csv`, added session 8 |
 | Monthly: 114/81/47 offers, 21.9/33.3/21.3%, $48/$810/−$6 | `a3_by_month.csv` |
 | First vs repeat $3.97 / $1.66; Q1 −$2.85; Q4 39.6% vs 27.9% | `a3_offer_quality.csv` |
 | Validation: Platt slope 0.788, intercept −0.219, 8 of 10 bins under | `a3_calibration.csv`, `run.log` |

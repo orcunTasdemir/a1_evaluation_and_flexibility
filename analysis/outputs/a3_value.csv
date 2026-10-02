@@ -1,13 +1,13 @@
-policy,segment,rows_scored,churners,offers,offers_to_churners,offers_wasted,value_usd
-targeted at t* = 0.2143,all,4556,408,242,62,180,852.0
-targeted at t* = 0.2143,corporate,860,34,9,1,8,-78.0
-targeted at t* = 0.2143,other,3696,374,233,61,172,930.0
-offer to every member-month,all,4556,408,4556,408,4148,-47736.0
-offer to every member-month,corporate,860,34,860,34,826,-12624.0
-offer to every member-month,other,3696,374,3696,374,3322,-35112.0
-no programme,all,4556,408,0,0,0,0.0
-no programme,corporate,860,34,0,0,0,0.0
-no programme,other,3696,374,0,0,0,0.0
-targeted at the analyst's 0.267,all,4556,408,108,33,75,828.0
-targeted at the analyst's 0.267,corporate,860,34,3,0,3,-54.0
-targeted at the analyst's 0.267,other,3696,374,105,33,72,882.0
+policy,segment,rows_scored,churners,offers,offers_to_churners,offers_wasted,value_usd,value_se_usd,ses_from_zero
+targeted at t* = 0.2143,all,4556,408,242,62,180,852.0,571.61,1.49
+targeted at t* = 0.2143,corporate,860,34,9,1,8,-78.0,84.0,-0.93
+targeted at t* = 0.2143,other,3696,374,233,61,172,930.0,564.89,1.65
+offer to every member-month,all,4556,408,4556,408,4148,-47736.0,1619.14,-29.48
+offer to every member-month,corporate,860,34,860,34,826,-12624.0,480.3,-26.28
+offer to every member-month,other,3696,374,3696,374,3322,-35112.0,1540.31,-22.8
+no programme,all,4556,408,0,0,0,0.0,0.0,
+no programme,corporate,860,34,0,0,0,0.0,0.0,
+no programme,other,3696,374,0,0,0,0.0,0.0,
+targeted at the analyst's 0.267,all,4556,408,108,33,75,828.0,403.99,2.05
+targeted at the analyst's 0.267,corporate,860,34,3,0,3,-54.0,0.0,
+targeted at the analyst's 0.267,other,3696,374,105,33,72,882.0,401.5,2.2

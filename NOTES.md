@@ -387,7 +387,8 @@ value per offer = 84 x (precision - 0.2143); quarter precision 25.6%.
 
 ### For office hours (added session 5, before 2026-09-30)
 
-Three questions, ranked by how much they could move a grade.
+Four questions, ranked by how much they could move a grade (the fourth added
+session 8).
 
 1. **The "building data" ambiguity in A2.** The brief says rows before change
    3 are "cross-validated on the building data" without defining the phrase.
@@ -406,6 +407,20 @@ Three questions, ranked by how much they could move a grade.
    correct calibration (Platt). We read that as squarely within "any choice
    made by looking at data", but it is the only fitted correction in Part A
    and is worth one sentence of confirmation.
+4. **The label is not a 60-day window** (added session 8, 2026-10-02).
+   Brief and dictionary both define `churn_next_60d` as termination within 60
+   days of the end of `snapshot_month`, and the dictionary's maturity logic
+   uses the same window. The delivered file flags exactly one row per churner,
+   their cancellation month, never the one or two months before. Measured:
+   label base rate 9.29% (the figure the brief quotes); one-month cancellation
+   rate 9.37%; true rolling 60-day rate 17-20% depending on the denominator.
+   So the label behaves like a one-month indicator. Which definition is
+   authoritative? Nothing in my work depends on it: numbers come from the
+   column, the 21.4% threshold comes from the cost ratio and not the base
+   rate, and the two-month gap is required under the documented definition and
+   merely conservative under the delivered one. Unlike NLF-2231, NLF-2198 and
+   the two post-scoring columns, this discrepancy has no ticket and no note,
+   so it may be a generation artefact rather than planted.
 
 Related concept settled this session, in case it comes up: cross-validation
 carries **two opposing biases**. Fitting on (K-1)/K of the data makes every
@@ -786,4 +801,127 @@ floor itself can fall. That is the distinction behind §2's closing paragraph.
 4. **Final verification to repeat once the memo is final:** clean clone, no
    `.venv`, wiped outputs, `bash analysis/run.sh` with only `python3` on PATH,
    then `check_memo_numbers.py`.
+5. Deadline Friday 2026-10-02, midnight.
+
+---
+
+## Session 8 - 2026-10-02 (Windows 11 machine). Part A of the memo edited and vetted.
+
+Transcript: `sessions/claude-code/a1-session-8.jsonl` and `.txt`. Thread A
+continued (sessions 1, 3, 6), so it contains those as its opening part.
+
+### What was done
+
+- Pulled session 7. Verified the Windows re-run against the Mac commit: labels
+  identical in every output, largest numeric change 8.9e-11, so nothing moves.
+- **`memo_orcun.md` created and Part A edited by me**, in my own voice.
+  `memo.md` deliberately left at the committed draft so the diff stays honest.
+- Both figures embedded in the memo (`a3_value_curve.png` in Exhibit A3(c),
+  `b3_stability.png` in Exhibit B3). The B3 one matters: the rubric requires
+  "plus the figure", and a filename reference is not a figure.
+- **Per-segment standard errors added to `a3_decision.py`** and to Exhibit
+  A3(a). This came out of a question of mine, see below.
+- All em dashes removed from `memo_orcun.md` and `ai_process_note.md`.
+- `check_memo_numbers.py` extended from 50 to 61 assertions.
+
+### The question that moved an argument (mine)
+
+I asked whether the programme's standard error differed by segment. It was not
+in the run, so it was added. Results:
+
+| Segment | Offers | Value | SE | SEs from zero |
+|---|---:|---:|---:|---:|
+| all | 242 | $852 | $572 | 1.49 |
+| corporate | 9 | -$78 | $84 | -0.93 |
+| other | 233 | $930 | $565 | 1.65 |
+
+Two consequences. Corporate's -$78 is 0.93 SE from zero, so the dollar case for
+excluding corporate cannot stand alone. And excluding corporate moves
+reliability only from 1.49 to 1.65 SE, because corporate was 9 of 242 offers,
+so the exclusion does not make the programme reliable either. The memo now
+gives both reasons, the 11% precision labelled as nine offers and the
+structural case (0.404 on 860 rows, 533 training rows with no tenure past six
+months) named as the one to rely on.
+
+### Errors caught in my own editing pass
+
+The agent flagged three places where my rewording changed the meaning. Worth
+recording because they are the kind of thing an editing pass introduces:
+
+1. I wrote that the data "already was not" unseen at change 3. It **was**
+   unseen; out-of-fold means exactly that. The point is that only *lateness*
+   changed, not novelty.
+2. I wrote the tripwire sentence so that "it" referred to the dollar measure
+   holding steady. The argument is the reverse: the *ranking statistic* holds
+   steady through calibration drift, which is why it makes a bad alarm.
+3. I called population drift "another type of leak". It is not. Leaks make
+   0.967 wrong about 2024-25 itself; drift means an honest number need not
+   transfer. Protocol fixes the first, only segment reporting reveals the
+   second. The memo now says so explicitly.
+
+Also fixed: "so each is attributable to one cause" contradicted my own
+decomposition paragraph two paragraphs later, and now reads "each row differs
+from the one above it by exactly one change".
+
+### Concepts settled this session
+
+1. **The brief's "9% of active members cancel in any 60-day window" is the
+   base rate of the target column, not a rolling 60-day rate.** Measured: label
+   base rate 9.29%, one-month cancellation rate 9.37%, true rolling 60-day rate
+   17.4% (start-of-window denominator) to 19.8% (any-time-in-window). So the
+   phrase is loose relative to the delivered label. Office-hours question 4.
+2. **Why the row base rate is the right unit.** Within any single month each
+   member appears exactly once, so the monthly rate literally is "share of
+   active members flagged"; the pooled 9.29% is the book-size-weighted average
+   of 24 such windows (unweighted mean 9.33%, weighted 9.29%). The repetition
+   is across windows, not within one. And the unit is a decision opportunity:
+   one offer is one member-month, priced at $18.
+3. **Random CV fails three separate ways**, all now named in the memo:
+   direction (training on later rows), label maturity (no gap, so training
+   labels encode the evaluated period), and member identity. On the third, the
+   memo now names the danger rather than only its size: a member merely
+   *having* a later row proves they had not cancelled earlier.
+4. **The deployment gap.** On 1 April 2026 a February row's 60-day window does
+   not close until the end of April, so the freshest usable labels are always
+   about two months old. The protocol's gap reproduces that rather than
+   handicapping the evaluation.
+5. **Why the tripwire is in dollars.** If every predicted probability drifted
+   upward, the ranking would be untouched and AUC would not move at all, while
+   the 21.4% cut-point would start buying offers for members who do not need
+   them. AUC is blind to the failure that destroys the economics.
+
+### Decisions made (mine)
+
+- Mention **both** reasons for excluding corporate, with the dollar figure
+  labelled as nine offers. The weaker reason is still a real observation.
+- Put the dictionary discrepancy in the memo as one sentence addressed to her
+  analytics team, not as a paragraph and not as a verdict.
+- Keep length as-is for now and convert to PDF with a smaller font if needed.
+  The agent's view is that a real trim is the stronger option, since the same
+  content fitted in 93 lines before my edit; revisit after office hours.
+- Deleted the exclamation mark in a section heading and the duplicated
+  "My recommendation is that..." sentence.
+
+### Length, as measured
+
+| | Words | Lines | Limit |
+|---|---:|---:|---|
+| S1 prose | 1,614 | ~133 | 2 pages (~92-102 lines) |
+| S2 prose | 565 | 49 | 1 page (~46-51) |
+| `ai_process_note.md` | 641 | 62 | 1 page (~46-51) |
+
+S1 and the process note are both over at 11pt. Decision above.
+
+### Open - what is left
+
+1. **S2 of `memo_orcun.md` is still the agent's draft.** Next block: read the
+   B1, B2 and B3 drafts, ask whatever is unclear, then edit S2 in my voice the
+   way Part A was done.
+2. **Office hours Friday 11:00.** Four questions, in the session-5 block as
+   amended. Question 1 (the "building data" reading) is the only one that could
+   force a re-run, and that is a one-line edit.
+3. After S2: decide on length (trim or font), re-run
+   `python analysis/check_memo_numbers.py`, then the final clean-clone check.
+4. `memo.md` stays as the committed reference draft for diffing. Decide before
+   submission whether to delete it or keep it in `drafts/`.
 5. Deadline Friday 2026-10-02, midnight.

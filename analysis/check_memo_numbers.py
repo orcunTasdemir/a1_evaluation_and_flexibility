@@ -70,6 +70,25 @@ def main() -> None:
         ("A3 at analyst's 0.267", "analyst", "all", 828),
     ]:
         check(label, v, float(policy(pat, seg).value_usd), 0.001)
+    # Standard errors, and how many of them the total sits from zero.  The
+    # memo leans on these: the programme is positive in expectation but only
+    # 1.5 SEs from zero, and excluding corporate barely improves that.
+    for label, pat, seg, se, ses in [
+        ("A3 SE, all", "t* = 0.2143", "all", 572, 1.49),
+        ("A3 SE, corporate", "t* = 0.2143", "corporate", 84, -0.93),
+        ("A3 SE, other", "t* = 0.2143", "other", 565, 1.65),
+        ("A3 SE, offer to everyone", "every member-month", "all", 1619, -29.5),
+        ("A3 SE, analyst's 0.267", "analyst", "all", 404, 2.05),
+    ]:
+        r = policy(pat, seg)
+        check(label, se, float(r.value_se_usd), 0.003)
+        check(label + " (SEs from zero)", ses, float(r.ses_from_zero), 0.01)
+
+    # The memo quotes corporate precision as 11%, which is 1 of 9 offers.
+    c = policy("t* = 0.2143", "corporate")
+    check("A3 corporate precision", 0.111,
+          float(c.offers_to_churners) / float(c.offers), 0.01)
+
     row = policy("t* = 0.2143", "all")
     check("A3 offers made", 242, float(row.offers), 0.001)
     check("A3 offers reaching a churner", 62, float(row.offers_to_churners), 0.001)

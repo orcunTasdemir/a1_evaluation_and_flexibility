@@ -76,6 +76,7 @@ described above.
 | 5 | 2026-09-29 | macOS | B1: the noise floor, with the estimator's assumption verified. Handout 3 read. A2 data-selection caveats recorded. |
 | 6 | 2026-10-01 | Windows 11 | B2: four models against the floor, contractor's figures reproduced. B3: the stability experiment, supplied loop run as issued. Part B complete. |
 | 7 | 2026-10-01 | macOS | memo.md and ai_process_note.md drafted; memo-number checker added. |
+| 8 | 2026-10-02 | Windows 11 | Part A of the memo edited and vetted; per-segment standard errors added; figures embedded. |
 
 There are two VS Code conversations, worked in repeatedly, so four of the
 six files contain an earlier file as their opening part. Nothing is sliced,
@@ -86,13 +87,14 @@ earlier ones are snapshots taken at the end of each sitting.
 |---|---:|---|
 | `a1-session-1.jsonl` | 245 | thread A, snapshot after session 1 |
 | `a1-session-3.jsonl` | 636 | thread A after session 3; its first 245 records are byte-identical to `a1-session-1.jsonl` |
-| `a1-session-6.jsonl` | 1,184 | thread A in full; its first 636 records are byte-identical to `a1-session-3.jsonl` |
+| `a1-session-6.jsonl` | 1,184 | thread A after session 6; its first 636 records are byte-identical to `a1-session-3.jsonl` |
+| `a1-session-8.jsonl` | 1,664 | thread A in full; its first 1,184 records are byte-identical to `a1-session-6.jsonl` |
 | `a1-session-2.jsonl` | 637 | thread B, snapshot after session 2 |
 | `a1-session-4.jsonl` | 1,134 | thread B after session 4; its first 637 records are byte-identical to `a1-session-2.jsonl` |
 | `a1-session-5.jsonl` | 1,339 | thread B after session 5; its first 1,134 records are byte-identical to `a1-session-4.jsonl` |
-| `a1-session-7.jsonl` |     1762 | thread B in full; its first 1,339 records are byte-identical to `a1-session-5.jsonl` |
+| `a1-session-7.jsonl` | 1,762 | thread B in full; its first 1,339 records are byte-identical to `a1-session-5.jsonl` |
 
-Both containments were verified with `cmp`, not asserted. All six files are
+Both containments were verified with `cmp`, not asserted. All eight files are
 submitted rather than only the two full threads, because the snapshots are
 what existed at the end of each working session and removing them would be
 curating the record.

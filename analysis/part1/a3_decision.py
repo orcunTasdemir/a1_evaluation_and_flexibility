@@ -412,6 +412,14 @@ def main() -> None:
                 "offers_to_churners": int((o & (y == 1)).sum()),
                 "offers_wasted": int((o & (y == 0)).sum()),
                 "value_usd": round(value_of(y[m], o[m]), 2),
+                # Standard error of that total, and how many SEs it sits from
+                # zero.  Reported per segment because the segment case has to
+                # stand or fall on its own evidence: corporate is only nine
+                # offers, so its dollar figure cannot carry a recommendation
+                # by itself.
+                "value_se_usd": round(value_with_se(y[m], o[m])[1], 2) if o[m].sum() else 0.0,
+                "ses_from_zero": (round(value_of(y[m], o[m]) / value_with_se(y[m], o[m])[1], 2)
+                                  if o[m].sum() > 1 and value_with_se(y[m], o[m])[1] else None),
             })
     value = pd.DataFrame(rows)
     value.to_csv(OUT / "a3_value.csv", index=False)
