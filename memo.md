@@ -23,6 +23,21 @@ fold, so there is no preprocessing leak. What is wrong sits above the modelling,
 corrections one at a time, so each row differs from the one above it by exactly
 one change.
 
+Exhibit A1 sets the scale first, because 0.967 means nothing on its own. AUC
+measures one thing: whether the model ranks members who cancel above members
+who do not. A coin flip scores 0.50 and a flawless ranking scores 1.00. It takes
+no account of how many offers you send or what they cost, which is why the
+decision itself is priced in dollars further down. On that scale, ranking
+members by a single behavioural column with no model at all reaches 0.68.
+
+Predicting "no churn" for everyone, meanwhile, is 90.7% accurate and identifies
+nobody; that same rule scores 0.50 on the AUC scale, so 90.7% and 0.967 are not
+neighbouring numbers and should never be compared. Accuracy is the wrong
+yardstick twice over: the outcome is rare, so the figure is dominated by the 91%
+of rows where nothing happens; and a wasted offer costs $18 against $66 forgone
+on a missed churner, so counting both as one mistake prices them wrongly. What
+this decision needs is a loss function denominated in dollars.
+
 **Two of the fourteen columns do not exist at the moment a score has to be produced.** The program scores the book at the *start* of each month and `winback_offer_sent`
 records a contact worked from a list circulated on the third business day
 *after* month close; similarly `exit_survey_started` records a member opening the
@@ -34,8 +49,9 @@ for everyone, including the members who go on to leave. Removing them costs
 **Keeping a member wholly on one side of the split costs 0.001**, even though
 2,899 of 3,648 members had rows in more than one fold beforehand. The risk it
 guards against is real: a member merely *having* a later row proves they had not
-cancelled earlier, so a model that sees the same person on both sides can learn
-survival from the shape of the file rather than from behaviour. It costs almost
+cancelled earlier, so a model that sees the same person on both sides
+can learn from whether someone shows up again in later months rather than from
+what they actually did. It costs almost
 nothing here because no admissible column identifies a member, and a linear
 model cannot build an identity out of attributes that thousands of people share.
 A more flexible model would have shown a larger drop at this row.
@@ -50,14 +66,6 @@ above it, so they sum to the total but the split for how much AUC is lost depend
 past-to-future come first with the two post-hoc columns still in, the test AUC
 would have stayed near 0.97, the temporal split would have looked free, and dropping the columns afterwards would have carried the whole fall.
 
-Exhibit A1 sets the scale. Predicting "no churn" for everyone is 90.7% accurate
-and identifies nobody; the same rule scores 0.50 on the ranking scale, so 90.7%
-and 0.967 are not neighbouring numbers. Accuracy is the wrong yardstick twice
-over: the outcome is rare, so the figure is dominated by the 91% of rows where
-nothing happens; and a wasted offer costs $18 against $66 forgone on a missed
-churner, so counting both as one mistake prices them wrongly. What this decision
-needs is a loss function denominated in dollars.
-
 ## From a probability to a decision
 
 An offer to a member who would have cancelled is worth 240 × 0.35 − 18 = **$66**;
@@ -71,10 +79,13 @@ our finance figures alone, and was decided before any test-period score was
 read. The analyst's 0.267 was instead found by searching 400 cut-points for the
 one that maximised measured value, which is choosing by looking at the answer. He had no held-out period at all, so the figure he reported was the best of 400 candidates scored on the same data, and the best of many noisy candidates is optimistic by construction. It made little difference: on honest scores his cut-point returns $828 against our $852. The $19,774 was never a threshold error.
 
-0.2143 is also the **break-even precision**, since value per offer is exactly
-84 × (precision − 0.2143). Against a 9% base rate that means finding members at
-roughly two and a half times average risk; the model manages 25.6% in the top
-5% of the book, clearing the bar by four percentage points.
+0.2143 is also the **break-even precision**, meaning the share of offers that
+have to reach someone who would genuinely have cancelled: value per offer is
+exactly 84 × (precision − 0.2143), so below 21.43% the program loses money and
+above it the program makes money. Against a 9% base rate, clearing that bar means finding members at roughly two
+and a half times average risk. The model manages it: the 242 offers it selects
+are about 5% of the book, and 25.6% of them reach someone who cancelled, four
+percentage points above break-even.
 
 ## What it is worth
 
@@ -232,7 +243,8 @@ unpenalised fits only.
 
 **How much of the error is unavoidable.** Statistically indistinguishable in
 the two divisions: 148 units² in Hardgoods against 142 in Apparel, a difference
-of 0.4 standard errors. Even at the edge of a 95% interval the floors differ by
+of 6 units² against a standard error of 14 on that difference, so 0.4
+standard errors. Even at the edge of a 95% interval the floors differ by
 at most 34 units², against the 183 that separates his two best figures, so the
 floor cannot be what makes Apparel look harder. What differs is how much is
 recoverable: 83 units² above the floor against 272. His arithmetic was sound
@@ -241,10 +253,10 @@ recoverable: 83 units² above the floor against 272. His arithmetic was sound
 **What a penalty buys, and why that differs.** In one cell of four, and
 overwhelmingly: Apparel at degree 2, where it takes cross-validated error from
 618 to 330, a drop of 288 against a standard error of 55. Elsewhere it does
-nothing measurable: 0.01, 0.15 and 1.47, each smaller than its own standard
-error. The separator is not division size but **terms estimated per row: 0.46
-where it matters, against 0.004, 0.030 and 0.061 where it does not.** Apparel at
-degree 1 proves it: the same 197 rows, twelve terms, no gain.
+nothing measurable: adding the penalty moves cross-validated error by 0.01,
+0.15 and 1.47 units², each smaller than its own standard error, which is to say
+not at all. The separator is not division size but **terms estimated per row:
+0.46 where it matters, against 0.004, 0.030 and 0.061 where it does not.**
 
 **How firm the Apparel ordering is.** Not uniformly: its standard errors run 14
 to 68 against Hardgoods' 4.6 to 6.4. Firm: degree-2 ridge beats both degree-1
@@ -260,17 +272,6 @@ gets worse rather than better. The penalty does nothing at degree 1 in either
 division or at degree 2 in Hardgoods (2.83 → 2.80), and cuts Apparel's degree-2
 spread by 71%, to 7.22.
 
-Two separate dials are at work, and separating them is what makes the standard
-portable. **Flexibility governs bias, but only where there are rows to fit it.**
-Twelve terms leave a squared bias of 224 in Hardgoods and 294 in Apparel; ninety
-terms cut that to 16 in Hardgoods and raise it to 475 in Apparel, because at
-2.2 rows per coefficient the fit is so loosely pinned that even its average is
-displaced. **Terms per row governs variance**, and does so without exception:
-sort the unpenalised fits by that ratio and variance runs 1.3, 9.1, 19.2, 664.2.
-So a division acquired next year with 400 rows would sit at 0.225 terms per row,
-between these two, and no fixed specification can be known in advance to suit
-it. The method can be.
-
 What no standard can supply is history. Apparel's best model is **85% bias**,
 293 units² against 53 of variance, and the penalty is not what put it there:
 unpenalised degree 1, with no shrinkage at all, carries essentially the same
@@ -279,12 +280,15 @@ twelve terms already sat, by trading away the variance that 197 rows could not
 support. Hardgoods runs the identical specification and reaches a squared bias
 of 15 on 3,000 rows, which is what the extra flexibility buys once it can be
 estimated. So the remedy is more Apparel weeks, not a bigger basis and not a
-heavier penalty. Parity is forecast for late 2027.
+heavier penalty. Your own analytics team expects Apparel to reach Hardgoods'
+volume of usable history by late 2027, held back by the March platform
+migration that made earlier weeks incomparable, so this is a 2027 improvement
+rather than something a better model delivers next quarter.
 
 Reporting distance from the floor also tells a division which lever it needs:
 more rows lower the reducible error, but only new fields lower the floor.
-Hardgoods sits 99 units² above its floor of 148, so better forecasts there need
-new measurements, not a better model.
+Hardgoods sits 99 units² above its floor of 148, so a better forecast there
+needs new measurements, not a better model.
 
 ---
 
@@ -301,6 +305,13 @@ observations per division; 405 degrees of freedom each.
 
 Difference (Apparel − Hardgoods) = −6.1 with a standard error of 14.4: **0.42
 standard errors, indistinguishable at this precision.**
+
+**Reading these in business terms.** The figures are squared units because they
+are mean squared errors, which is the form that lets a floor be subtracted from
+a model's error. Unsquared, the unavoidable scatter is about **12 units a week
+per store** against average demand of 112, so roughly 11% of the level. Ten
+weeks with every recorded field identical still differ by about that much, so
+no forecasting system you could buy or build will typically beat it.
 
 | Division | Contractor's best CV MSE | Floor | Avoidable | Share that is floor |
 |---|---:|---:|---:|---:|
@@ -398,6 +409,22 @@ Twelve of the twenty-five penalties tested in Hardgoods degree 2 sit within one
 standard error of the best, so the exact value is not load-bearing; the
 one-standard-error rule is what licenses standardising on degree-2 ridge there.
 
+**Why terms per row is the quantity, and not division size.** Two comparisons
+in the table establish it, each holding one thing still.
+
+| Compare | Held fixed | Changed | Penalty worth |
+|---|---|---|---|
+| Hardgoods degree 2 against Apparel degree 2 | 90 terms | 3,000 → 197 rows | nothing → 288 |
+| Apparel degree 1 against Apparel degree 2 | 197 rows | 12 → 90 terms | nothing → 288 |
+
+The first shows the number of terms is not what decides it, since ninety terms
+are worthless to penalise in one division and decisive in the other. The second
+shows the number of rows is not what decides it either. Only the ratio of the
+two explains both, which is why the standard fixes a method rather than a
+specification: a division acquired next year with 400 rows would sit at 0.225
+terms per row, between these two, and its own tuning would land somewhere of
+its own.
+
 ## Exhibit B3: What flexibility and a penalty do to bias and variance
 
 Source: `analysis/outputs/b3_stability.csv`. Twenty
@@ -430,6 +457,22 @@ the yardstick does too, and per query point it runs from 1.95 to 4.81 units
 indistinguishable from zero, and Apparel's 15.05 is not. Twenty resamples give
 a standard deviation roughly 16% uncertain in its own right, so 2.83 against
 2.80 is not a difference.
+
+**Two separate dials, and separating them is what makes the standard
+portable.** *Flexibility governs bias, but only where there are rows to fit it.*
+Twelve terms leave a squared bias of 224 in Hardgoods and 294 in Apparel; ninety
+terms cut that to 16 in Hardgoods and raise it to 475 in Apparel, because at
+2.2 rows per coefficient the fit is so loosely pinned that even its average is
+displaced. *Terms per row governs variance*, and does so without exception:
+sort the unpenalised fits by that ratio and variance runs 1.3, 9.1, 19.2, 664.2.
+
+**Mean sd and variance are not squares of one another**, because variance is
+the mean of the three squared spreads rather than the square of the mean spread.
+The difference between them is exactly how unequal the three query points are:
+0.0 for Hardgoods degree 1, whose three spreads are 1.02, 1.15 and 1.25, and
+27.0 for Apparel degree 2, whose spreads are 18.08, 30.25 and 27.40. Squaring
+before averaging is the correct order, because the decomposition holds at each
+query point and is then averaged.
 
 ![Mean spread of the twenty predictions against mean absolute bias, by division](analysis/outputs/b3_stability.png)
 

@@ -207,6 +207,20 @@ def main() -> None:
     check("B3 yardstick, smallest point", 1.95, float(yd.min()), 0.01)
     check("B3 yardstick, largest point", 4.81, float(yd.max()), 0.01)
 
+    # Exhibit B3 now explains why mean sd and variance are not squares of one
+    # another, and quotes the gap at both extremes.
+    import numpy as np
+    for div, model, gap in [("Hardgoods", "degree-1 OLS", 0.0),
+                            ("Apparel", "degree-2 OLS", 27.0)]:
+        r = t3[t3.division_name.eq(div) & t3.model.eq(model)].iloc[0]
+        sds = np.array([r.sd_q1, r.sd_q2, r.sd_q3])
+        check(f"B3 sd-gap {div} {model}", gap,
+              float((sds ** 2).mean() - sds.mean() ** 2), 0.02)
+
+    # Exhibit B1's business reading: sigma_hat in units, and mean demand.
+    check("B1 H sigma in units", 12.2, float(b1.loc["H", "sigma_hat"]))
+    check("B1 H mean units", 112, float(b1.loc["H", "mean_units"]), 0.01)
+
     check("B3 Apparel deg-1 OLS total", 312.9, tot("Apparel", "degree-1 OLS"))
     check("B3 Apparel deg-2 ridge total", 345.7, tot("Apparel", "degree-2 ridge"))
 
