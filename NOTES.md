@@ -1024,3 +1024,50 @@ must run on a clean clone without a LaTeX installation.
    being a 60-day window.
 2. If the professor objects to 10pt, trim S1 by ~400 words.
 3. Deadline Friday 2026-10-02, midnight.
+
+### Session 8, final: rubric audit, and two real gaps it found
+
+Audited `memo.md` clause by clause against `rubric.md`, including the
+"Common ways marks are lost" list. Everything passes. Two things the audit
+caught that would have cost marks:
+
+1. **A1's required "what would have to be true for 0.967 to be credible"
+   paragraph was missing.** The content was in the memo but as a
+   *description* of what is wrong, not as the *conditional* the rubric names.
+   Reframed into two conditions, both of which fail: that 0.967 is an honest
+   estimate of 2024-25 at all (columns knowable at scoring, and predicting a
+   member's month from their own later months counting as prediction), and
+   that an honest 2024-25 number transfers to a book going from 0% to a
+   forecast 35% corporate while a competitor spends. Only the first is
+   fixable, which is why Exhibit A2 repairs it and change 4 only measures the
+   second.
+2. **Section 1 then ran to three pages.** Fixed the same way section 2 was,
+   by moving mechanism detail beside the table it describes: row 2's leakage
+   mechanism to Exhibit A2, the analyst's 400-candidate search to Exhibit A3,
+   and the dictionary's label discrepancy to Exhibit A2b, where timing
+   definitions already live. S1 prose 1,846 -> 1,665 words.
+
+Worth recording for the future: the binding constraint on a page is not the
+word count but the paragraph count, because each break costs vertical space.
+1,743 words in one paragraph block fitted two pages; 1,722 words split into
+four did not.
+
+**Final state, all measured rather than assumed:**
+
+| | Value |
+|---|---|
+| `memo.pdf` | 13 pages; S1 prose 2-3 (limit 2), S2 prose 9 (limit 1) |
+| `ai_process_note.pdf` | 1 page (limit 1) |
+| Prose words | S1 1,665, S2 644, note 832 |
+| `check_memo_numbers.py` | 107 assertions, all match |
+| Clean run | outputs wiped, `bash analysis/run.sh` exit 0, 35 outputs |
+| Supplied folders | byte-identical |
+| Em dashes | 0 in both deliverables |
+| Archive | `../tasdemir_orcun_a1.zip`, 71 files, 37.6 MB, forward-slash separators, integrity OK, no excluded items |
+
+Rebuild either with `bash build/make_pdfs.sh` then
+`python build/make_submission.py`.
+
+**Still open:** office hours Friday 11:00, four questions in the session-5
+block. Only question 1 (the A2 "building data" reading) could move a number,
+and that is a one-line edit plus a re-run plus a rebuild.

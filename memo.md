@@ -16,12 +16,28 @@ file for each is named in the exhibits.
 **Run the retention program on non-corporate members only for the time being, and instrument it so that it can be stopped on a defined trigger.** On the most recent quarter it would have returned **$852**, not the $19,774 per quarter you saw in the initial analyst's brief. Excluding
 corporate raises that to **$930**, for two reasons. The first is its realised performance: corporate offers reached a member who was going to cancel 11% of the time against the 21.4% needed to break even, though that is nine offers and so cannot carry the decision on its own. The second is structural and is the one I would rely on: the model ranks corporate members at 0.404, below a coin flip, on 860 rows, and it was fitted on only 533 corporate member-months with no tenure beyond six months, so it has no corporate-specific signal to rank with. Corporate is also forecast to grow from 19% of the book to 35%, so it makes more sense to wait until there is enough history to fit on. Measure **realised value per offer** on matured 60-day outcomes each quarter and suspend the program if it turns negative, which is the same as the share of offers reaching a churner falling below 21.4%, the specific cost-based threshold calculated from the provided financial numbers.
 
-## The previous headline answers the wrong question
+## What would have to be true for 0.967 to describe April 2026
 
-The pipeline itself is careful, encoder and scaler are fitted inside each
-fold, so there is no preprocessing leak. What is wrong sits above the modelling, and it is two separate problems that should not be confused. The first is information the model could not have had at the moment of scoring, which makes 0.967 wrong about 2024 and 2025 itself. The second is a book that is changing, which means even an honest number for 2024 and 2025 need not describe April 2026. Protocol fixes the first; only measurement by segment reveals the second. As seen in Exhibit A2, I make four
-corrections one at a time, so each row differs from the one above it by exactly
-one change.
+The pipeline itself is careful: the encoder and the scaler are fitted inside
+each fold, so there is no preprocessing leak. What 0.967 rests on sits above the
+modelling, and two quite separate things would both have to hold.
+
+**It would have to be an honest estimate of 2024 and 2025 at all.** That
+requires every column the model uses to have been knowable at the start of the
+month being scored, and it requires that predicting a member's month from that
+same member's other months, including later ones, counts as prediction. Neither
+is the case, and Exhibit A2 prices each failure separately.
+
+**And an honest 2024–25 number would still have to transfer to April.** That
+requires the book to be roughly the same book. It is not: corporate members were
+0% of 2024 rows and are forecast at 35% of the April–June 2026 book, a
+competitor has been spending since July 2025, and the monthly cancellation rate
+ranged from 5.3% to 14.2% across the two years.
+
+The distinction matters because only the first is fixable. Protocol repairs it,
+which is what Exhibit A2's four corrections do, one at a time so that each row
+differs from the one above by exactly one change. The second cannot be repaired,
+only measured, which is what reporting by segment is for.
 
 Exhibit A1 sets the scale first, because 0.967 means nothing on its own. AUC
 measures one thing: whether the model ranks members who cancel above members
@@ -47,19 +63,10 @@ cancellation** with no exceptions in 31,645 rows. On 1 April both will be 0
 for everyone, including the members who go on to leave. Removing them costs
 0.22 AUC but makes the model honest and more in line with its purpose. Exhibit A2b discusses, using the data dictionary, the reason for each column kept and each column dropped.
 **Keeping a member wholly on one side of the split costs 0.001**, even though
-2,899 of 3,648 members had rows in more than one fold beforehand. The risk it
-guards against is real: a member merely *having* a later row proves they had not
-cancelled earlier, so a model that sees the same person on both sides
-can learn from whether someone shows up again in later months rather than from
-what they actually did. It costs almost
-nothing here because no admissible column identifies a member, and a linear
-model cannot build an identity out of attributes that thousands of people share.
-A more flexible model would have shown a larger drop at this row.
+2,899 of 3,648 members had rows in more than one fold beforehand.
 **Fitting on the past and scoring the future costs another 0.10**; it is not enough for the scored data to be unseen, which it already was, it also has to be *later*. The two-month gap exists because a June 2025 label is not
 settled until 31 August, so training on June while evaluating in July would use
 outcomes from the period being evaluated. It also mirrors deployment: on 1 April 2026 the two most recent months of labels will not exist either, because a February row's 60-day window does not close until the end of April. In production the freshest usable labels are always about two months old, and the gap reproduces that rather than handicapping the evaluation.
-
-One note for your analytics team: the dictionary defines `churn_next_60d` as termination within 60 days of the end of the snapshot month, but in the extract the flag sits on exactly one row per member, the month they actually cancel, so the gap above is required under the documented definition and merely conservative under the delivered one.
 
 **These differences are not a clean decomposition.** Each is measured on top of those
 above it, so they sum to the total but the split for how much AUC is lost depends on the order the improvements are made. Had
@@ -77,7 +84,7 @@ probability *p* the expected value of offering is
 which beats not offering exactly when **p > 18/84 = 0.2143**. That comes from
 our finance figures alone, and was decided before any test-period score was
 read. The analyst's 0.267 was instead found by searching 400 cut-points for the
-one that maximised measured value, which is choosing by looking at the answer. He had no held-out period at all, so the figure he reported was the best of 400 candidates scored on the same data, and the best of many noisy candidates is optimistic by construction. It made little difference: on honest scores his cut-point returns $828 against our $852. The $19,774 was never a threshold error.
+one that maximised measured value, which is choosing by looking at the answer. It made little difference: on honest scores his cut-point returns $828 against our $852. The $19,774 was never a threshold error.
 
 0.2143 is also the **break-even precision**, meaning the share of offers that
 have to reach someone who would genuinely have cancelled: value per offer is
@@ -170,6 +177,15 @@ reproduces 0.967, so the rows below are measured the same way his headline was
 and the differences come from the protocol rather than from our code
 (`run.log`).
 
+**On row 2, which moves almost nothing.** The risk it guards against is real: a
+member merely *having* a later row proves they had not cancelled earlier, so a
+model that sees the same person on both sides can learn from whether someone
+shows up again in later months rather than from what they actually did. It costs
+almost nothing here because no admissible column identifies a member, and a
+linear model cannot build an identity out of attributes that thousands of people
+share. A more flexible model would have shown a larger drop at this row, so the
+change was still the right one to make.
+
 ### Exhibit A2b: Which columns exist at the moment of scoring
 
 Source: `analysis/outputs/a2_columns.csv`. The scoring moment is the **start**
@@ -186,6 +202,14 @@ column, for columns kept as well as dropped.
 | **Dropped (2)** | `winback_offer_sent` | contact "about this month", worked from a list circulated on the third business day **after** month close. 1 on 3,533 rows, 2,239 of them cancellations |
 | | `exit_survey_started` | the cancellation flow itself; no window stated. 1 on 1,810 rows, **every one a cancellation**, none a non-churner |
 | **Not features (3)** | `member_id`, `snapshot_month`, `signup_month` | identifier; the month itself (April 2026 is a value never seen in training); redundant with tenure |
+
+*One note for your analytics team.* The dictionary defines `churn_next_60d` as
+termination within 60 days of the end of the snapshot month, but in the extract
+the flag sits on exactly one row per member, the month they actually cancel, and
+never on the one or two months before. The two-month gap in the protocol above
+is therefore required under the documented definition and merely conservative
+under the delivered one, so the evaluation is safe either way; the dictionary is
+worth correcting before anyone else builds on this extract.
 
 ## Exhibit A3: The targeting decision
 
@@ -223,7 +247,10 @@ first contacts.
 ![Realised quarterly value against the offer threshold, with the cost-derived threshold marked](analysis/outputs/a3_value_curve.png)
 The threshold was fixed from the finance table before any score was read; the
 curve is shown for sensitivity, not for selection. It peaks at $1,098 at a
-threshold of 0.236, so not selecting on the test period cost $264.
+threshold of 0.236, so not selecting on the test period cost $264. The
+analyst had no held-out period at all, so his 0.267 was the best of 400
+candidates scored on the same data he evaluated, and the best of many noisy
+candidates is optimistic by construction.
 
 ---
 
