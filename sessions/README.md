@@ -30,6 +30,18 @@ what was done instead:
 
 Both files are submitted. The JSONL is authoritative; the `.txt` is for reading.
 
+## Size
+
+The eight `.jsonl` files total about 70 MB uncompressed, which is over the
+50 MB the export sheet mentions, so they are compressed inside the submission
+archive (about 36 MB zipped, mostly these files). Nothing is split across
+archives and nothing is omitted for size.
+
+The two full threads, `a1-session-7.jsonl` and `a1-session-8.jsonl`, are the
+complete record on their own; the other six are the snapshots that existed at
+the end of each working session. All eight are submitted because removing the
+snapshots would be curating the record.
+
 ## Known gap
 
 Each transcript is copied from disk near the end of its session, so it stops a
