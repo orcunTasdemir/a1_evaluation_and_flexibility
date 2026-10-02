@@ -34,9 +34,14 @@ of the five fold MSEs; the SE is their standard deviation over √5.
 σ̂² = 148.11 (Hardgoods), 142.04 (Apparel), from Exhibit B1. No tuned α falls
 on an endpoint of the grid.
 
-*Footnote.* The CV column is not quite like-for-like: an unpenalised cell
-reports a single estimate, while a ridge cell reports the lowest of 25, which
-flatters it. The test column, scored once, is not subject to this.
+*Footnote.* The CV column does not compare equally across rows. An
+unpenalised cell ran cross-validation once and reports what came out; a ridge
+cell ran it twenty-five times, once per candidate penalty, and reports the
+lowest of the twenty-five. The smallest of several noisy numbers is below the
+typical one, so the ridge figures are shaded in their own favour. The test
+column, scored once, is not subject to this, and it is where Hardgoods
+degree-2 ridge loses to degree-2 OLS by 1.31 having won the CV comparison by
+0.15.
 
 ## Exhibit B2b — Paired CV differences within a division
 
@@ -188,6 +193,66 @@ Two different course ideas, one in each division:
 
 Worth two sentences in §2 if the budget allows; it is not one of the brief's
 three questions.
+
+### The two dials (settled session 8, now in `b3_flexibility_ledger.csv`)
+
+Terms per row is the quantity B2's question 1 turns on, but it is worth being
+precise about what it does and does not govern, because conflating the two is
+easy and an oral check could catch it.
+
+| Dial | Governs | Evidence |
+|---|---|---|
+| **Number of terms** | **bias**, provided there are rows to estimate them | 12 terms leave bias² 224 (H) and 294 (A); 90 terms give 16 (H) but 475 (A) |
+| **Terms per row** | **variance**, monotonically then explosively | same 90 terms: variance 9.1 (H) against 664.2 (A) |
+
+Sort the four unpenalised cells by terms per row and variance follows without
+exception: 0.0040 → 1.3, 0.0300 → 9.1, 0.0609 → 19.2, 0.4569 → 664.2.
+
+Bias does *not* follow the ratio. Two comparisons settle it. Within Hardgoods,
+raising the ratio sevenfold by **adding terms** cut bias fourteenfold
+(224 → 16). Across divisions at 12 terms, raising the ratio fifteenfold by
+**removing rows** left bias slightly higher (224 → 294). The ratio moved up both
+times and bias went opposite ways, so the ratio is not the driver; the term
+count is. The intuition: a straight line through a curved surface has the same
+bias whether you show it 3,000 rows or 30,000.
+
+Read as rows per coefficient the variance result becomes obvious: 250 rows per
+term at Hardgoods degree 1, 33.3 at Hardgoods degree 2, 16.4 at Apparel degree
+1, and **2.2** at Apparel degree 2.
+
+And the tuned penalties confirm the mechanism rather than merely being
+consistent with it: CV chose α = 0.316 for Hardgoods degree 2 (33.3 rows per
+term) and α = 3.162 for Apparel degree 2 (2.2 rows per term). Exactly ten times
+the penalty where there are fifteen times fewer rows per coefficient, with
+nothing told to it about row counts.
+
+Why ridge cannot help degree 1, two levels of answer.
+
+*Why it would not help even if it acted:* ridge is a variance tool and degree
+1's error is 99% bias in Hardgoods (variance 1.3 of 225.3) and 94% in Apparel.
+There is almost no variance to remove, so shrinking only adds bias. Right tool,
+wrong problem.
+
+*Why it barely acted at all* (`b2_shrinkage.csv`, added session 8). The honest
+mechanical answer is that nothing changed because nothing was done:
+
+| Cell | Tuned α | ‖β‖ OLS | ‖β‖ ridge | Shrunk by |
+|---|---:|---:|---:|---:|
+| Hardgoods degree 1 | 10.0 | 21.0 | 21.0 | **0.3%** |
+| Hardgoods degree 2 | 0.316 | 114.5 | 109.1 | 4.7% |
+| Apparel degree 1 | 10.0 | 22.3 | 21.1 | 5.5% |
+| Apparel degree 2 | 3.162 | 153.0 | 46.9 | **69.3%** |
+
+Ridge competes against the data, so what matters is α against the amount of
+information, not α on its own. Ten against 3,000 rows is nothing. And ridge
+bites hardest on the directions the data barely constrains, of which 90 terms
+from 197 rows leave many, which is why α = 3.162 there shrinks the coefficient
+vector by 69% while α = 10 at degree 1 shrinks it by a fraction of a percent.
+That 69% is the same event as variance falling from 664.2 to 52.9 in Exhibit
+B3, seen from the coefficient side.
+
+That is the 0.01 ± 0.05 and 1.47 ± 7.26 in Exhibit B2b, explained rather than
+just reported.
 
 ### Arguing against the draft
 

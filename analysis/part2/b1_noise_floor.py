@@ -41,7 +41,7 @@ ROOT = HERE.parents[1]
 OUT = ROOT / "analysis" / "outputs"
 
 sys.path.insert(0, str(ROOT / "part2_cascade" / "starter"))
-from load import FEATURES, TARGET, test_extract  # noqa: E402
+from load import QUERY_CONFIGS, FEATURES, TARGET, test_extract  # noqa: E402
 
 DIVISIONS = {"H": "Hardgoods", "A": "Apparel"}
 
@@ -142,18 +142,54 @@ def variance_mean_relationship(df: pd.DataFrame, division: str) -> dict:
         "consistent_with_constant_variance_slope_0": bool(abs(slope) < 2 * se_slope),
         "overdispersion_vs_poisson": round(sigma2 / float(m.mean()), 2),
         "se_of_one_config_variance": round(0.4714 * sigma2, 1),
+        # How wide the spread actually is.  Some of this is real
+        # heteroscedasticity and some is ten-observation noise; the slope above
+        # is what tries, and fails, to tell them apart.  Reported so the memo's
+        # word "average" can be defended with a range rather than a hedge.
+        "config_var_min": round(float(v.min()), 1),
+        "config_var_max": round(float(v.max()), 1),
+        "config_sd_min": round(float(np.sqrt(v.min())), 1),
+        "config_sd_max": round(float(np.sqrt(v.max())), 1),
+        "pooled_sd": round(float(np.sqrt(sigma2)), 1),
     }
+
+
+def query_point_yardsticks(df: pd.DataFrame, division: str) -> pd.DataFrame:
+    """The B3 yardstick at each query point, not pooled.
+
+    B3 judges a bias against sigma_hat/sqrt(10), about 3.85 units in Hardgoods.
+    That is the pooled figure.  If the floor varies by configuration then the
+    yardstick does too, so this reports it per query point.  It changes no B3
+    conclusion, because the biases that matter are 15 to 32 units, but it is
+    the honest version of "a bias under about four units is indistinguishable
+    from zero".
+    """
+    g = df.groupby("config_id")[TARGET]
+    sd = np.sqrt(g.var(ddof=1))
+    rows = []
+    for i, cid in enumerate(QUERY_CONFIGS[division], start=1):
+        rows.append({
+            "division": division,
+            "name": DIVISIONS[division],
+            "query_point": f"q{i}",
+            "config_id": cid,
+            "config_mean_units": round(float(g.mean().loc[cid]), 2),
+            "config_sd_units": round(float(sd.loc[cid]), 2),
+            "yardstick_sd_over_sqrt10": round(float(sd.loc[cid]) / np.sqrt(10), 2),
+        })
+    return pd.DataFrame(rows)
 
 
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
 
-    checks, floors, shapes = [], [], []
+    checks, floors, shapes, yards = [], [], [], []
     for code in DIVISIONS:
         df = test_extract(code)
         checks.append(check_configs(df, code))
         floors.append(noise_floor(df, code))
         shapes.append(variance_mean_relationship(df, code))
+        yards.append(query_point_yardsticks(df, code))
 
     check = pd.DataFrame(checks)
     floor = pd.DataFrame(floors)
@@ -165,7 +201,9 @@ def main() -> None:
         floor["sigma2_hat"] / floor["contractor_best_cv_mse"]).round(4)
 
     shape = pd.DataFrame(shapes)
+    yard = pd.concat(yards, ignore_index=True)
     shape.to_csv(OUT / "b1_variance_shape.csv", index=False)
+    yard.to_csv(OUT / "b1_query_yardsticks.csv", index=False)
     check.to_csv(OUT / "b1_config_check.csv", index=False)
     floor.to_csv(OUT / "b1_noise_floor.csv", index=False)
 
@@ -185,6 +223,19 @@ def main() -> None:
     se_diff = float(np.hypot(h.se_sigma2_hat, a.se_sigma2_hat))
     print(f"difference (A - H) = {diff:,.1f} with a standard error of "
           f"{se_diff:,.1f}, i.e. {abs(diff) / se_diff:.2f} standard errors")
+    # The memo does not claim the floors are equal, only that the data cannot
+    # tell them apart and that no admissible difference explains the
+    # contractor's gap.  Both halves need the interval, not just the point.
+    lo, hi = diff - 1.96 * se_diff, diff + 1.96 * se_diff
+    widest = max(abs(lo), abs(hi))
+    best_h = min(CONTRACTOR_CV_MSE[("H", d)] for d in (1, 2))
+    best_a = min(CONTRACTOR_CV_MSE[("A", d)] for d in (1, 2))
+    gap = best_a - best_h
+    print(f"95% interval on the difference: {lo:,.1f} to {hi:,.1f} units^2, so the "
+          f"floors differ by at most {widest:,.0f} even at its edge")
+    print(f"against the contractor's own gap of {gap:,.0f} ({best_a:,.0f} - "
+          f"{best_h:,.0f}), that is at most {100 * widest / gap:.0f}% of what he "
+          f"attributed to difficulty")
     print()
     print("is the floor the same everywhere?  variance against demand level")
     print(shape.to_string(index=False))
@@ -192,8 +243,27 @@ def main() -> None:
     print("   variance comes from ten rows, so the slope is poorly determined and")
     print("   an inconclusive answer is the honest one)")
     print()
+    for r in shape.itertuples():
+        print(f"{r.name}: per-configuration variance spans {r.config_var_min:,.0f} to "
+              f"{r.config_var_max:,.0f}, i.e. a per-week sd of {r.config_sd_min} to "
+              f"{r.config_sd_max} units against a pooled {r.pooled_sd}")
+    print()
+    print("B3's yardstick per query point, rather than pooled")
+    print(yard.to_string(index=False))
+    print("  (changes no B3 conclusion: the biases that matter are 15 to 32 units)")
+    print()
+    print("Scope of the estimate: the two caveats compound.  A constant floor")
+    print("would make hand-picked configurations harmless, and randomly sampled")
+    print("configurations would make a varying floor average out.  It is only")
+    print("chosen points AND a possibly varying floor together that limit this")
+    print("figure to the floor where these 45 configurations sit.")
+    print("Note what is NOT affected: B2's test MSE averages over the same 45")
+    print("configurations with the same weights that sigma^2_hat pools over, so")
+    print("test MSE - sigma^2_hat compares two averages over an identical set of")
+    print("points and the split is exact however the floor varies.")
+    print()
     print(f"wrote {OUT / 'b1_noise_floor.csv'}, b1_config_check.csv, "
-          f"b1_variance_shape.csv")
+          f"b1_variance_shape.csv, b1_query_yardsticks.csv")
 
 
 if __name__ == "__main__":

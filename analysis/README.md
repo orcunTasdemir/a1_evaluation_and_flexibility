@@ -20,10 +20,10 @@ Runtime: about 18 seconds for the whole submission (A1-A3, B1-B3).
 | A1 baselines | `part1/a1_baselines.py` | `a1_baselines.csv` (the exhibit), `a1_cleaning.txt`, and diagnostics `a1_base_rate_by_year.csv`, `a1_base_rate_by_month.csv`, `a1_column_timing.csv`, `a1_churn_by_tenure.csv`, `a1_corporate_segment.csv` |
 | A2 evaluation | `part1/a2_evaluation.py` | `a2_table.csv` (the exhibit), `a2_columns.csv` (every column's keep/drop decision with the dictionary's timing note), `a2_test_scores.csv` (test-window predictions, read by A3 so the test set is scored once) |
 | A3 targeting decision | `part1/a3_decision.py` | `a3_threshold.txt` (the derivation), `a3_value.csv` (the exhibit), plus diagnostics `a3_calibration.csv`, `a3_by_month.csv`, `a3_offer_quality.csv`, `a3_value_curve.csv`, `a3_value_curve.png` |
-| B1 noise floor | `part2/b1_noise_floor.py` | `b1_noise_floor.csv` (the exhibit), `b1_config_check.csv` (the estimator's assumption, verified), `b1_variance_shape.csv` |
+| B1 noise floor | `part2/b1_noise_floor.py` | `b1_noise_floor.csv` (the exhibit), `b1_config_check.csv` (the estimator's assumption, verified), `b1_variance_shape.csv` (is the floor level-dependent, and how wide the per-configuration spread is), `b1_query_yardsticks.csv` (B3's yardstick per query point rather than pooled) |
 
-| B2 four models | `part2/b2_models.py` | `b2_table.csv` (the exhibit), `b2_alpha_curves.csv`, `b2_penalties.csv` (tuned alphas, read by B3), `b2_contractor_check.csv`, `b2_differences.csv`, `b2_test_decomposition.csv` |
-| B3 stability | `part2/b3_stability.py` | `b3_stability.csv` (the exhibit, in units and units²), `b3_stability.png` (the figure) |
+| B2 four models | `part2/b2_models.py` | `b2_table.csv` (the exhibit), `b2_alpha_curves.csv`, `b2_penalties.csv` (tuned alphas, read by B3), `b2_contractor_check.csv`, `b2_differences.csv`, `b2_test_decomposition.csv`, `b2_shrinkage.csv` (how much the tuned penalty actually moved the coefficients) |
+| B3 stability | `part2/b3_stability.py` | `b3_stability.csv` (the exhibit, in units and units²), `b3_stability.png` (the figure), `b3_flexibility_ledger.csv` (terms and terms-per-row beside bias² and variance: the two-dials evidence) |
 
 Everything printed is also captured in `outputs/run.log`.
 

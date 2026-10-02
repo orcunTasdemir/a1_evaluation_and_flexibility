@@ -1,69 +1,62 @@
 # Memo
 
 **From:** Orcun Tasdemir
-**Date:** 1 October 2026
+**Date:** 2 October 2026
 **Re:** §1 Northline Fitness retention targeting · §2 Cascade Outdoor forecasting standard
 
-Every figure in this memo is reproduced by `bash analysis/run.sh`; the output
-file behind each one is named in the exhibits.
+Every figure is reproduced by `bash analysis/run.sh`; the output
+file for each is named in the exhibits.
 
 ---
 
-# §1 — To the VP of Membership, Northline Fitness
+# §1: To the VP of Membership, Northline Fitness
 
-## Recommendation
+## My Recommendation
 
-**Run the retention programme on non-corporate members only, and instrument it
-so it can be stopped.** On the most recent quarter it would have returned
-**$852**, not the $19,774 per quarter in the proposal before you. Excluding
-corporate raises that to **$930**: corporate offers reached a member who was
-going to cancel 11% of the time against the 21.4% needed to break even, and
-corporate is forecast to grow from 19% of the book to 35%. Bring it back in
-when it has enough history to fit on — the model that would score April saw 533
-corporate member-months, none older than six months. Then measure **realised
-value per offer** on matured 60-day outcomes each quarter and suspend the
-programme if it turns negative, which is the same as the share of offers
-reaching a churner falling below 21.4%.
+**Run the retention program on non-corporate members only for the time being, and instrument it so that it can be stopped on a defined trigger.** On the most recent quarter it would have returned **$852**, not the $19,774 per quarter you saw in the initial analyst's brief. Excluding
+corporate raises that to **$930**, for two reasons. The first is its realised performance: corporate offers reached a member who was going to cancel 11% of the time against the 21.4% needed to break even, though that is nine offers and so cannot carry the decision on its own. The second is structural and is the one I would rely on: the model ranks corporate members at 0.404, below a coin flip, on 860 rows, and it was fitted on only 533 corporate member-months with no tenure beyond six months, so it has no corporate-specific signal to rank with. Corporate is also forecast to grow from 19% of the book to 35%, so it makes more sense to wait until there is enough history to fit on. Measure **realised value per offer** on matured 60-day outcomes each quarter and suspend the program if it turns negative, which is the same as the share of offers reaching a churner falling below 21.4%, the specific cost-based threshold calculated from the provided financial numbers.
 
-## The headline answers the wrong question
+## The previous headline answers the wrong question
 
-The pipeline itself is careful — encoder and scaler are fitted inside each
-fold, so there is no preprocessing leak. What is wrong sits above the
-modelling, in what the evaluation was asked to estimate. Exhibit A2 makes four
-corrections one at a time, so each is attributable to one cause.
+The pipeline itself is careful, encoder and scaler are fitted inside each
+fold, so there is no preprocessing leak. What is wrong sits above the modelling, and it is two separate problems that should not be confused. The first is information the model could not have had at the moment of scoring, which makes 0.967 wrong about 2024 and 2025 itself. The second is a book that is changing, which means even an honest number for 2024 and 2025 need not describe April 2026. Protocol fixes the first; only measurement by segment reveals the second. As seen in Exhibit A2, I make four
+corrections one at a time, so each row differs from the one above it by exactly
+one change.
 
-**Two of the fourteen columns do not exist when a score must be produced.** The
-programme scores the book at the *start* of each month. `winback_offer_sent`
+**Two of the fourteen columns do not exist at the moment a score has to be produced.** The program scores the book at the *start* of each month and `winback_offer_sent`
 records a contact worked from a list circulated on the third business day
-*after* month close; `exit_survey_started` records a member opening the
-cancellation survey, which is a step in cancelling. In the historical file both
-are filled in — the exit-survey flag is 1 on 1,810 rows and **every one is a
-cancellation**, with no exceptions in 31,645 rows. On 1 April both will be 0
+*after* month close; similarly `exit_survey_started` records a member opening the
+cancellation survey, which is a step in cancelling itself. In the historical file both
+are filled in. The exit-survey variable is 1 on 1,810 rows and **every one is a
+cancellation** with no exceptions in 31,645 rows. On 1 April both will be 0
 for everyone, including the members who go on to leave. Removing them costs
-0.22 AUC. Exhibit A2b argues all fourteen columns from the dictionary's timing
-notes, kept and dropped alike.
-
-**Keeping a member wholly on one side of the split costs 0.001**, though 2,899
-of 3,648 members straddled folds beforehand — no admissible column identifies a
-member, and a linear model cannot build identity from shared attributes.
-**Fitting on the past and scoring the future costs a further 0.10**; what
-changes at that row is not that the data is unseen, which it already was, but
-that it is *later*. The two-month gap exists because a June 2025 label is not
+0.22 AUC but makes the model honest and more in line with its purpose. Exhibit A2b discusses, using the data dictionary, the reason for each column kept and each column dropped.
+**Keeping a member wholly on one side of the split costs 0.001**, even though
+2,899 of 3,648 members had rows in more than one fold beforehand. The risk it
+guards against is real: a member merely *having* a later row proves they had not
+cancelled earlier, so a model that sees the same person on both sides can learn
+survival from the shape of the file rather than from behaviour. It costs almost
+nothing here because no admissible column identifies a member, and a linear
+model cannot build an identity out of attributes that thousands of people share.
+A more flexible model would have shown a larger drop at this row.
+**Fitting on the past and scoring the future costs another 0.10**; it is not enough for the scored data to be unseen, which it already was, it also has to be *later*. The two-month gap exists because a June 2025 label is not
 settled until 31 August, so training on June while evaluating in July would use
-outcomes from the period being evaluated. It also mirrors deployment: on 1
-April the two most recent months of labels will not exist either.
+outcomes from the period being evaluated. It also mirrors deployment: on 1 April 2026 the two most recent months of labels will not exist either, because a February row's 60-day window does not close until the end of April. In production the freshest usable labels are always about two months old, and the gap reproduces that rather than handicapping the evaluation.
 
-**These differences are not a decomposition.** Each is measured on top of those
-above it, so they sum to the total but the split depends on the order. Had
+One note for your analytics team: the dictionary defines `churn_next_60d` as termination within 60 days of the end of the snapshot month, but in the extract the flag sits on exactly one row per member, the month they actually cancel, so the gap above is required under the documented definition and merely conservative under the delivered one.
+
+**These differences are not a clean decomposition.** Each is measured on top of those
+above it, so they sum to the total but the split for how much AUC is lost depends on the order the improvements are made. Had
 past-to-future come first with the two post-hoc columns still in, the test AUC
-would have stayed near 0.97, time would have looked free, and dropping the
-columns afterwards would have carried the whole fall.
+would have stayed near 0.97, the temporal split would have looked free, and dropping the columns afterwards would have carried the whole fall.
 
 Exhibit A1 sets the scale. Predicting "no churn" for everyone is 90.7% accurate
 and identifies nobody; the same rule scores 0.50 on the ranking scale, so 90.7%
 and 0.967 are not neighbouring numbers. Accuracy is the wrong yardstick twice
-over — the outcome is rare, and a wasted offer costs $18 against $66 forgone on
-a missed churner, so counting both as one mistake prices them wrongly.
+over: the outcome is rare, so the figure is dominated by the 91% of rows where
+nothing happens; and a wasted offer costs $18 against $66 forgone on a missed
+churner, so counting both as one mistake prices them wrongly. What this decision
+needs is a loss function denominated in dollars.
 
 ## From a probability to a decision
 
@@ -74,44 +67,53 @@ probability *p* the expected value of offering is
 > 66*p* − 18(1 − *p*) = **84*p* − 18**
 
 which beats not offering exactly when **p > 18/84 = 0.2143**. That comes from
-your finance figures alone, and was fixed before any test-period score was
+our finance figures alone, and was decided before any test-period score was
 read. The analyst's 0.267 was instead found by searching 400 cut-points for the
-one that maximised measured value — choosing by looking at the answer. It made
-little difference: on honest scores it returns $828 against our $852. The
-$19,774 was never a threshold error.
+one that maximised measured value, which is choosing by looking at the answer. He had no held-out period at all, so the figure he reported was the best of 400 candidates scored on the same data, and the best of many noisy candidates is optimistic by construction. It made little difference: on honest scores his cut-point returns $828 against our $852. The $19,774 was never a threshold error.
 
 0.2143 is also the **break-even precision**, since value per offer is exactly
 84 × (precision − 0.2143). Against a 9% base rate that means finding members at
 roughly two and a half times average risk; the model manages 25.6% in the top
 5% of the book, clearing the bar by four percentage points.
 
-## What it is worth, and how firmly
+## What it is worth
 
-$852 on the quarter, against **−$47,736** for offering to every member-month
-and $0 for doing nothing: targeting is what makes the programme viable at all.
-But the total carries a standard error of about **$572** — a sum of 242 draws
-of +$66 or −$18 — so it sits 1.5 standard errors above zero, and month to month
-it straddles the line: November +$810, October +$48, December −$6.
+On the test quarter, $852, against **−$47,736** for offering to every
+member-month and $0 for doing nothing: targeting is what makes the program
+viable at all.
+But the total carries a standard error of about **$572**. Each offer returns
+either +$66 or −$18, so the quarter is a sum of 242 such draws, and that spread
+is what the arithmetic gives. $852 is therefore only 1.5 standard errors above
+zero: run the same program on another similar quarter and a result anywhere
+either side of break-even would be unremarkable. The three months bear that
+out at the same fixed threshold, November +$810, October +$48, December −$6, so
+one month carried almost all of it. Excluding corporate does not fix this.
+Everyone else returns $930 with a standard error of $565, which is 1.65
+standard errors from zero, because corporate was only 9 of the 242 offers.
+This is a program worth running and worth watching, not a reliable earner.
 
-Corporate is the clearest part of the picture: ranked at 0.404, below a coin
-flip, with nine offers reaching a churner once. The model's largest single term
-is the channel itself, roughly four times the churn odds for any non-corporate
-channel — it has learned that corporate members rarely cancel, not which of
-them will. That is reasonable to learn from 533 rows none older than six
-months, and a poor basis for spending on a third of next spring's book.
+Corporate is the clearest part of the picture: an AUC of 0.404 is below a coin
+flip, so inside that segment the members the model likes least are the ones who
+stay. The model's largest single term is the channel itself, roughly four times
+the churn odds for any non-corporate channel, so it has learned that corporate
+members rarely cancel, not which of them will. Learning only that much from 533
+rows none older than six months is reasonable, and it is a poor basis for
+spending on a forecasted third of next spring's book. Note that the dollar
+figure for corporate, −$78, carries a standard error of $84 on nine offers and
+cannot carry this argument by itself; the 0.404 on 860 rows and the 533-row
+training base are what do.
 
 Two things make $852 optimistic for April: the test quarter ran 8.4–9.5% churn
 where April–June 2025 ran 5.3–7.1%, and 1,294 members already received a
 retention contact, so part of what we fitted to is post-treatment. The
-threshold also assumes the probabilities mean what they say. They roughly do —
-checked on September 2025 and corrected there before use — but the model still
+threshold also assumes the model-outputted probabilities are actual calibrated probability values. They roughly do,
+checked on September 2025 and calibrated there before use, but the model still
 overstates the members it picks, claiming 39.6% for its top-scoring offers and
-delivering 27.9%. Hence a dollar tripwire rather than a ranking statistic,
-which can hold steady while the probabilities drift.
+delivering 27.9%. This is why the tripwire is in dollars rather than AUC. If every predicted probability drifted upward tomorrow, the ranking would be untouched and AUC would not move at all, while the 21.4% cut-point would start buying offers for members who do not need them. A ranking statistic can hold perfectly steady through exactly the failure that would destroy the economics, so it is the wrong thing to watch.
 
 ---
 
-## Exhibit A1 — Baselines, before any modelling
+## Exhibit A1: Baselines, before any modelling
 
 Source: `analysis/outputs/a1_baselines.csv`, `a1_cleaning.txt`. All rows
 deduplicated: the extract contains 1,695 exact duplicate rows, all in March
@@ -134,7 +136,7 @@ Tenure's 0.50 is not an artefact of a non-monotone relationship: churn sits
 between 6.7% and 10.1% in every tenure bucket from month 0 to 24+
 (`a1_churn_by_tenure.csv`).
 
-## Exhibit A2 — Four changes to the evaluation, one at a time
+## Exhibit A2: Four changes to the evaluation, one at a time
 
 Source: `analysis/outputs/a2_table.csv`. Changes are cumulative. Rows 0–2 are
 5-fold cross-validated on the building window (Jan 2024 – Jun 2025: 21,031
@@ -144,7 +146,7 @@ here: no choice in this section was made by looking at data.
 
 | Row | Change | Scored | Churners | AUC | Kind | What it means |
 |---|---|---:|---:|---:|---|---|
-| — | Analyst's script as printed: raw file, 24 months, 14 columns, random folds | 33,340 | | 0.967 | cross-validated | The figure in the proposal |
+| n/a | Analyst's script as printed: raw file, 24 months, 14 columns, random folds | 33,340 | | 0.967 | cross-validated | The figure in the proposal |
 | 0 | Same protocol, deduplicated, building window only | 21,031 | 1,767 | **0.968** | cross-validated | Deduplication and the shorter window change nothing; the leak dominates |
 | 1 | + admissible columns only (12 of 14, Exhibit A2b) | 21,031 | 1,767 | **0.748** | cross-validated | 0.22 of the headline was information recorded by the cancellation itself |
 | 2 | + a member never in both the fitting and held-out folds | 21,031 | 1,767 | **0.747** | cross-validated | Worth 0.001 here: no admissible column identifies a member |
@@ -153,9 +155,11 @@ here: no choice in this section was made by looking at data.
 | 4 | everyone else | 3,696 | 374 | **0.641** | test window | Which is also the pooled figure: corporate is 19% of rows, 8% of churners |
 
 Re-running the analyst's exact protocol on the raw file in our harness
-reproduces 0.967, confirming the comparison is like-for-like (`run.log`).
+reproduces 0.967, so the rows below are measured the same way his headline was
+and the differences come from the protocol rather than from our code
+(`run.log`).
 
-### Exhibit A2b — Which columns exist at the moment of scoring
+### Exhibit A2b: Which columns exist at the moment of scoring
 
 Source: `analysis/outputs/a2_columns.csv`. The scoring moment is the **start**
 of `snapshot_month`. Decided from the data dictionary's timing note for each
@@ -163,7 +167,7 @@ column, for columns kept as well as dropped.
 
 | Decision | Columns | Timing note that decides it |
 |---|---|---|
-| **Kept (12)** | `tenure_months` | "as of the start of `snapshot_month`" — explicitly at the scoring moment |
+| **Kept (12)** | `tenure_months` | "as of the start of `snapshot_month`", so explicitly at the scoring moment |
 | | `sessions_last_30d`, `app_opens_last_30d`, `avg_session_minutes`, `days_since_last_login`, `support_tickets_last_30d`, `referrals_made` | 30 days ending on the last day of the **previous** month: the window closes before the month starts |
 | | `payment_failures_last_90d` | 90 days ending on the last day of the previous month |
 | | `acquisition_channel`, `city_tier` | fixed at signup |
@@ -172,7 +176,7 @@ column, for columns kept as well as dropped.
 | | `exit_survey_started` | the cancellation flow itself; no window stated. 1 on 1,810 rows, **every one a cancellation**, none a non-churner |
 | **Not features (3)** | `member_id`, `snapshot_month`, `signup_month` | identifier; the month itself (April 2026 is a value never seen in training); redundant with tenure |
 
-## Exhibit A3 — The targeting decision
+## Exhibit A3: The targeting decision
 
 Source: `analysis/outputs/a3_value.csv`, `a3_threshold.txt`, `a3_by_month.csv`,
 `a3_offer_quality.csv`. Test window Oct – Dec 2025. One offer = one
@@ -180,16 +184,17 @@ member-month, matching a programme that scores the book monthly.
 
 **(a) Realised value at the cost-derived threshold t\* = 0.2143**
 
-| Policy | Offers | Reached a churner | Wasted | Value |
-|---|---:|---:|---:|---:|
-| **Targeted at t\* = 0.2143** | 242 | 62 | 180 | **+$852** |
-| — corporate | 9 | 1 | 8 | **−$78** |
-| — everyone else | 233 | 61 | 172 | **+$930** |
-| Offer to every member-month | 4,556 | 408 | 4,148 | **−$47,736** |
-| No programme | 0 | — | — | $0 |
-| *Memo: at the analyst's grid-searched 0.267* | 108 | 33 | 75 | +$828 |
+| Policy | Offers | Reached a churner | Wasted | Value | SE | SEs from 0 |
+|---|---:|---:|---:|---:|---:|---:|
+| **Targeted at t\* = 0.2143** | 242 | 62 | 180 | **+$852** | $572 | 1.49 |
+| of which corporate | 9 | 1 | 8 | **−$78** | $84 | −0.93 |
+| of which everyone else | 233 | 61 | 172 | **+$930** | $565 | 1.65 |
+| Offer to every member-month | 4,556 | 408 | 4,148 | **−$47,736** | $1,619 | −29.5 |
+| No programme | 0 | n/a | n/a | $0 | n/a | n/a |
+| *Memo: at the analyst's grid-searched 0.267* | 108 | 33 | 75 | +$828 | $404 | 2.05 |
 
-Standard error of the quarter's total: **$572** (242 draws of +$66 or −$18).
+Standard errors are for a sum of independent +$66 / −$18 draws; the 47 repeat
+contacts make them slightly optimistic.
 Contacting each member at most once in the quarter gives 195 offers worth $774;
 47 of the 242 are repeat contacts, and they earn $1.66 each against $3.97 for
 first contacts.
@@ -202,14 +207,16 @@ first contacts.
 | Nov 2025 | 81 | 33.3% | 21.4% | +$810 | $10.00 |
 | Dec 2025 | 47 | 21.3% | 21.4% | −$6 | −$0.13 |
 
-**(c) Figure — realised value across all thresholds:** `a3_value_curve.png`.
+**(c) Realised value across all thresholds**
+
+![Realised quarterly value against the offer threshold, with the cost-derived threshold marked](analysis/outputs/a3_value_curve.png)
 The threshold was fixed from the finance table before any score was read; the
 curve is shown for sensitivity, not for selection. It peaks at $1,098 at a
 threshold of 0.236, so not selecting on the test period cost $264.
 
 ---
 
-# §2 — To the VP of Merchandising Planning, Cascade Outdoor
+# §2: To the VP of Merchandising Planning, Cascade Outdoor
 
 ## Recommendation
 
@@ -218,48 +225,61 @@ own noise floor from repeat observations, tune flexibility and penalty by
 cross-validation on its own rows, report standard errors and break ties with
 the one-standard-error rule, then score once on held-out data that selects
 nothing. Applied this year that process yields the *same* specification in both
-divisions — degree-2 ridge — no worse than the best hand-picked choice in
+divisions, degree-2 ridge, and it is no worse than the best hand-picked choice in
 Hardgoods (0.15 ± 0.22) and better by 84 ± 20 in Apparel. So one specification
 does serve both; the contractor's contrary conclusion came from comparing
 unpenalised fits only.
 
-**How much of the error is unavoidable.** The same amount in both — 148 units²
-in Hardgoods, 142 in Apparel, 0.4 standard errors apart — so Apparel demand is
-**not** inherently harder to forecast. What differs is how much is recoverable:
-83 units² above the floor against 272. His arithmetic was sound (Exhibit B2);
-his conclusions were not.
+**How much of the error is unavoidable.** Statistically indistinguishable in
+the two divisions: 148 units² in Hardgoods against 142 in Apparel, a difference
+of 0.4 standard errors. Even at the edge of a 95% interval the floors differ by
+at most 34 units², against the 183 that separates his two best figures, so the
+floor cannot be what makes Apparel look harder. What differs is how much is
+recoverable: 83 units² above the floor against 272. His arithmetic was sound
+(Exhibit B2); his conclusions were not.
 
 **What a penalty buys, and why that differs.** In one cell of four, and
 overwhelmingly: Apparel at degree 2, where it takes cross-validated error from
 618 to 330, a drop of 288 against a standard error of 55. Elsewhere it does
-nothing measurable — 0.01, 0.15 and 1.47, each smaller than its own standard
+nothing measurable: 0.01, 0.15 and 1.47, each smaller than its own standard
 error. The separator is not division size but **terms estimated per row: 0.46
 where it matters, against 0.004, 0.030 and 0.061 where it does not.** Apparel at
 degree 1 proves it: the same 197 rows, twelve terms, no gain.
 
 **How firm the Apparel ordering is.** Not uniformly: its standard errors run 14
-to 68 against Hardgoods' 4.6 to 6.4. Firm — degree-2 ridge beats both degree-1
+to 68 against Hardgoods' 4.6 to 6.4. Firm: degree-2 ridge beats both degree-1
 cells by 82 to 84 (SEs 20 to 26), and unpenalised degree 2 is worst by 204 ± 53.
-Not firm — whether to penalise at degree 1, at 1.47 ± 7.26.
+Not firm: whether to penalise at degree 1, at 1.47 ± 7.26.
 
 ## Stability, and a third division
 
-Raising the degree is a good trade in Hardgoods — prediction spread rises from
-1.14 units to 2.83 while distance from the truth falls from 12.65 to 3.84 — and
-a pure loss in Apparel, where spread rises six-fold to 25.24 with no gain in
-accuracy. The penalty does nothing at degree 1 in either division or at degree 2
-in Hardgoods (2.83 → 2.80), and cuts Apparel's degree-2 spread by 71%, to 7.22.
-Both track the same terms-to-rows ratio, 0.03 against 0.46 — which is why the
-standard fixes a method, not a specification: a division acquired next year with
-400 rows would sit at 0.225, between these two, and could land elsewhere.
+Raising the degree is a good trade in Hardgoods, where prediction spread rises
+from 1.14 units to 2.83 while distance from the truth falls from 12.65 to 3.84,
+and a pure loss in Apparel, where spread rises six-fold to 25.24 and accuracy
+gets worse rather than better. The penalty does nothing at degree 1 in either
+division or at degree 2 in Hardgoods (2.83 → 2.80), and cuts Apparel's degree-2
+spread by 71%, to 7.22.
 
-What no standard can supply is history. Apparel's best model is **85% bias** —
-293 units² against 53 of variance — while Hardgoods on the same specification
-selects a penalty ten times smaller. The shrinkage Apparel's sample forces on it
-creates that bias, so we expect it to fall as history accumulates and
-cross-validation relaxes the penalty; that is an expectation rather than a
-measurement. Either way the remedy is more Apparel weeks, not a bigger basis or
-a heavier penalty. Parity is forecast for late 2027.
+Two separate dials are at work, and separating them is what makes the standard
+portable. **Flexibility governs bias, but only where there are rows to fit it.**
+Twelve terms leave a squared bias of 224 in Hardgoods and 294 in Apparel; ninety
+terms cut that to 16 in Hardgoods and raise it to 475 in Apparel, because at
+2.2 rows per coefficient the fit is so loosely pinned that even its average is
+displaced. **Terms per row governs variance**, and does so without exception:
+sort the unpenalised fits by that ratio and variance runs 1.3, 9.1, 19.2, 664.2.
+So a division acquired next year with 400 rows would sit at 0.225 terms per row,
+between these two, and no fixed specification can be known in advance to suit
+it. The method can be.
+
+What no standard can supply is history. Apparel's best model is **85% bias**,
+293 units² against 53 of variance, and the penalty is not what put it there:
+unpenalised degree 1, with no shrinkage at all, carries essentially the same
+bias of 294. What the penalty did was rescue degree 2 from 475 back to where
+twelve terms already sat, by trading away the variance that 197 rows could not
+support. Hardgoods runs the identical specification and reaches a squared bias
+of 15 on 3,000 rows, which is what the extra flexibility buys once it can be
+estimated. So the remedy is more Apparel weeks, not a bigger basis and not a
+heavier penalty. Parity is forecast for late 2027.
 
 Reporting distance from the floor also tells a division which lever it needs:
 more rows lower the reducible error, but only new fields lower the floor.
@@ -268,7 +288,7 @@ new measurements, not a better model.
 
 ---
 
-## Exhibit B1 — How much of the error is unavoidable
+## Exhibit B1: How much of the error is unavoidable
 
 Source: `analysis/outputs/b1_noise_floor.csv`, `b1_config_check.csv`. Pooled
 within-configuration variance over 45 configurations of ten repeat
@@ -288,11 +308,27 @@ standard errors, indistinguishable at this precision.**
 | Apparel | 414 (degree 1) | 142.0 | **272.0** | 34% |
 
 The estimator assumes the twelve recorded fields are constant within a
-configuration; verified, 0 of 12 vary in any of the 90 configurations. This is
-the **average** unavoidable error: it may vary across the demand range, and the
-experiment cannot resolve whether it does (`b1_variance_shape.csv`).
+configuration; verified, 0 of 12 vary in any of the 90 configurations.
 
-## Exhibit B2 — Four models per division, against the floor
+This is the **average** unavoidable error over the 45 configurations your team
+selected during platform validation, and it is not a constant: per-configuration
+variance spans 25 to 360 in Hardgoods and 34 to 301 in Apparel, a per-week
+spread of 5 to 19 units against a pooled 12.2. Whether that spread is real or an
+artefact of estimating each one from ten observations cannot be resolved here;
+regressing a configuration's variance on its mean gives a slope of 0.657 ± 0.410
+in Hardgoods, consistent both with a constant floor and with variance growing in
+proportion to demand (`b1_variance_shape.csv`).
+
+Two consequences follow, and only one of them is a limitation. Because the
+configurations were selected rather than sampled **and** the floor may vary with
+where you are, the figure describes the floor where those 45 configurations sit
+rather than across the whole book; it should not be used to tell a planner what
+the limit is at one particular store-week. But Exhibit B2's `test MSE − σ̂²` is
+unaffected, because the test MSE averages over the same 45 configurations with
+the same weights that σ̂² pools over, so the two are averages over an identical
+set of points and the split is exact however the floor varies.
+
+## Exhibit B2: Four models per division, against the floor
 
 Source: `analysis/outputs/b2_table.csv`, `b2_differences.csv`. Protocol as
 prescribed: 5-fold CV on the division's own training extract, basis and scaler
@@ -313,13 +349,40 @@ MSEs; the SE is their standard deviation over √5.
 | Apparel | 2 | ridge | 90 | 0.457 | 3.162 | **329.80** | 14.31 | **296.19** | **154.15** |
 
 No tuned penalty falls on an endpoint of the grid. The contractor's four
-figures reproduce under this protocol — 336.62, 233.12, 413.53, 617.97 against
+figures reproduce under this protocol: 336.62, 233.12, 413.53, 617.97 against
 his 336, 231, 414, 618, all within half a standard error
 (`b2_contractor_check.csv`).
 
-*Footnote.* The CV column is not quite like-for-like: an unpenalised cell
-reports a single estimate while a ridge cell reports the lowest of 25, which
-flatters it. The test column, scored once, is not subject to this.
+*Footnote.* The CV column does not compare equally across rows. An
+unpenalised cell ran cross-validation once and reports what came out; a ridge
+cell ran it twenty-five times, once per candidate penalty, and reports the
+lowest of the twenty-five. The smallest of several noisy numbers is below the
+typical one, so the ridge figures are shaded in their own favour. The test
+column, scored once, is not subject to this, and it is where Hardgoods
+degree-2 ridge loses to degree-2 OLS by 1.31 having won the CV comparison by
+0.15.
+
+**What the tuned penalty actually did to the coefficients**
+(`b2_shrinkage.csv`). "Shrunk by" is the reduction in the length of the fitted
+coefficient vector. The last two columns show what the heaviest penalty on the
+grid would have done, and what cross-validation saw it cost.
+
+| Division | Degree | Tuned α | Shrunk by | At the grid's heaviest α | CV cost of that α |
+|---|---:|---:|---:|---:|---:|
+| Hardgoods | 1 | 10.0 | **0.3%** | 76.9% | +286 |
+| Hardgoods | 2 | 0.316 | 4.7% | 95.5% | +147 |
+| Apparel | 1 | 10.0 | 5.5% | 98.1% | +409 |
+| Apparel | 2 | 3.162 | **69.3%** | 99.3% | +401 |
+
+This is why the penalty changes nothing in three cells: it barely acts. At
+Hardgoods degree 1 it shortens the coefficient vector by three parts in a
+thousand. That is a choice cross-validation made rather than a limit of the
+method, because the grid contained penalties that would have shrunk degree 1 by
+77% and 98%, and it rejected them at a cost of 286 and 409 units². With variance
+already near zero at degree 1 (1.3 units² in Hardgoods, Exhibit B3), shrinking
+can only add bias, so the search settles where it does almost nothing. Where
+variance is the problem, at Apparel degree 2, the same search shrinks by 69%,
+which is the coefficient-side view of variance falling from 664 to 53.
 
 **Paired differences, taken fold by fold so fold-to-fold variation cancels:**
 
@@ -335,33 +398,50 @@ Twelve of the twenty-five penalties tested in Hardgoods degree 2 sit within one
 standard error of the best, so the exact value is not load-bearing; the
 one-standard-error rule is what licenses standardising on degree-2 ridge there.
 
-## Exhibit B3 — What flexibility and a penalty do to bias and variance
+## Exhibit B3: What flexibility and a penalty do to bias and variance
 
-Source: `analysis/outputs/b3_stability.csv`, figure `b3_stability.png`. Twenty
+Source: `analysis/outputs/b3_stability.csv`. Twenty
 bootstrap resamples per division, the supplied stability loop run as issued,
 penalties held at the B2 values and not re-tuned. Each model refit on every
 resample and asked for the same three configurations spanning low, middle and
 high demand. "sd" is the spread of the twenty predictions; "bias" is their mean
-minus the repeat-observation estimate of the truth. All figures in units.
+minus the repeat-observation estimate of the truth. Spread and bias are in
+units; bias² and variance are their squares, in units², which is the only
+scale on which the two can be compared or added. Terms and rows per term come
+from Exhibit B2 and are repeated here because they are what the last two
+columns track (`b3_flexibility_ledger.csv`).
 
-| Division | Model | Mean sd | Mean \|bias\| | Bias² | Variance | Bias share |
-|---|---|---:|---:|---:|---:|---:|
-| Hardgoods | degree-1 OLS | 1.14 | 12.65 | 224.0 | 1.3 | 99% |
-| Hardgoods | degree-1 ridge | 1.14 | 12.66 | — | — | |
-| Hardgoods | degree-2 OLS | 2.83 | 3.84 | — | — | |
-| Hardgoods | degree-2 ridge | **2.80** | **3.64** | 15.1 | 8.9 | 63% |
-| Apparel | degree-1 OLS | 4.33 | 16.66 | 293.6 | 19.2 | 94% |
-| Apparel | degree-1 ridge | 4.13 | 16.46 | — | — | |
-| Apparel | degree-2 OLS | **25.24** | 18.78 | 474.9 | 664.2 | 42% |
-| Apparel | degree-2 ridge | **7.22** | **15.05** | **292.8** | **52.9** | **85%** |
+| Division | Model | Terms | Rows per term | Mean sd | Mean \|bias\| | Bias² | Variance | Bias share |
+|---|---|---:|---:|---:|---:|---:|---:|---:|
+| Hardgoods | degree-1 OLS | 12 | 250.0 | 1.14 | 12.65 | 224.0 | 1.3 | 99% |
+| Hardgoods | degree-1 ridge | 12 | 250.0 | 1.14 | 12.66 | 223.6 | 1.3 | 99% |
+| Hardgoods | degree-2 OLS | 90 | 33.3 | 2.83 | 3.84 | 16.4 | 9.1 | 64% |
+| Hardgoods | degree-2 ridge | 90 | 33.3 | **2.80** | **3.64** | **15.1** | **8.9** | 63% |
+| Apparel | degree-1 OLS | 12 | 16.4 | 4.33 | 16.66 | 293.6 | 19.2 | 94% |
+| Apparel | degree-1 ridge | 12 | 16.4 | 4.13 | 16.46 | 282.7 | 17.5 | 94% |
+| Apparel | degree-2 OLS | 90 | 2.2 | **25.24** | **18.78** | **474.9** | **664.2** | 42% |
+| Apparel | degree-2 ridge | 90 | 2.2 | **7.22** | **15.05** | **292.8** | **52.9** | 85% |
 
 The truth at each configuration is itself an average of ten weeks, so it
-carries a standard error of σ̂/√10 — 3.85 units in Hardgoods, 3.77 in Apparel.
-A bias smaller than that is indistinguishable from zero; Apparel's 15.05 is
-not. Twenty resamples give a standard deviation roughly 16% uncertain in its
-own right, so 2.83 against 2.80 is not a difference.
+carries a standard error of σ̂/√10: 3.85 units in Hardgoods and 3.77 in Apparel
+using the pooled floor. Because the floor varies by configuration (Exhibit B1),
+the yardstick does too, and per query point it runs from 1.95 to 4.81 units
+(`b1_query_yardsticks.csv`). Either way a bias of that size is
+indistinguishable from zero, and Apparel's 15.05 is not. Twenty resamples give
+a standard deviation roughly 16% uncertain in its own right, so 2.83 against
+2.80 is not a difference.
 
-Levels here are not comparable with Exhibit B2's: these are three
-configurations rather than 45, and each fit uses a bootstrap resample holding
-about 63% distinct rows rather than the full extract. Comparisons **within**
-this table are sound, because they hold both fixed and vary only the model.
+![Mean spread of the twenty predictions against mean absolute bias, by division](analysis/outputs/b3_stability.png)
+
+Neither the levels nor the orderings here are comparable with Exhibit B2's:
+these are three configurations rather than 45, and each fit uses a bootstrap
+resample holding about 63% distinct rows rather than the full extract. The two
+even disagree about Apparel. Adding the last two columns gives degree-1 OLS
+312.9 against degree-2 ridge's 345.7, the reverse of Exhibit B2, where degree-2
+ridge wins the test comparison 296.19 against 363.58. That is not a
+contradiction: the three query points were chosen to span the demand range
+rather than to represent the 45, and resampling to 123 distinct rows penalises
+a ninety-term model more than a twelve-term one. **Exhibit B2 is what says
+which specification is better; Exhibit B3 says what kind of error each one
+makes.** Comparisons **within** this table are sound, because they hold the
+points and the fits fixed and vary only the model.

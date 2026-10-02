@@ -142,6 +142,41 @@ def main() -> None:
           .to_string(index=False, float_format=lambda v: f"{v:9.1f}"))
     print()
 
+    # The two dials, side by side.  This is the evidence for section 2's
+    # central claim, and it needs both scripts' output to assemble:
+    #
+    #   number of terms  -> bias, PROVIDED there are rows to estimate them
+    #   terms per row    -> variance, monotonically and then explosively
+    #
+    # The second is clean.  The first carries its proviso because Apparel
+    # degree 2 has more terms than degree 1 and *worse* bias: at 2.2 rows per
+    # coefficient the fit is so unconstrained that even its average over
+    # resamples is displaced.
+    b2 = pd.read_csv(OUT / "b2_table.csv")
+    rows = []
+    for r in tables.itertuples():
+        degree = int(r.model.split("-")[1][0])
+        treatment = "OLS" if "OLS" in r.model else "ridge"
+        c = b2[(b2.division == r.division_name) & (b2.degree == degree)
+               & (b2.treatment == treatment)].iloc[0]
+        rows.append({"division": r.division_name, "model": r.model,
+                     "terms": int(c.terms), "training_rows": int(c.training_rows),
+                     "terms_per_row": c.terms_per_row, "rows_per_term": c.rows_per_term,
+                     "tuned_alpha": c.tuned_alpha,
+                     "bias2": round(r.bias2_mean, 1),
+                     "variance": round(r.variance_mean, 1)})
+    ledger = pd.DataFrame(rows)
+    ledger.to_csv(OUT / "b3_flexibility_ledger.csv", index=False)
+    print("the two dials: terms govern bias (given rows), terms per row govern variance")
+    print(ledger.sort_values(["terms", "terms_per_row"]).to_string(index=False))
+    print("  unpenalised cells sorted by terms per row show variance rising monotonically:")
+    o = ledger[ledger.model.str.contains("OLS")].sort_values("terms_per_row")
+    print("   " + "  ->  ".join(f"{r.terms_per_row:.4f}: var {r.variance:,.1f}"
+                                for r in o.itertuples()))
+    print("  at 12 terms bias is 224 and 294; at 90 terms it is 16 where rows allow")
+    print("  and 475 where they do not, which is the proviso.")
+    print()
+
     stability.figure(tables)
     print(f"wrote {OUT / 'b3_stability.csv'}, b3_stability.png")
 

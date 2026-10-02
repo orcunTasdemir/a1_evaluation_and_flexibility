@@ -256,16 +256,41 @@ division      name  configs  replicates_per_config  rows  dof  sigma2_hat  se_si
 Hardgoods sigma^2 = 148.1 +/- 10.4 (sigma = 12.2 units)
 Apparel   sigma^2 = 142.0 +/- 10.0 (sigma = 11.9 units)
 difference (A - H) = -6.1 with a standard error of 14.4, i.e. 0.42 standard errors
+95% interval on the difference: -34.3 to 22.2 units^2, so the floors differ by at most 34 even at its edge
+against the contractor's own gap of 183 (414 - 231), that is at most 19% of what he attributed to difficulty
 
 is the floor the same everywhere?  variance against demand level
-division      name  config_mean_min  config_mean_max  slope_var_on_mean  se_slope  consistent_with_poisson_slope_1  consistent_with_constant_variance_slope_0  overdispersion_vs_poisson  se_of_one_config_variance
-       H Hardgoods             51.2            176.4              0.657     0.410                             True                                       True                       1.32                       69.8
-       A   Apparel             80.2            182.0              0.103     0.401                            False                                       True                       1.28                       67.0
+division      name  config_mean_min  config_mean_max  slope_var_on_mean  se_slope  consistent_with_poisson_slope_1  consistent_with_constant_variance_slope_0  overdispersion_vs_poisson  se_of_one_config_variance  config_var_min  config_var_max  config_sd_min  config_sd_max  pooled_sd
+       H Hardgoods             51.2            176.4              0.657     0.410                             True                                       True                       1.32                       69.8            25.4           360.3            5.0           19.0       12.2
+       A   Apparel             80.2            182.0              0.103     0.401                            False                                       True                       1.28                       67.0            33.5           301.3            5.8           17.4       11.9
   (slope 1 = Poisson-like, slope 0 = constant floor; a configuration's
    variance comes from ten rows, so the slope is poorly determined and
    an inconclusive answer is the honest one)
 
-wrote C:\Users\owner\Desktop\a1_evaluation_and_flexibility\analysis\outputs\b1_noise_floor.csv, b1_config_check.csv, b1_variance_shape.csv
+Hardgoods: per-configuration variance spans 25 to 360, i.e. a per-week sd of 5.0 to 19.0 units against a pooled 12.2
+Apparel: per-configuration variance spans 34 to 301, i.e. a per-week sd of 5.8 to 17.4 units against a pooled 11.9
+
+B3's yardstick per query point, rather than pooled
+division      name query_point config_id  config_mean_units  config_sd_units  yardstick_sd_over_sqrt10
+       H Hardgoods          q1       H43              88.98            11.37                      3.60
+       H Hardgoods          q2       H16             111.57             6.17                      1.95
+       H Hardgoods          q3       H01             132.87            12.83                      4.06
+       A   Apparel          q1       A10              87.31            11.52                      3.64
+       A   Apparel          q2       A08             107.03            10.58                      3.34
+       A   Apparel          q3       A07             135.62            15.21                      4.81
+  (changes no B3 conclusion: the biases that matter are 15 to 32 units)
+
+Scope of the estimate: the two caveats compound.  A constant floor
+would make hand-picked configurations harmless, and randomly sampled
+configurations would make a varying floor average out.  It is only
+chosen points AND a possibly varying floor together that limit this
+figure to the floor where these 45 configurations sit.
+Note what is NOT affected: B2's test MSE averages over the same 45
+configurations with the same weights that sigma^2_hat pools over, so
+test MSE - sigma^2_hat compares two averages over an identical set of
+points and the split is exact however the floor varies.
+
+wrote C:\Users\owner\Desktop\a1_evaluation_and_flexibility\analysis\outputs\b1_noise_floor.csv, b1_config_check.csv, b1_variance_shape.csv, b1_query_yardsticks.csv
 
 === part2: B2 four models against the floor ===
 terms in each basis on 12 inputs: degree 1 = 12, degree 2 = 90
@@ -322,6 +347,21 @@ Hardgoods   degree-2 OLS degree-2 ridge             0.15              0.22      
   Apparel degree-1 ridge degree-2 ridge            82.25             26.32           3.13
   Apparel   degree-2 OLS degree-2 ridge           288.16             55.02           5.24
 
+how much the tuned penalty actually moved the coefficients
+ division  degree  terms  training_rows  tuned_alpha  coef_norm_ols  coef_norm_ridge  shrunk_pct  grid_max_alpha  shrunk_pct_at_grid_max  cv_mse_at_tuned  cv_mse_at_grid_max  cv_cost_of_grid_max
+Hardgoods       1     12           3000    10.000000           21.0             21.0         0.3         10000.0                    76.9           336.61              622.53               285.92
+Hardgoods       2     90           3000     0.316228          114.5            109.1         4.7         10000.0                    95.5           232.98              380.35               147.38
+  Apparel       1     12            197    10.000000           22.3             21.1         5.5         10000.0                    98.1           412.06              821.32               409.26
+  Apparel       2     90            197     3.162278          153.0             46.9        69.3         10000.0                    99.3           329.80              730.71               400.90
+  (so 'the penalty changed nothing' at degree 1 is literal: it shrank
+   the Hardgoods coefficient vector by 0.3%.  ridge bites hardest on
+   directions the data barely constrains, and 90 terms from 197 rows
+   leave many such directions, which is why a smaller alpha there
+   produces far more shrinkage than alpha=10 does at degree 1.
+   note the last four columns: the grid's heaviest penalty WOULD have
+   shrunk degree 1 by 77% and 98%, and CV saw it cost 286 and 409
+   units^2, so doing nothing was CV's decision, not ridge's limit)
+
 exact split of each test MSE (floor part + structural part)
  division  degree treatment  test_mse  floor_part  structural_part  identity_check  test_mse_minus_sigma2
 Hardgoods       1       OLS    398.55      133.30           265.25            -0.0                 250.44
@@ -333,7 +373,7 @@ Hardgoods       2     ridge    247.47      133.30           114.17             0
   Apparel       2       OLS    366.86      127.83           239.03            -0.0                 224.82
   Apparel       2     ridge    296.19      127.83           168.36            -0.0                 154.15
 
-wrote C:\Users\owner\Desktop\a1_evaluation_and_flexibility\analysis\outputs\b2_table.csv, b2_alpha_curves.csv, b2_penalties.csv, b2_contractor_check.csv, b2_differences.csv, b2_test_decomposition.csv
+wrote C:\Users\owner\Desktop\a1_evaluation_and_flexibility\analysis\outputs\b2_table.csv, b2_alpha_curves.csv, b2_penalties.csv, b2_contractor_check.csv, b2_differences.csv, b2_test_decomposition.csv, b2_shrinkage.csv
 
 === part2: B3 stability experiment ===
 penalties held at the B2 values (not re-tuned inside the resamples):
@@ -374,6 +414,21 @@ division_name          model  bias2_mean  variance_mean  bias2_plus_variance  bi
       Apparel degree-1 ridge       282.7           17.5                300.2            94.2
       Apparel   degree-2 OLS       474.9          664.2               1139.0            41.7
       Apparel degree-2 ridge       292.8           52.9                345.7            84.7
+
+the two dials: terms govern bias (given rows), terms per row govern variance
+ division          model  terms  training_rows  terms_per_row  rows_per_term  tuned_alpha  bias2  variance
+Hardgoods   degree-1 OLS     12           3000         0.0040          250.0          NaN  224.0       1.3
+Hardgoods degree-1 ridge     12           3000         0.0040          250.0    10.000000  223.6       1.3
+  Apparel   degree-1 OLS     12            197         0.0609           16.4          NaN  293.6      19.2
+  Apparel degree-1 ridge     12            197         0.0609           16.4    10.000000  282.7      17.5
+Hardgoods   degree-2 OLS     90           3000         0.0300           33.3          NaN   16.4       9.1
+Hardgoods degree-2 ridge     90           3000         0.0300           33.3     0.316228   15.1       8.9
+  Apparel   degree-2 OLS     90            197         0.4569            2.2          NaN  474.9     664.2
+  Apparel degree-2 ridge     90            197         0.4569            2.2     3.162278  292.8      52.9
+  unpenalised cells sorted by terms per row show variance rising monotonically:
+   0.0040: var 1.3  ->  0.0300: var 9.1  ->  0.0609: var 19.2  ->  0.4569: var 664.2
+  at 12 terms bias is 224 and 294; at 90 terms it is 16 where rows allow
+  and 475 where they do not, which is the proviso.
 
 wrote C:\Users\owner\Desktop\a1_evaluation_and_flexibility\analysis\outputs\b3_stability.png
 wrote C:\Users\owner\Desktop\a1_evaluation_and_flexibility\analysis\outputs\b3_stability.csv, b3_stability.png

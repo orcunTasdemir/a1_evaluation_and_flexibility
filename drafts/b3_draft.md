@@ -20,21 +20,32 @@ query configurations (low, middle and high demand). "sd" is the spread of the
 twenty predictions; "bias" is their mean minus the replicate-based truth.
 Averaged over the three points.
 
-| Division | Model | Mean sd | Mean \|bias\| | Signed mean bias |
-|---|---|---:|---:|---:|
-| Hardgoods | degree-1 OLS | 1.14 | 12.65 | +1.35 |
-| Hardgoods | degree-1 ridge | 1.14 | 12.66 | +1.34 |
-| Hardgoods | degree-2 OLS | 2.83 | 3.84 | +0.86 |
-| Hardgoods | degree-2 ridge | **2.80** | **3.64** | +1.05 |
-| Apparel | degree-1 OLS | 4.33 | 16.66 | +9.35 |
-| Apparel | degree-1 ridge | 4.13 | 16.46 | +8.70 |
-| Apparel | degree-2 OLS | **25.24** | 18.78 | −6.16 |
-| Apparel | degree-2 ridge | **7.22** | **15.05** | +4.15 |
+| Division | Model | Terms | Rows/term | Mean sd | Mean \|bias\| | Signed bias | Bias² | Variance | Bias share |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| Hardgoods | degree-1 OLS | 12 | 250.0 | 1.14 | 12.65 | +1.35 | 224.0 | 1.3 | 99% |
+| Hardgoods | degree-1 ridge | 12 | 250.0 | 1.14 | 12.66 | +1.34 | 223.6 | 1.3 | 99% |
+| Hardgoods | degree-2 OLS | 90 | 33.3 | 2.83 | 3.84 | +0.86 | 16.4 | 9.1 | 64% |
+| Hardgoods | degree-2 ridge | 90 | 33.3 | 2.80 | 3.64 | +1.05 | 15.1 | 8.9 | 63% |
+| Apparel | degree-1 OLS | 12 | 16.4 | 4.33 | 16.66 | +9.35 | 293.6 | 19.2 | 94% |
+| Apparel | degree-1 ridge | 12 | 16.4 | 4.13 | 16.46 | +8.70 | 282.7 | 17.5 | 94% |
+| Apparel | degree-2 OLS | 90 | 2.2 | 25.24 | 18.78 | -6.16 | 474.9 | 664.2 | 42% |
+| Apparel | degree-2 ridge | 90 | 2.2 | 7.22 | 15.05 | +4.15 | 292.8 | 52.9 | 85% |
 
-All figures in units. The truth at each query point is itself an average of
-ten weeks, so it carries a standard error of σ̂/√10 — 3.85 units in
-Hardgoods, 3.77 in Apparel. A bias smaller than that is indistinguishable
-from zero.
+**sd is not the variance.** Mean sd and mean |bias| are in **units**;
+bias² and variance are their squares, in **units²**, and that is the only
+scale on which the two can be compared or added (Err = Bias² + Var + σ²).
+The brief writes "the standard deviation of the 20 predictions (variance)",
+meaning the variance *component* of the decomposition; the reportable form
+is the sd and the additive form is its square. Squaring is done per query
+point and then averaged, not the other way round, because the
+decomposition holds at each point.
+
+The truth at each query point is itself an average of
+ten weeks, so it carries a standard error of σ̂/√10: 3.85 units in Hardgoods
+and 3.77 in Apparel using the pooled floor. The floor varies by configuration,
+so the yardstick does too; per query point it runs 3.60 / 1.95 / 4.06 (H) and
+3.64 / 3.34 / 4.81 (A), from `b1_query_yardsticks.csv`. A bias of that size is
+indistinguishable from zero.
 
 ### Per query point (q1 low, q2 middle, q3 high demand)
 
@@ -145,6 +156,48 @@ already done its work; what remains is a model too rigid to follow the
 Apparel demand surface, and the fix is more Apparel history, not a different
 estimator. That is what the company-wide standard should say, and it is the
 bridge from B3 into the standard-a-process answer.
+
+### Why Apparel's bias got *worse* at degree 2 (settled session 8)
+
+Bias² at 90 terms: Hardgoods 16.4, Apparel 474.9. More flexibility made Apparel
+worse, which looks impossible, since a richer basis can represent anything the
+poorer one could.
+
+The resolution is in how bias is measured here: the distance from the truth of
+the **mean of twenty refits**. At 2.2 rows per coefficient the fits are not just
+variable, their average is displaced too. The model is not wrong in a consistent
+direction, it is unanchored. So the extra flexibility is unusable rather than
+harmful in principle: there is not enough data to locate it.
+
+Three consequences, all of which the memo now states:
+
+- **The penalty did not create Apparel's bias.** Unpenalised degree 1, with no
+  shrinkage at all, carries bias² 293.6; penalised degree 2 carries 292.8. Same
+  bias, reached two different ways. What the penalty did was rescue degree 2
+  from 474.9 back to where twelve terms already sat, by trading away variance
+  that 197 rows could not support (664.2 → 52.9).
+- **Hardgoods is the evidence that rows are the remedy.** The identical
+  specification, degree-2 ridge, reaches bias² 15.1 on 3,000 rows. Not a
+  controlled experiment, since the two demand surfaces differ, but it does
+  refute "the shrinkage causes the bias", because Hardgoods shrinks too.
+- **An earlier draft said the bias should fall "as history accumulates and
+  cross-validation relaxes the penalty", and called that an expectation rather
+  than a measurement.** The mechanism was wrong, since the penalty is not what
+  put the bias there. Corrected in the memo.
+
+### B3 and B2 rank Apparel differently, and B2 is the one to trust
+
+| | Apparel degree-1 OLS | Apparel degree-2 ridge |
+|---|---:|---:|
+| B3, bias² + variance at 3 query points | **312.9** | 345.7 |
+| B2, test MSE over all 45 configurations | 363.58 | **296.19** |
+
+Opposite orderings. Not a contradiction, and the same reason as the level
+mismatch: three query points chosen to span the demand range are not a sample
+of the 45, and bootstrap fits on ~123 distinct rows penalise a 90-term model
+more than a 12-term one. **B2 answers which procedure is better; B3 answers
+what kind of error each one has.** Do not use B3 to rank, and do not let the
+memo imply that B3 endorses the degree-2 ridge choice. It does not need to.
 
 ### Arguing against the draft
 

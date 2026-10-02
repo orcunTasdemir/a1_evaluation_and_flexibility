@@ -122,6 +122,26 @@ explains why the brief calls a raw MSE uninterpretable.
   floors is roughly ±28 units², up to about 20% of a floor. The defensible
   phrasing is "indistinguishable at this precision", which is still far more
   than enough to sink 414-versus-231.
+- **The two scope caveats compound** (clarified session 8). If the floor were
+  constant everywhere, a hand-picked set of configurations would still estimate
+  it correctly for every store-week. If the points had been randomly sampled, a
+  varying floor would still average out correctly. It is only the combination,
+  chosen points *and* a possibly varying floor, that limits the figure to "the
+  floor where those 45 configurations sit".
+- **How much the floor actually varies** (now in the run,
+  `b1_variance_shape.csv`): per-configuration variance spans 25 to 360 in
+  Hardgoods and 34 to 301 in Apparel, so per-week sd runs 5.0 to 19.0 units
+  against a pooled 12.2. Some of that spread is genuine heteroscedasticity and
+  some is ten-observation noise; the slope diagnostic cannot separate them.
+  Consequence for B3, in `b1_query_yardsticks.csv`: the per-query-point
+  yardsticks are 3.60 / 1.95 / 4.06 (H) and 3.64 / 3.34 / 4.81 (A) rather than a
+  uniform 3.85 and 3.77. Changes no conclusion, since the biases that matter are
+  15 to 32 units.
+- **Where it does *not* matter: B2's subtraction.** The test MSE averages over
+  the same 45 configurations, with the same equal weights, that σ̂² pools over.
+  So `test MSE − σ̂²` compares two averages taken over an identical set of
+  points, and the identity checks to zero in all eight cells regardless of
+  whether the floor varies. No caveat needed there.
 - **The 45 configurations are not a random sample.** They are points
   Merchandising Analytics chose during the 2025 platform validation. Nothing
   in the dictionary claims they are representative of where the training rows
@@ -147,3 +167,6 @@ explains why the brief calls a raw MSE uninterpretable.
 | Difference −6.1, SE 14.4, 0.42 SE | `run.log` |
 | Contractor's 336 / 231 / 414 / 618 | quoted from the brief, not computed |
 | Variance-on-mean slopes +0.657 ± 0.410, +0.103 ± 0.401; overdispersion 1.32× / 1.28×; config mean ranges 51–176 / 80–182 | `b1_variance_shape.csv` |
+| Per-config variance 25–360 / 34–301; per-week sd 5.0–19.0 / 5.8–17.4; pooled sd 12.2 / 11.9 | `b1_variance_shape.csv` |
+| Per-query-point yardsticks 3.60 / 1.95 / 4.06 and 3.64 / 3.34 / 4.81 | `b1_query_yardsticks.csv` |
+| 95% interval on the floor difference −34.3 to +22.2; at most 19% of the contractor's 183 | `run.log` |

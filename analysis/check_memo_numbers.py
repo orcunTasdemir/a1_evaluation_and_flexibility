@@ -105,6 +105,31 @@ def main() -> None:
         check(f"B1 {div} avoidable", avoidable,
               float(b1.loc[div, "contractor_best_minus_floor"]))
 
+    # The memo claims the floors are indistinguishable (0.4 SEs apart) and
+    # that even at the edge of a 95% interval they differ by at most 34
+    # units^2, against the 183 separating the contractor's two best figures.
+    import numpy as np
+    diff = float(b1.loc["A", "sigma2_hat"] - b1.loc["H", "sigma2_hat"])
+    se_diff = float(np.hypot(b1.loc["H", "se_sigma2_hat"], b1.loc["A", "se_sigma2_hat"]))
+    check("B1 floors, SEs apart", 0.4, abs(diff) / se_diff, 0.06)
+    check("B1 widest admissible floor gap", 34,
+          max(abs(diff - 1.96 * se_diff), abs(diff + 1.96 * se_diff)), 0.02)
+    check("B1 contractor's gap", 183,
+          float(b1.loc["A", "contractor_best_cv_mse"] - b1.loc["H", "contractor_best_cv_mse"]))
+
+    # The memo defends the word "average" with the measured spread rather than
+    # a hedge, and quotes the Hardgoods slope.
+    shape = pd.read_csv(OUT / "b1_variance_shape.csv").set_index("division")
+    for div, vmin, vmax, sdmin, sdmax in [("H", 25, 360, 5.0, 19.0),
+                                          ("A", 34, 301, 5.8, 17.4)]:
+        check(f"B1 {div} config var min", vmin, float(shape.loc[div, "config_var_min"]), 0.02)
+        check(f"B1 {div} config var max", vmax, float(shape.loc[div, "config_var_max"]), 0.02)
+        check(f"B1 {div} config sd min", sdmin, float(shape.loc[div, "config_sd_min"]), 0.02)
+        check(f"B1 {div} config sd max", sdmax, float(shape.loc[div, "config_sd_max"]), 0.02)
+    check("B1 H pooled sd", 12.2, float(shape.loc["H", "pooled_sd"]))
+    check("B1 H variance slope", 0.657, float(shape.loc["H", "slope_var_on_mean"]))
+    check("B1 H slope SE", 0.410, float(shape.loc["H", "se_slope"]), 0.01)
+
     # ---- B2 ----------------------------------------------------------------
     b2 = pd.read_csv(OUT / "b2_table.csv")
 
@@ -123,6 +148,67 @@ def main() -> None:
         ("B2 terms/row Hardgoods d2", "Hardgoods", 2, "ridge", "terms_per_row", 0.030),
     ]:
         check(label, v, cell(div, deg, treat, col), 0.01)
+
+    # Shrinkage: the mechanical answer to "the penalty did nothing".
+    sh = pd.read_csv(OUT / "b2_shrinkage.csv")
+
+    def shr(div: str, degree: int) -> float:
+        m = sh.division.eq(div) & sh.degree.eq(degree)
+        return float(sh.loc[m, "shrunk_pct"].iloc[0])
+
+    for div, degree, pct in [("Hardgoods", 1, 0.3), ("Hardgoods", 2, 4.7),
+                             ("Apparel", 1, 5.5), ("Apparel", 2, 69.3)]:
+        check(f"shrinkage {div} degree {degree}", pct, shr(div, degree), 0.02)
+
+    for div, degree, pct, cost in [("Hardgoods", 1, 76.9, 286),
+                                   ("Hardgoods", 2, 95.5, 147),
+                                   ("Apparel", 1, 98.1, 409),
+                                   ("Apparel", 2, 99.3, 401)]:
+        m = sh.division.eq(div) & sh.degree.eq(degree)
+        check(f"grid-max shrinkage {div} deg {degree}", pct,
+              float(sh.loc[m, "shrunk_pct_at_grid_max"].iloc[0]), 0.01)
+        check(f"CV cost of grid-max {div} deg {degree}", cost,
+              float(sh.loc[m, "cv_cost_of_grid_max"].iloc[0]), 0.01)
+
+    # The two dials, as the memo states them.
+    led = pd.read_csv(OUT / "b3_flexibility_ledger.csv")
+
+    def dial(div: str, model: str, col: str) -> float:
+        m = led.division.eq(div) & led.model.eq(model)
+        return float(led.loc[m, col].iloc[0])
+
+    for div, model, bias2 in [("Hardgoods", "degree-1 OLS", 224),
+                              ("Apparel", "degree-1 OLS", 294),
+                              ("Hardgoods", "degree-2 OLS", 16),
+                              ("Apparel", "degree-2 OLS", 475),
+                              ("Apparel", "degree-2 ridge", 293),
+                              ("Hardgoods", "degree-2 ridge", 15)]:
+        check(f"ledger bias2 {div} {model}", bias2,
+              round(dial(div, model, "bias2")), 0.02)
+    for div, model, var in [("Hardgoods", "degree-1 OLS", 1.3),
+                            ("Hardgoods", "degree-2 OLS", 9.1),
+                            ("Apparel", "degree-1 OLS", 19.2),
+                            ("Apparel", "degree-2 OLS", 664.2)]:
+        check(f"ledger variance {div} {model}", var, dial(div, model, "variance"), 0.01)
+    check("ledger rows per term, H deg 2", 33.3, dial("Hardgoods", "degree-2 OLS", "rows_per_term"))
+    check("ledger rows per term, A deg 2", 2.2, dial("Apparel", "degree-2 OLS", "rows_per_term"), 0.01)
+
+    # The memo now states the B3-vs-B2 ordering disagreement explicitly, so
+    # both sides of it are asserted.
+    t3 = pd.read_csv(OUT / "b3_stability.csv")
+
+    def tot(div: str, model: str) -> float:
+        m = t3.division_name.eq(div) & t3.model.eq(model)
+        return float(t3.loc[m, "bias2_plus_variance"].iloc[0])
+
+    # The memo quotes the per-query-point yardstick range, which exists
+    # because the floor is not constant across configurations.
+    yd = pd.read_csv(OUT / "b1_query_yardsticks.csv")["yardstick_sd_over_sqrt10"]
+    check("B3 yardstick, smallest point", 1.95, float(yd.min()), 0.01)
+    check("B3 yardstick, largest point", 4.81, float(yd.max()), 0.01)
+
+    check("B3 Apparel deg-1 OLS total", 312.9, tot("Apparel", "degree-1 OLS"))
+    check("B3 Apparel deg-2 ridge total", 345.7, tot("Apparel", "degree-2 ridge"))
 
     # ---- B3 ----------------------------------------------------------------
     b3 = pd.read_csv(OUT / "b3_stability.csv")

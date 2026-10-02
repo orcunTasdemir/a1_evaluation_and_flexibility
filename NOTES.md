@@ -925,3 +925,102 @@ S1 and the process note are both over at 11pt. Decision above.
 4. `memo.md` stays as the committed reference draft for diffing. Decide before
    submission whether to delete it or keep it in `drafts/`.
 5. Deadline Friday 2026-10-02, midnight.
+
+### Session 8, later: Part B vetted, memo consolidated, PDFs produced
+
+**Consolidated to one memo.** `memo_orcun.md` is now `memo.md`; the agent's
+earlier draft is superseded and lives in git history. Part A was edited in my
+voice in the earlier half of this session; after the B1-B3 discussions I read
+Part B and judged it did not need rewording.
+
+**Everything discussed about Part B is now in the run.** Three new outputs:
+
+- `b1_query_yardsticks.csv` - B3's yardstick per query point, 3.60 / 1.95 /
+  4.06 (H) and 3.64 / 3.34 / 4.81 (A), rather than the pooled 3.85 / 3.77,
+  because the floor varies by configuration.
+- `b2_shrinkage.csv` - how much the tuned penalty actually moved the
+  coefficients (0.3% / 4.7% / 5.5% / 69.3%), plus what the grid's heaviest
+  penalty would have done (76.9% / 95.5% / 98.1% / 99.3%) and what CV saw it
+  cost (286 / 147 / 409 / 401 units^2).
+- `b3_flexibility_ledger.csv` - terms and terms-per-row beside bias^2 and
+  variance for all eight cells: the two-dials evidence.
+
+`b1_noise_floor.py` also now prints the 95% interval on the floor difference
+(-34.3 to +22.2) and that it is at most 19% of the contractor's 183.
+
+**Two memo sentences were wrong and are fixed.**
+
+1. "Both track the same terms-to-rows ratio." Variance tracks the ratio;
+   bias does not. Two comparisons settle it: within Hardgoods, raising the
+   ratio sevenfold by *adding terms* cut bias fourteenfold (224 -> 16); across
+   divisions at 12 terms, raising the ratio fifteenfold by *removing rows* left
+   bias slightly higher (224 -> 294). Terms govern bias, provided there are
+   rows to estimate them. Terms per row govern variance, monotonically.
+2. "The shrinkage Apparel's sample forces on it creates that bias." It does
+   not. Unpenalised degree 1, with no shrinkage at all, carries the same bias
+   (294 vs 292.8). The penalty rescued degree 2 from 475 back to where twelve
+   terms already sat. Hardgoods on the identical specification reaches bias^2
+   15.1 on 3,000 rows, which is the evidence that rows are the remedy.
+
+**B1's floor claim softened.** "The same amount in both" overstated it. Now:
+indistinguishable at 0.4 standard errors, and at most 34 units^2 apart even at
+the edge of a 95% interval, against the 183 separating the contractor's two
+best figures. Exhibit B1 also now states the scope properly: the average over
+45 *selected* configurations, not a constant (per-config variance 25-360 and
+34-301), and the two caveats compound. It also notes what is *not* affected:
+B2's test MSE averages over the same 45 configurations with the same weights
+that sigma^2_hat pools over, so the subtraction is exact however the floor
+varies.
+
+**B3 exhibit completed.** All eight rows now carry bias^2, variance and the
+bias share; four were blank, and the prose cited one of the blanks. Terms and
+rows-per-term added as columns so the two dials are visible in the exhibit.
+Which created an exposure that is now disclosed: adding Apparel's two columns
+gives degree-1 OLS 312.9 against degree-2 ridge's 345.7, the reverse of
+Exhibit B2. The memo states the disagreement and explains it. **Degree-2 ridge
+remains the choice and no B2 number changed** (verified: every pre-existing
+column in `b2_table.csv` identical, `b3_stability.csv` max change 0.0).
+
+**Wording.** All "like-for-like" replaced with plain language in both
+deliverables, after I had to ask what it meant. Same for "paid for it" and
+"clean comparison". Zero em dashes in memo.md and ai_process_note.md.
+
+### PDFs, and how the page limits are met
+
+`build/make_pdfs.sh` renders both, with `build/pagebreak.lua` turning the
+memo's horizontal rules into page breaks so each prose section occupies whole
+pages and compliance is checkable by eye.
+
+| | Setting | Pages | Limit |
+|---|---|---|---|
+| `memo.pdf` S1 prose | 10pt, 1in margins | 1-2 | 2 |
+| `memo.pdf` S2 prose | same | 7 | 1 |
+| `memo.pdf` exhibits | same | 3-6, 8-11 | excluded |
+| `ai_process_note.pdf` | 10pt, 0.8in margins | 1 | 1 |
+
+Measured from the rendered PDFs with `pdftotext`, not estimated. Note for
+office hours: 11pt pushes S1 to three pages. If 10pt is objected to, the fix
+is to trim about 400 words from S1, not to shrink further. Also note pandoc's
+default LaTeX class silently ignores `fontsize=9pt`; a true 9pt needs
+`extarticle`.
+
+`make_pdfs.sh` is deliberately **not** part of `analysis/run.sh`: the analysis
+must run on a clean clone without a LaTeX installation.
+
+### Checks at the close
+
+- Outputs wiped and regenerated from `bash analysis/run.sh`: exit 0, 13 s,
+  35 outputs.
+- `check_memo_numbers.py`: **103 assertions, all match** (was 50 at session 7).
+- `git diff HEAD -- part1_northline part2_cascade`: empty.
+- Cross-machine: the Windows re-run after the Mac left every output's labels
+  identical, largest numeric change 8.9e-11.
+
+### Open
+
+1. **Office hours Friday 11:00.** Four questions in the session-5 block.
+   Question 1 (the "building data" reading in A2) is the only one that could
+   force a re-run, and that is a one-line edit. Question 4 is the label not
+   being a 60-day window.
+2. If the professor objects to 10pt, trim S1 by ~400 words.
+3. Deadline Friday 2026-10-02, midnight.

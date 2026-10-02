@@ -1,0 +1,5 @@
+division,degree,terms,training_rows,tuned_alpha,coef_norm_ols,coef_norm_ridge,shrunk_pct,grid_max_alpha,shrunk_pct_at_grid_max,cv_mse_at_tuned,cv_mse_at_grid_max,cv_cost_of_grid_max
+Hardgoods,1,12,3000,10.0,21.0,21.0,0.3,10000.0,76.9,336.61,622.53,285.92
+Hardgoods,2,90,3000,0.31622776601683794,114.5,109.1,4.7,10000.0,95.5,232.98,380.35,147.38
+Apparel,1,12,197,10.0,22.3,21.1,5.5,10000.0,98.1,412.06,821.32,409.26
+Apparel,2,90,197,3.1622776601683795,153.0,46.9,69.3,10000.0,99.3,329.8,730.71,400.9

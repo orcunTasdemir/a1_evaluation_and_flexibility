@@ -37,6 +37,9 @@ Outputs, all in analysis/outputs/:
                             division, paired across folds, with its SE
     b2_test_decomposition.csv  the exact split of each test MSE into the
                             floor and the part a better model could remove
+    b2_shrinkage.csv        how much the tuned penalty actually moved the
+                            coefficients, which is the mechanical answer to
+                            "why did the penalty do nothing here"
 """
 import sys
 from pathlib import Path
@@ -138,7 +141,7 @@ def main() -> None:
           f"degree 1 = {basis_size(1)}, degree 2 = {basis_size(2)}")
     print()
 
-    rows, curves, folds_by_cell, decomp = [], [], {}, []
+    rows, curves, folds_by_cell, decomp, curves_by_cell = [], [], {}, [], {}
 
     for div in DIVISIONS:
         train = training_extract(div)
@@ -162,6 +165,7 @@ def main() -> None:
                     curve.insert(0, "division", DIVISION_NAME[div])
                     curve.insert(1, "degree", degree)
                     curves.append(curve)
+                    curves_by_cell[(DIVISION_NAME[div], degree)] = curve
                     mses = tuned["fold_mses"]
                     cv_mse, cv_se = tuned["cv_mse"], tuned["cv_se"]
                     alpha = tuned["alpha"]
@@ -186,6 +190,9 @@ def main() -> None:
                     "treatment": treatment, "terms": terms,
                     "training_rows": n_train,
                     "terms_per_row": round(terms / n_train, 4),
+                    # The same ratio inverted.  "2.2 rows of evidence per
+                    # coefficient" is what makes the variance result readable.
+                    "rows_per_term": round(n_train / terms, 1),
                     "tuned_alpha": alpha,
                     "cv_mse": round(cv_mse, 2), "cv_se": round(cv_se, 2),
                     "test_mse": round(test_mse, 2),
@@ -219,6 +226,55 @@ def main() -> None:
 
     table = pd.DataFrame(rows)
     table.to_csv(OUT / "b2_table.csv", index=False)
+
+    # How much work the tuned penalty actually did.  "The penalty changed
+    # nothing" has a mechanical cause, and it is not subtle: at Hardgoods
+    # degree 1 ridge shrinks the coefficient vector by a fraction of a
+    # percent, so nothing changed because nothing was done.  Fitted on all
+    # training rows, the same fit the test column uses.
+    shrink = []
+    for div in DIVISIONS:
+        train = training_extract(div)
+        for degree in DEGREES_USED:
+            alpha = float(table.loc[table.division.eq(DIVISION_NAME[div])
+                                    & table.degree.eq(degree)
+                                    & table.treatment.eq("ridge"), "tuned_alpha"].iloc[0])
+            ols = poly_pipeline(LinearRegression(), degree=degree)
+            rdg = poly_pipeline(Ridge(alpha=alpha), degree=degree)
+            ols.fit(train[FEATURES], train[TARGET].to_numpy())
+            rdg.fit(train[FEATURES], train[TARGET].to_numpy())
+            n_ols = float(np.linalg.norm(ols.named_steps["est"].coef_))
+            n_rdg = float(np.linalg.norm(rdg.named_steps["est"].coef_))
+
+            # What the heaviest penalty on the grid would have done, and what
+            # CV saw it cost.  This is why "the penalty did nothing" is a
+            # decision CV made rather than something ridge could not do: at
+            # degree 1 variance is already near zero, so any real shrinkage
+            # can only add bias, and CV duly rejected the heavy end.
+            a_max = float(ALPHA_GRID[-1])
+            heavy = poly_pipeline(Ridge(alpha=a_max), degree=degree)
+            heavy.fit(train[FEATURES], train[TARGET].to_numpy())
+            n_heavy = float(np.linalg.norm(heavy.named_steps["est"].coef_))
+            cur = curves_by_cell[(DIVISION_NAME[div], degree)]
+            cv_at_best = float(cur.loc[cur.cv_mse.idxmin(), "cv_mse"])
+            cv_at_max = float(cur.loc[cur.alpha.idxmax(), "cv_mse"])
+
+            shrink.append({
+                "division": DIVISION_NAME[div], "degree": degree,
+                "terms": basis_size(degree), "training_rows": len(train),
+                "tuned_alpha": alpha,
+                "coef_norm_ols": round(n_ols, 1),
+                "coef_norm_ridge": round(n_rdg, 1),
+                "shrunk_pct": round(100 * (1 - n_rdg / n_ols), 1),
+                "grid_max_alpha": a_max,
+                "shrunk_pct_at_grid_max": round(100 * (1 - n_heavy / n_ols), 1),
+                "cv_mse_at_tuned": round(cv_at_best, 2),
+                "cv_mse_at_grid_max": round(cv_at_max, 2),
+                "cv_cost_of_grid_max": round(cv_at_max - cv_at_best, 2),
+            })
+    shrink = pd.DataFrame(shrink)
+    shrink.to_csv(OUT / "b2_shrinkage.csv", index=False)
+
     pd.concat(curves, ignore_index=True).to_csv(OUT / "b2_alpha_curves.csv", index=False)
     table.loc[table["treatment"].eq("ridge"),
               ["division", "degree", "tuned_alpha", "alpha_1se"]] \
@@ -274,11 +330,23 @@ def main() -> None:
     print("pairwise CV differences, paired across the five shared folds")
     print(diffs.to_string(index=False))
     print()
+    print("how much the tuned penalty actually moved the coefficients")
+    print(shrink.to_string(index=False))
+    print("  (so 'the penalty changed nothing' at degree 1 is literal: it shrank")
+    print("   the Hardgoods coefficient vector by 0.3%.  ridge bites hardest on")
+    print("   directions the data barely constrains, and 90 terms from 197 rows")
+    print("   leave many such directions, which is why a smaller alpha there")
+    print("   produces far more shrinkage than alpha=10 does at degree 1.")
+    print("   note the last four columns: the grid's heaviest penalty WOULD have")
+    print("   shrunk degree 1 by 77% and 98%, and CV saw it cost 286 and 409")
+    print("   units^2, so doing nothing was CV's decision, not ridge's limit)")
+    print()
     print("exact split of each test MSE (floor part + structural part)")
     print(pd.DataFrame(decomp).to_string(index=False))
     print()
     print(f"wrote {OUT / 'b2_table.csv'}, b2_alpha_curves.csv, b2_penalties.csv, "
-          f"b2_contractor_check.csv, b2_differences.csv, b2_test_decomposition.csv")
+          f"b2_contractor_check.csv, b2_differences.csv, b2_test_decomposition.csv, "
+          f"b2_shrinkage.csv")
 
 
 if __name__ == "__main__":

@@ -88,7 +88,7 @@ earlier ones are snapshots taken at the end of each sitting.
 | `a1-session-1.jsonl` | 245 | thread A, snapshot after session 1 |
 | `a1-session-3.jsonl` | 636 | thread A after session 3; its first 245 records are byte-identical to `a1-session-1.jsonl` |
 | `a1-session-6.jsonl` | 1,184 | thread A after session 6; its first 636 records are byte-identical to `a1-session-3.jsonl` |
-| `a1-session-8.jsonl` | 1,664 | thread A in full; its first 1,184 records are byte-identical to `a1-session-6.jsonl` |
+| `a1-session-8.jsonl` | 2,343 | thread A in full; its first 1,184 records are byte-identical to `a1-session-6.jsonl` |
 | `a1-session-2.jsonl` | 637 | thread B, snapshot after session 2 |
 | `a1-session-4.jsonl` | 1,134 | thread B after session 4; its first 637 records are byte-identical to `a1-session-2.jsonl` |
 | `a1-session-5.jsonl` | 1,339 | thread B after session 5; its first 1,134 records are byte-identical to `a1-session-4.jsonl` |
