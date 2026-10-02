@@ -704,3 +704,86 @@ populations of query points and two different training sizes. Comparisons
    `analysis/`, seeds set, supplied folders byte-identical. Repeat this check
    once more after the memo exists, against the memo's numbers.
 5. Prose is the only thing left with no code behind it. Budget time for it.
+
+---
+
+## Session 7 — 2026-10-01 (macOS laptop). memo.md and ai_process_note.md drafted.
+
+Transcript: `sessions/claude-code/a1-session-7.jsonl` and `.txt`. Thread B
+continued (sessions 2, 4, 5), so it contains those as its opening part; the
+containment table in `sessions/README.md` is updated.
+
+### What was done
+
+- Pulled session 6. **Cross-machine check passed again**: full pipeline here in
+  18.6 s, `b2_table.csv` / `b3_stability.csv` differing from the Windows commit
+  by at most 1.2e-11, `b2_test_decomposition.csv` identical.
+- **`memo.md` drafted.** One document, two sections, each leading with its
+  recommendation. Exhibits sit with their own section, not in a shared
+  appendix, because the two sections address different readers.
+- **`ai_process_note.md` drafted**, 537 words.
+- **`analysis/check_memo_numbers.py`**: asserts 50 headline memo figures
+  against `analysis/outputs/`. Deliberately NOT in `run.sh`, so a clean clone
+  with no memo still runs end to end. All 50 match.
+- `brew install pandoc` on this machine (not a project dependency; only used
+  to measure page length). Chrome headless PDF rendering was tried and
+  abandoned — it hangs. The reliable measure is
+  `pandoc X.md -t plain --columns=92 | wc -l`, against roughly 46-51 lines per
+  letter page at 11pt with 1in margins.
+
+### Length, as measured
+
+| | Lines | Limit | |
+|---|---:|---|---|
+| §1 prose | 91 | 2 pages (~92-102 lines) | fits |
+| §2 prose | 49 | 1 page (~46-51) | fits |
+| `ai_process_note.md` | 54 | 1 page | marginal; ~14 of those are blank lines between paragraphs, which render as half-gaps |
+
+**Exhibits consolidated from 13 labels to the 6 the brief names** (A1, A2,
+A2b, A3, B1, B2, B3 — A2b is a panel of A2, not a seventh exhibit). The
+rubric's required one-sentence interpretation of each A2 row went into an
+exhibit *column*, since exhibits do not count against the prose limit. Dropped
+from the memo and still available in the drafts: the odds-ratio table, the
+per-query-point B3 table, the contractor-check table (now a footnote line
+under Exhibit B2), and A3's offer-quality table.
+
+### Decisions made (mine)
+
+- §2's recommendation: **standardise the process, not the model.** I had first
+  thought the answer was to name a specific model; the rubric's named trap is
+  "a standard that is really a model", so degree-2 ridge is an *output* of the
+  process, not the standard.
+- Added the measurement-lever point to §2 after noticing it: more rows lower
+  the *reducible* error, only new fields lower the floor, and Hardgoods sits
+  only 99 units² above its floor. Not required by the brief; added because it
+  is what makes "report distance from your own floor" portable to a third
+  division. Cost two lines elsewhere in §2.
+- Exhibits grouped per section rather than one appendix.
+- `.md` not `.pdf`, which the brief allows.
+
+### Concept settled this session
+
+σ̂² is irreducible **relative to the recorded fields**, not absolutely
+(Handout 1 §4.3: "the variability that remains after conditioning on
+everything you measured"). Independent of the model and of the number of rows;
+*dependent on which columns exist* and on how `units` is defined and measured.
+So: more rows → floor unchanged, reducible error falls. More columns → the
+floor itself can fall. That is the distinction behind §2's closing paragraph.
+
+### Open — what is left
+
+1. **Editing `memo.md` is the remaining job, and it is mine.** The agent
+   over-drafted it; every line is to be vetted. The two recommendation
+   paragraphs in particular should sound like me.
+   - Re-run `python analysis/check_memo_numbers.py` after editing.
+   - Re-measure length with the pandoc command above.
+2. `ai_process_note.md` likewise to be vetted — it is graded on specificity
+   about *my* judgment, and the strongest items are the ones where I corrected
+   the agent.
+3. **Office hours Friday 11:00.** Three ranked questions in the session-4
+   block; question 1 (the "building data" reading in A2) is the only one that
+   could require a re-run, and that is a one-line edit.
+4. **Final verification to repeat once the memo is final:** clean clone, no
+   `.venv`, wiped outputs, `bash analysis/run.sh` with only `python3` on PATH,
+   then `check_memo_numbers.py`.
+5. Deadline Friday 2026-10-02, midnight.

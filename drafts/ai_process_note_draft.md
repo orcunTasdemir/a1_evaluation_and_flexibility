@@ -347,3 +347,40 @@ and the Python patch version were stripped. Separately, a script checked
 every numeric token in the B1-B3 prose and exhibits against the output
 files: 242 tokens, 0 unaccounted, with the brief's quoted contractor
 figures and hand-computed percentages listed explicitly as exceptions.
+
+---
+
+## Session 7 (2026-10-01, macOS) — the memo and the process note
+
+**Delegated:** drafting `memo.md` and `ai_process_note.md`; consolidating the
+exhibits; measuring length; `analysis/check_memo_numbers.py`.
+
+**Changed or rejected:**
+- I had thought §2 should recommend a specific model. The agent pointed at the
+  rubric's named failure — "a standard that is really a model. Fixing a
+  polynomial degree in advance has not answered her" — and I reframed: the
+  process is the standard, degree-2 ridge is what it produced this year.
+- I told the agent to stop optimising the memo. It had written and re-trimmed
+  the whole thing; the memo is mine to vet line by line, and over-polished
+  agent prose is the wrong starting point for a document graded on my judgment.
+- I asked whether the measurement-lever point belonged in the memo. It is not
+  required by the brief; I added it anyway because it is what makes "report
+  your distance from your own floor" useful to a division we have not acquired
+  yet. It cost two lines elsewhere in §2.
+- Exhibits grouped with their own section rather than pooled in an appendix,
+  since §1 and §2 address different readers.
+
+**How numbers were checked:**
+- `analysis/check_memo_numbers.py` asserts 50 headline memo figures against
+  `analysis/outputs/`, so an edit that changes a digit fails loudly. It is kept
+  out of `run.sh` so a clean clone with no memo still runs.
+- Cross-machine reproducibility re-confirmed on pulling session 6: the B2 and
+  B3 outputs differ from the Windows commit by at most 1.2e-11.
+- Length measured rather than estimated. My first word-count estimate said §1
+  fitted two pages; laying the text out properly showed it did not, and it was
+  cut by about 240 words. Chrome headless PDF rendering was tried, hung twice,
+  and was abandoned for a deterministic line count.
+
+**Would still not bet on:** that the page limits are being interpreted the way
+I have interpreted them, since the deliverable is Markdown and a page is not
+well defined for it.

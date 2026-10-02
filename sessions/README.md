@@ -53,8 +53,17 @@ giving its media type and payload size, for example:
 **Nothing is removed from the record.** The `.jsonl` files are byte-for-byte
 as Claude Code wrote them, images included, and they are the authoritative
 submission; only the derived readable view substitutes the placeholder. The
-images are course handout pages, not private data. `sessions/` is about 27 MB,
-of which roughly 22 MB is the four `.jsonl` files.
+images are course handout pages, not private data. `sessions/` is about 62 MB,
+most of it the `.jsonl` files.
+
+## Size
+
+`sessions/` is about 62 MB, nearly all of it the `.jsonl` transcripts, which
+embed the course handout pages the agent read. The export sheet says to zip the
+folder and say so if it exceeds roughly 50 MB; if the submission archive is
+unwieldy, `sessions/claude-code/` is the part to compress. The `.txt` renderings
+are small — the images in them are replaced by a labelled placeholder, as
+described above.
 
 ## Sessions
 
@@ -66,6 +75,7 @@ of which roughly 22 MB is the four `.jsonl` files.
 | 4 | 2026-09-29 | macOS | A3: cost-based threshold, calibration on the validation month, realised value on the test quarter, draft. Part A complete. |
 | 5 | 2026-09-29 | macOS | B1: the noise floor, with the estimator's assumption verified. Handout 3 read. A2 data-selection caveats recorded. |
 | 6 | 2026-10-01 | Windows 11 | B2: four models against the floor, contractor's figures reproduced. B3: the stability experiment, supplied loop run as issued. Part B complete. |
+| 7 | 2026-10-01 | macOS | memo.md and ai_process_note.md drafted; memo-number checker added. |
 
 There are two VS Code conversations, worked in repeatedly, so four of the
 six files contain an earlier file as their opening part. Nothing is sliced,
@@ -79,7 +89,8 @@ earlier ones are snapshots taken at the end of each sitting.
 | `a1-session-6.jsonl` | 1,184 | thread A in full; its first 636 records are byte-identical to `a1-session-3.jsonl` |
 | `a1-session-2.jsonl` | 637 | thread B, snapshot after session 2 |
 | `a1-session-4.jsonl` | 1,134 | thread B after session 4; its first 637 records are byte-identical to `a1-session-2.jsonl` |
-| `a1-session-5.jsonl` | 1,339 | thread B in full; its first 1,134 records are byte-identical to `a1-session-4.jsonl` |
+| `a1-session-5.jsonl` | 1,339 | thread B after session 5; its first 1,134 records are byte-identical to `a1-session-4.jsonl` |
+| `a1-session-7.jsonl` |     1762 | thread B in full; its first 1,339 records are byte-identical to `a1-session-5.jsonl` |
 
 Both containments were verified with `cmp`, not asserted. All six files are
 submitted rather than only the two full threads, because the snapshots are

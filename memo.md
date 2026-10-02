@@ -246,22 +246,25 @@ Not firm — whether to penalise at degree 1, at 1.47 ± 7.26.
 
 Raising the degree is a good trade in Hardgoods — prediction spread rises from
 1.14 units to 2.83 while distance from the truth falls from 12.65 to 3.84 — and
-a pure loss in Apparel, where spread rises nearly six-fold to 25.24 with no
-improvement in distance from the truth. The penalty does nothing at degree 1 in
-either division or at degree 2 in Hardgoods (2.83 → 2.80), and cuts Apparel's
-degree-2 spread by 71%, to 7.22. Both track the same terms-to-rows ratio, 0.03
-against 0.46 — which is why the standard fixes a method, not a specification. A
-division acquired next year with 400 rows would sit at 0.225 on the same basis,
-between these two, and could legitimately land on a different answer.
+a pure loss in Apparel, where spread rises six-fold to 25.24 with no gain in
+accuracy. The penalty does nothing at degree 1 in either division or at degree 2
+in Hardgoods (2.83 → 2.80), and cuts Apparel's degree-2 spread by 71%, to 7.22.
+Both track the same terms-to-rows ratio, 0.03 against 0.46 — which is why the
+standard fixes a method, not a specification: a division acquired next year with
+400 rows would sit at 0.225, between these two, and could land elsewhere.
 
 What no standard can supply is history. Apparel's best model is **85% bias** —
 293 units² against 53 of variance — while Hardgoods on the same specification
 selects a penalty ten times smaller. The shrinkage Apparel's sample forces on it
 creates that bias, so we expect it to fall as history accumulates and
-cross-validation relaxes the penalty — an expectation rather than a
-measurement, since the Apparel demand surface may simply be shaped differently.
-Either way the remedy is more Apparel weeks, not a bigger basis or a heavier
-penalty. Parity is forecast for late 2027.
+cross-validation relaxes the penalty; that is an expectation rather than a
+measurement. Either way the remedy is more Apparel weeks, not a bigger basis or
+a heavier penalty. Parity is forecast for late 2027.
+
+Reporting distance from the floor also tells a division which lever it needs:
+more rows lower the reducible error, but only new fields lower the floor.
+Hardgoods sits 99 units² above its floor of 148, so better forecasts there need
+new measurements, not a better model.
 
 ---
 
