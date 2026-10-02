@@ -27,6 +27,13 @@ Runtime: about 18 seconds for the whole submission (A1-A3, B1-B3).
 
 Everything printed is also captured in `outputs/run.log`.
 
+## Checking the memo against the run
+
+`python analysis/check_memo_numbers.py` asserts that the headline figures
+quoted in `memo.md` match `analysis/outputs/`. It is deliberately **not** part
+of `run.sh`, so the analysis still runs on a clean clone with no memo present.
+Run it after editing the memo.
+
 ## Notes
 
 - The supplied `starter/` modules are imported, not copied or modified. B3 is

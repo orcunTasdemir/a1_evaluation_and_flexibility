@@ -1,5 +1,5 @@
 === environment ===
-Python 3.11.9
+Python 3.11.16
 numpy 2.4.6 | pandas 3.0.5 | sklearn 1.9.1 | matplotlib 3.11.2
 
 === part1: analyst_model.py (as supplied) ===
@@ -91,7 +91,7 @@ first_month                           2025-02  2024-01
 rows_in_training_window_to_2025-06        533    20498
 tenure_max_in_training_window               6       45
 
-wrote C:\Users\owner\Desktop\a1_evaluation_and_flexibility\analysis\outputs\a1_baselines.csv, a1_base_rate_by_year.csv, a1_base_rate_by_month.csv, a1_column_timing.csv, a1_churn_by_tenure.csv, a1_corporate_segment.csv, a1_cleaning.txt
+wrote /Users/orcuntasdemir/Desktop/a1_evaluation_and_flexibility/analysis/outputs/a1_baselines.csv, a1_base_rate_by_year.csv, a1_base_rate_by_month.csv, a1_column_timing.csv, a1_churn_by_tenure.csv, a1_corporate_segment.csv, a1_cleaning.txt
 
 === part1: A2 evaluation ===
 harness check: analyst's protocol on raw file, all months  AUC 0.967  (analyst_model.py prints 0.967; this is not an exhibit row)
@@ -145,7 +145,7 @@ acquisition_channel_paid_search one-hot vs dropped first category               
                 city_tier_rural one-hot vs dropped first category                  NaN -0.0646             0.9375                  NaN               city_tier=metro
              city_tier_suburban one-hot vs dropped first category                  NaN -0.0021             0.9979                  NaN               city_tier=metro
 
-wrote C:\Users\owner\Desktop\a1_evaluation_and_flexibility\analysis\outputs\a2_table.csv, a2_columns.csv, a2_test_scores.csv, a2_fold_overlap.csv, a2_odds_ratios.csv
+wrote /Users/orcuntasdemir/Desktop/a1_evaluation_and_flexibility/analysis/outputs/a2_table.csv, a2_columns.csv, a2_test_scores.csv, a2_fold_overlap.csv, a2_odds_ratios.csv
 
 === part1: A3 targeting decision ===
 Deriving the threshold from the finance table
@@ -240,7 +240,7 @@ threshold sensitivity: the curve peaks at $1,098 (threshold 0.236); the derived 
 
 repeat-contact sensitivity: of 242 offers at t*, 47 are repeat contacts of a member already offered earlier in the quarter; contacting each member at most once gives 195 offers worth $774
 
-wrote C:\Users\owner\Desktop\a1_evaluation_and_flexibility\analysis\outputs\a3_threshold.txt, a3_calibration.csv, a3_value.csv, a3_by_month.csv, a3_offer_quality.csv, a3_value_curve.csv, a3_value_curve.png
+wrote /Users/orcuntasdemir/Desktop/a1_evaluation_and_flexibility/analysis/outputs/a3_threshold.txt, a3_calibration.csv, a3_value.csv, a3_by_month.csv, a3_offer_quality.csv, a3_value_curve.csv, a3_value_curve.png
 
 === part2: B1 noise floor ===
 configuration check (the estimator's assumption)
@@ -265,7 +265,7 @@ division      name  config_mean_min  config_mean_max  slope_var_on_mean  se_slop
    variance comes from ten rows, so the slope is poorly determined and
    an inconclusive answer is the honest one)
 
-wrote C:\Users\owner\Desktop\a1_evaluation_and_flexibility\analysis\outputs\b1_noise_floor.csv, b1_config_check.csv, b1_variance_shape.csv
+wrote /Users/orcuntasdemir/Desktop/a1_evaluation_and_flexibility/analysis/outputs/b1_noise_floor.csv, b1_config_check.csv, b1_variance_shape.csv
 
 === part2: B2 four models against the floor ===
 terms in each basis on 12 inputs: degree 1 = 12, degree 2 = 90
@@ -324,16 +324,16 @@ Hardgoods   degree-2 OLS degree-2 ridge             0.15              0.22      
 
 exact split of each test MSE (floor part + structural part)
  division  degree treatment  test_mse  floor_part  structural_part  identity_check  test_mse_minus_sigma2
-Hardgoods       1       OLS    398.55      133.30           265.25            -0.0                 250.44
+Hardgoods       1       OLS    398.55      133.30           265.25             0.0                 250.44
 Hardgoods       1     ridge    398.38      133.30           265.08             0.0                 250.27
 Hardgoods       2       OLS    246.16      133.30           112.86            -0.0                  98.05
-Hardgoods       2     ridge    247.47      133.30           114.17             0.0                  99.36
+Hardgoods       2     ridge    247.47      133.30           114.17            -0.0                  99.36
   Apparel       1       OLS    363.58      127.83           235.75            -0.0                 221.54
   Apparel       1     ridge    354.12      127.83           226.28             0.0                 212.08
-  Apparel       2       OLS    366.86      127.83           239.03            -0.0                 224.82
-  Apparel       2     ridge    296.19      127.83           168.36            -0.0                 154.15
+  Apparel       2       OLS    366.86      127.83           239.03             0.0                 224.82
+  Apparel       2     ridge    296.19      127.83           168.36             0.0                 154.15
 
-wrote C:\Users\owner\Desktop\a1_evaluation_and_flexibility\analysis\outputs\b2_table.csv, b2_alpha_curves.csv, b2_penalties.csv, b2_contractor_check.csv, b2_differences.csv, b2_test_decomposition.csv
+wrote /Users/orcuntasdemir/Desktop/a1_evaluation_and_flexibility/analysis/outputs/b2_table.csv, b2_alpha_curves.csv, b2_penalties.csv, b2_contractor_check.csv, b2_differences.csv, b2_test_decomposition.csv
 
 === part2: B3 stability experiment ===
 penalties held at the B2 values (not re-tuned inside the resamples):
@@ -375,6 +375,6 @@ division_name          model  bias2_mean  variance_mean  bias2_plus_variance  bi
       Apparel   degree-2 OLS       474.9          664.2               1139.0            41.7
       Apparel degree-2 ridge       292.8           52.9                345.7            84.7
 
-wrote C:\Users\owner\Desktop\a1_evaluation_and_flexibility\analysis\outputs\b3_stability.png
-wrote C:\Users\owner\Desktop\a1_evaluation_and_flexibility\analysis\outputs\b3_stability.csv, b3_stability.png
+wrote /Users/orcuntasdemir/Desktop/a1_evaluation_and_flexibility/analysis/outputs/b3_stability.png
+wrote /Users/orcuntasdemir/Desktop/a1_evaluation_and_flexibility/analysis/outputs/b3_stability.csv, b3_stability.png
 
