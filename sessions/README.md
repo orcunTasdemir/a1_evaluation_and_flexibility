@@ -30,17 +30,26 @@ what was done instead:
 
 Both files are submitted. The JSONL is authoritative; the `.txt` is for reading.
 
-## Size
+## Size, and what the submitted archive contains
 
-The eight `.jsonl` files total about 70 MB uncompressed, which is over the
-50 MB the export sheet mentions, so they are compressed inside the submission
-archive (about 36 MB zipped, mostly these files). Nothing is split across
-archives and nothing is omitted for size.
+The eight `.jsonl` files total about 72 MB uncompressed, which is over the
+50 MB the export sheet mentions. Zipping them still came to 36 MB, too large
+for the upload, so **the submitted archive contains only the two full threads,
+`a1-session-7` and `a1-session-8`, in both `.jsonl` and `.txt` form** (about
+12 MB). All eight remain in the project repository.
 
-The two full threads, `a1-session-7.jsonl` and `a1-session-8.jsonl`, are the
-complete record on their own; the other six are the snapshots that existed at
-the end of each working session. All eight are submitted because removing the
-snapshots would be curating the record.
+**Nothing is omitted from the record by this.** The other six files are
+byte-identical *prefixes* of these two, not separate conversations. Session 8's
+first 1,184 records are session 6; session 6's first 636 are session 3; session
+3's first 245 are session 1. Session 7's first 1,339 records are session 5;
+session 5's first 1,134 are session 4; session 4's first 637 are session 2.
+Every one of those containments was verified with `cmp`, byte for byte, not
+assumed, and the record counts are in the table below. So the two full threads
+contain every message of all eight sittings. The six snapshots are what existed
+at the end of each earlier session, kept in the repository as working history;
+shipping them as well would have tripled the archive for no additional content.
+
+The six omitted snapshots are available on request.
 
 ## Known gap
 
