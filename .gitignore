@@ -8,7 +8,9 @@ __pycache__/
 
 # Distribution / packaging
 .Python
-/build/
+# (the Python template ignores /build/ here; this project's build/ holds the
+#  scripts that produce memo.pdf and the submission archive, so it is source
+#  and must be tracked.  nothing writes build artefacts to /build/.)
 /develop-eggs/
 /dist/
 /downloads/
