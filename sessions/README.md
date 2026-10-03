@@ -30,26 +30,32 @@ what was done instead:
 
 Both files are submitted. The JSONL is authoritative; the `.txt` is for reading.
 
-## Size, and what the submitted archive contains
+## What is submitted, and what the upload limit forced
 
-The eight `.jsonl` files total about 72 MB uncompressed, which is over the
-50 MB the export sheet mentions. Zipping them still came to 36 MB, too large
-for the upload, so **the submitted archive contains only the two full threads,
-`a1-session-7` and `a1-session-8`, in both `.jsonl` and `.txt` form** (about
-12 MB). All eight remain in the project repository.
+**Submitted: the readable `.txt` rendering of all eight sessions.** Those files
+are complete. `render_transcript.py` writes every user and assistant message,
+every tool call with its arguments, and every tool result in full, with nothing
+truncated or summarised.
 
-**Nothing is omitted from the record by this.** The other six files are
-byte-identical *prefixes* of these two, not separate conversations. Session 8's
-first 1,184 records are session 6; session 6's first 636 are session 3; session
-3's first 245 are session 1. Session 7's first 1,339 records are session 5;
-session 5's first 1,134 are session 4; session 4's first 637 are session 2.
-Every one of those containments was verified with `cmp`, byte for byte, not
-assumed, and the record counts are in the table below. So the two full threads
-contain every message of all eight sittings. The six snapshots are what existed
-at the end of each earlier session, kept in the repository as working history;
-shipping them as well would have tripled the archive for no additional content.
+**Not submitted: the raw `.jsonl`.** They total about 72 MB uncompressed and
+36 MB zipped, over the upload limit. Even LZMA reaches only 9 MB for the two
+largest files, and an LZMA archive does not open reliably on every machine. The
+export sheet presents the raw file and the readable export as two options, and
+says of the equivalent Codex pair that the readable form "is what I ask for"
+while the raw "is what saves you if the readable copy failed". The raw files
+are kept in the project repository and are **available on request**.
 
-The six omitted snapshots are available on request.
+**The submission was also split across several uploads** for the same reason:
+the memo and the process note, the analysis, and these transcripts went up
+separately rather than as the single archive the checklist describes.
+
+For the record, the eight sessions are two conversation threads worked in
+repeatedly, so six of the files are byte-identical *prefixes* of the other two
+rather than separate conversations: session 8 contains 6 contains 3 contains 1,
+and session 7 contains 5 contains 4 contains 2. Each containment was verified
+with `cmp`, byte for byte, with the record counts in the table below. The
+readable renderings are submitted for all eight anyway, since at 1.7 MB there
+was no reason not to.
 
 ## Known gap
 
